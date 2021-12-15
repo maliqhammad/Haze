@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+
+    <color name="colorPrimary">#10030D</color>
+    <color name="colorPrimaryVariant">#050104</color>
+
+    <color name="whiteLight">#FFFFFFFF</color>
+    <color name="light_black">#2f3336</color>
+    <color name="light_white">#DADADA</color>
+    <color name="gray_color">#7c8184</color>
+    <color name="dark_gray">#3d484d</color>
+
+    <color name="lightColor">#8300BCD4</color>
+    <color name="transparentColor">#994c2e23</color>
+
+    <color name="SettingGradientStart1">#FEC194</color>
+    <color name="SettingGradientEnd1">#FF0061</color>
+
+    <color name="SettingGradientStart2">#00FFA9</color>
+    <color name="SettingGradientEnd2">#0D4DFF</color>
+
+    <color name="SettingGradientStart3">#1FC9FD</color>
+    <color name="SettingGradientEnd3">#FC0061</color>
+
+    <color name="SettingGradientStart4">#A32CDF</color>
+    <color name="SettingGradientEnd4">#106AD2</color>
+
+    <color name="SettingGradientStart5">#FFE53B</color>
+    <color name="SettingGradientEnd5">#FF2525</color>
+
+    <color name="SettingGradientStart6">#00C0FF</color>
+    <color name="SettingGradientEnd6">#4218B8</color>
+
+    <color name="SettingGradientStart7">#00FFFF</color>
+    <color name="SettingGradientEnd7">#93278F</color>
+
+    <color name="SettingGradientStart8">#FF0A6C</color>
+    <color name="SettingGradientEnd8">#4A3CDB</color>
+
+    <color name="SettingGradientStart9">#FFE53B</color>
+    <color name="SettingGradientEnd9">#00FFFF</color>
+
+    <color name="gradientStart1">#f761A1</color>
+    <color name="gradientEnd1">#8C1BAB</color>
+
+    <color name="gradientStart2">#43CBFF</color>
+    <color name="gradientEnd2">#9708CC</color>
+
+    <color name="gradientStart3">#5EFCE8</color>
+    <color name="gradientEnd3">#736EFE</color>
+
+    <color name="gradientStart4">#EC797D</color>
+    <color name="gradientEnd4">#CD2D33</color>
+
+    <color name="gradientStart5">#7CA1EC</color>
+    <color name="gradientEnd5">#194AAE</color>
+
+    <color name="gradientStart6">#FA60A2</color>
+    <color name="gradientEnd6">#C60559</color>
+
+    <color name="gradientStart7">#A32CDF</color>
+    <color name="gradientEnd7">#106AD2</color>
+
+    <color name="gradientStart8">#FEC163</color>
+    <color name="gradientEnd8">#DE4313</color>
+
+    <color name="gradientStart9">#92FFC0</color>
+    <color name="gradientEnd9">#11A14E</color>
+
+    <color name="gradientStart10">#EEAD92</color>
+    <color name="gradientEnd10">#6018DC</color>
+
+    <color name="gradientStart11">#F05F57</color>
+    <color name="gradientEnd11">#931912</color>
+
+    <color name="gradientStart12">#E377C8</color>
+    <color name="gradientEnd12">#83117A</color>
+
+    <color name="gradientStart13">#52E5E7</color>
+    <color name="gradientEnd13">#524BED</color>
+
+    <color name="gradientStart14">#F1CA74</color>
+    <color name="gradientEnd14">#A64DB6</color>
+
+    <color name="gradientStart15">#FFD22F</color>
+    <color name="gradientEnd15">#685201</color>
+
+    <color name="gradientStart16">#BB5EE8</color>
+    <color name="gradientEnd16">#7009A1</color>
+
+    <color name="gradientStart17">#79F1A4</color>
+    <color name="gradientEnd17">#0E5CAD</color>
+
+    <color name="gradientStart18">#FA3434</color>
+    <color name="gradientEnd18">#910505</color>
+
+    <color name="gradientStart19">#00FFA9</color>
+    <color name="gradientEnd19">#CA26FF</color>
+
+    <color name="gradientStart20">#FF0A6C</color>
+    <color name="gradientEnd20">#9452A5</color>
+
+</resources>

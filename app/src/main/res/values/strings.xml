@@ -1,0 +1,89 @@
+<resources>
+    <string name="app_name">IPhone Ringtones</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_wallpapers">Wallpapers</string>
+    <string name="menu_ringtones">Ringtones</string>
+
+
+    <string name="facebook_native_banner_ids" translatable="false">181675083791855_216927686933261</string>
+    <string name="facebook_native_medium_ids" translatable="false">181675083791855_211036930855670</string>
+    <string name="facebook_simple_banner_ids" translatable="false">181675083791855_181676110458419</string>
+    <string name="facebook_simple_medium_ids" translatable="false">181675083791855_181677470458283</string>
+    <string name="facebook_interstitial_ids" translatable="false">181675083791855_181677820458248</string>
+    <string name="facebook_interstitial_splash_ids" translatable="false">181675083791855_181678350458195</string>
+
+
+    <string name="privacy_url" translatable="false">https://sites.google.com/view/walrustech-azaan-ringtones/home</string>
+    <string name="moreapps_link" translatable="false">https://play.google.com/store/apps/developer?id=WALRUS+TECH</string>
+
+
+    <string name="share">Share App</string>
+    <string name="rate_us">Rate us</string>
+    <string name="more_apps">More Apps</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="music_player">Music Player</string>
+    <string name="set_ringtone">Set Ringtone</string>
+    <string name="set_as_call_ringtone">Set as Call Ringtone</string>
+    <string name="set_as_alarm_ringtone">Set as Alarm Ringtone</string>
+    <string name="set_notification_sound">Set Notification Sound</string>
+    <string name="download_ringtone">Download Ringtone</string>
+    <string name="share_ringtone">Share Ringtone</string>
+    <string name="more_music">More Apps</string>
+    <string name="rate_this_app">Rate this App</string>
+
+    <string name="todo">TODO</string>
+    <string name="download">Download</string>
+    <string name="play">PLAY</string>
+    <string name="privacy_checkbox_text">By continuing accept our</string>
+    <string name="get_started">Get Started</string>
+    <string name="open">Open</string>
+    <string name="success_message">RingTone successfully downloaded</string>
+    <string name="ok">OK</string>
+    <string name="error_message">Oh no! There is some problem to download. Please try later</string>
+    <string name="downloading_ringtone">Downloading Ringtone…</string>
+    <string name="please_wait">Please Wait</string>
+    <string name="accept">Accept</string>
+    <string name="do_you_want_to_exit">Do you want to Exit?</string>
+    <string name="no">NO</string>
+    <string name="yes">YES</string>
+
+    <string name="permission_message">This permission is needed to set ringtone to your call ringtone, alarm ringtone or notification ringtone so please first allow this permission</string>
+    <string name="allow_modify_system_settings">Allow modify system settings</string>
+    <string name="allow_permission">Allow Permission</string>
+
+
+    <string name="song_title1">Bismillah</string>
+    <string name="song_title2">Azan Abu Dhabi 1</string>
+    <string name="song_title3">Azan Abu Dhabi 2</string>
+    <string name="song_title4">Azan Allah Akbar</string>
+    <string name="song_title5">Azan Ashhaduallah</string>
+    <string name="song_title6">Azan Egypt</string>
+    <string name="song_title7">Azan Islam</string>
+    <string name="song_title8">Azan Qoba</string>
+    <string name="song_title9">Azan Raad Kurdi 1</string>
+    <string name="song_title10">Azan Raad Kurdi 2</string>
+    <string name="song_title11">Azan Ringtone 1</string>
+    <string name="song_title12">Azan Ringtone 2</string>
+    <string name="song_title13">Azan Ringtone 3</string>
+    <string name="song_title14">Azan Ringtone 4</string>
+    <string name="song_title15">Azan Ringtone 5</string>
+    <string name="song_title16">Azan Ringtone 6</string>
+    <string name="song_title17">Azan Uzbek</string>
+    <string name="song_title18">Best Azan</string>
+    <string name="song_title19">Best Azan Tone</string>
+    <string name="song_title20">Call to Prayer</string>
+    <string name="song_title21">Fajr Alarm Mecca</string>
+    <string name="song_title22">India Azan</string>
+    <string name="song_title23">Islamic azan 1</string>
+    <string name="song_title24">Islamic Azan 2</string>
+    <string name="song_title25">Istanbul Azan</string>
+    <string name="song_title26">Sweet Azan</string>
+
+</resources>
