@@ -58,7 +58,7 @@ class SongAdapter extends Adapter<SongAdapter.SongViewHolder> {
             }
         }));
         holder.tvSongTitle.setText(songItem.getSongTitle());
-        holder.tvSongDuration.setText(SongProvider.INSTANCE.getDurationMilliToSec(songItem.getSongDuration()));
+        holder.tvSongDuration.setText(SongProvider.getDurationMilliToSec(songItem.getSongDuration()));
         holder.songItemLayout.setBackgroundResource(songItem.getSongBg());
         holder.musicPlay.setImageResource(songItem.getSongPlayImage());
     }

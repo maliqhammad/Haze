@@ -1,12 +1,9 @@
 package com.hammad.iphoneringtones;
 
 import android.os.Bundle;
-import android.view.View;
 import android.view.Menu;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
@@ -25,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationMainActivity;
     NavigationView navView;
     DrawerLayout drawerLayout;
-    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +41,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setIds() {
-        fab = binding.appBarMain.fab;
         drawerLayout = binding.drawerLayout;
         navView = binding.navView;
         bottomNavigationMainActivity = binding.appBarMain.bottomNavigationMainActivity;
     }
 
     private void setListener() {
-        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show());
     }
 
     @Override
