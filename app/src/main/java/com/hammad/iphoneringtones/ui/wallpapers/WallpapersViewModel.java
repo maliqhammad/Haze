@@ -1,4 +1,4 @@
-package com.hammad.iphoneringtones.ui.gallery;
+package com.hammad.iphoneringtones.ui.wallpapers;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

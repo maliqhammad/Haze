@@ -1,4 +1,4 @@
-package com.hammad.iphoneringtones.ui.slideshow;
+package com.hammad.iphoneringtones.ui.ringtones;
 
 import java.io.Serializable;
 

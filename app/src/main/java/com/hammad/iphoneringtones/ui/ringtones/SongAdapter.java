@@ -1,4 +1,4 @@
-package com.hammad.iphoneringtones.ui.slideshow;
+package com.hammad.iphoneringtones.ui.ringtones;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -22,8 +22,8 @@ import kotlin.jvm.internal.Intrinsics;
 import org.jetbrains.annotations.NotNull;
 
 class SongAdapter extends Adapter<SongAdapter.SongViewHolder> {
-    private ArrayList<SongItem> mSongList;
-    private OnSongItemClickListener mListener;
+    ArrayList<SongItem> mSongList;
+    OnSongItemClickListener mListener;
     Context context;
 
     public SongAdapter(Context context, ArrayList<SongItem> songList, OnSongItemClickListener listener) {
@@ -83,6 +83,14 @@ class SongAdapter extends Adapter<SongAdapter.SongViewHolder> {
             setRingtone = itemView.findViewById(R.id.setRingtone);
             songItemLayout = itemView.findViewById(R.id.songItemLayout);
         }
+    }
+
+    public interface OnSongItemClickListener {
+        void onItemClick(int position);
+
+        void onSetRingClick(int position);
+
+        void onPlayerRingClick(int position);
     }
 }
 

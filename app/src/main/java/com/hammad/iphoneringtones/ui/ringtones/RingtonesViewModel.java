@@ -1,4 +1,4 @@
-package com.hammad.iphoneringtones.ui.slideshow;
+package com.hammad.iphoneringtones.ui.ringtones;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
