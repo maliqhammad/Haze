@@ -1,0 +1,93 @@
+{
+  "project_info": {
+    "project_number": "238559234692",
+    "firebase_url": "https://wallpapers-and-ringtones-c64a6-default-rtdb.firebaseio.com",
+    "project_id": "wallpapers-and-ringtones-c64a6",
+    "storage_bucket": "wallpapers-and-ringtones-c64a6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:238559234692:android:5df950a914189d825f90d1",
+        "android_client_info": {
+          "package_name": "com.example.wallpapersringtones"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "238559234692-hjhg5j17def76d1jl2qmmjgo4rh11jtc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wallpapersringtones",
+            "certificate_hash": "10d289c55248d6fa2c0d1a438d4093fd00556990"
+          }
+        },
+        {
+          "client_id": "238559234692-uje6teuuukjlln1m5uq72t2ubtoueted.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.wallpapersringtones",
+            "certificate_hash": "bbff9888ce296a81d5de939cc6dae5d87e008c28"
+          }
+        },
+        {
+          "client_id": "238559234692-iehh42mbsmf2nc94u981rmt5pccgom0h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaZ8ZUUuVQWAH1LDUrBNHsPaA5sayT4Sg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "238559234692-iehh42mbsmf2nc94u981rmt5pccgom0h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:238559234692:android:f7a023762ea30b625f90d1",
+        "android_client_info": {
+          "package_name": "com.hammad.iphoneringtones"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "238559234692-s1gr8afctpuhua1813lmagiqaat652kf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hammad.iphoneringtones",
+            "certificate_hash": "bbff9888ce296a81d5de939cc6dae5d87e008c28"
+          }
+        },
+        {
+          "client_id": "238559234692-iehh42mbsmf2nc94u981rmt5pccgom0h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaZ8ZUUuVQWAH1LDUrBNHsPaA5sayT4Sg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "238559234692-iehh42mbsmf2nc94u981rmt5pccgom0h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

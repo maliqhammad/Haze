@@ -11,6 +11,11 @@
     <string name="menu_wallpapers">Wallpapers</string>
     <string name="menu_ringtones">Ringtones</string>
 
+    <string name="home">Home</string>
+    <string name="categories">Categories</string>
+    <string name="features">Features</string>
+    <string name="popular">Popular</string>
+
 
     <string name="facebook_native_banner_ids" translatable="false">181675083791855_216927686933261</string>
     <string name="facebook_native_medium_ids" translatable="false">181675083791855_211036930855670</string>
@@ -85,5 +90,6 @@
     <string name="song_title24">Islamic Azan 2</string>
     <string name="song_title25">Istanbul Azan</string>
     <string name="song_title26">Sweet Azan</string>
+    <string name="image_name">Image Name</string>
 
 </resources>

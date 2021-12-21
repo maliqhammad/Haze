@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="features_name">
+        <item>Summer Time</item>
+        <item>Famous Graffiti</item>
+        <!--        <item>Morne Venter</item>-->
+        <item>Hot Listing</item>
+        <item>500 Million</item>
+        <item>Chocolate Art</item>
+        <item>Behemoth</item>
+        <item>Graffiti Walls</item>
+        <item>Digital Carbine</item>
+        <item>Watercolors</item>
+        <item>Summer Picnic</item>
+        <item>Tropics</item>
+        <item>Pride</item>
+        <item>World Music</item>
+        <item>Cats &amp; Dogs</item>
+        <item>Love is Love</item>
+        <item>Dead Dogs Lie</item>
+        <item>Highways</item>
+        <item>Architecture</item>
+        <item>Good Morning</item>
+        <item>Sports</item>
+        <item>Animals</item>
+        <!--        <item>Fake Out</item>-->
+        <item>Neon</item>
+        <!--        <item>On Top</item>-->
+        <item>The Man</item>
+    </string-array>
+    <string-array name="colors_array">
+        <item>@color/blue_grey</item>
+        <item>@color/red</item>
+        <item>@color/pink</item>
+        <item>@color/deep_purple</item>
+        <item>@color/indigo</item>
+        <item>@color/colorPrimary</item>
+        <item>@color/blue</item>
+        <item>@color/light_blue</item>
+        <item>@color/cyan</item>
+        <item>@color/teal</item>
+        <item>@color/green</item>
+        <item>@color/light_green</item>
+        <item>@color/lime</item>
+        <item>@color/yellow</item>
+        <item>@color/amber</item>
+        <item>@color/orange</item>
+        <item>@color/deep_orange</item>
+        <item>@color/brown</item>
+        <item>@color/accent_700</item>
+        <item>@color/accent_500</item>
+        <item>@color/colorAccent</item>
+        <item>@color/teal_200</item>
+        <item>@color/teal_700</item>
+        <item>@color/purple_700</item>
+        <item>@color/purple_500</item>
+        <item>@color/purple_200</item>
+    </string-array>
+    <integer-array name="features_images_array">
+        <item>@drawable/summer_time</item>
+        <item>@drawable/famous_graffiti</item>
+        <!--        <item>@drawanle/morne_venter</item>-->
+        <item>@drawable/hot_listing</item>
+        <item>@drawable/five_hundred_million</item>
+        <item>@drawable/chocolate_art</item>
+        <item>@drawable/behemoth</item>
+        <item>@drawable/graffiti_walls</item>
+        <item>@drawable/digital_carbine</item>
+        <item>@drawable/watercolors</item>
+        <item>@drawable/summer_picnic</item>
+        <item>@drawable/tropics</item>
+        <item>@drawable/pride</item>
+        <item>@drawable/world_music</item>
+        <item>@drawable/cats_n_dogs</item>
+        <item>@drawable/love_is_love</item>
+        <item>@drawable/dead_dogs_lie</item>
+        <item>@drawable/highways</item>
+        <item>@drawable/architecture</item>
+        <item>@drawable/good_morning</item>
+        <item>@drawable/sports</item>
+        <item>@drawable/animals</item>
+        <!--        <item>@drawanle/fake_out</item>-->
+        <item>@drawable/neon</item>
+        <!--        <item>@drawanle/on_top</item>-->
+        <item>@drawable/the_man</item>
+    </integer-array>
+
+</resources>
