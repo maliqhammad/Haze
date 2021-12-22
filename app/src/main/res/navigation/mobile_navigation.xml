@@ -12,14 +12,14 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_wallpapers"
         android:name="com.hammad.iphoneringtones.ui.wallpapers.WallpapersFragment"
         android:label="@string/menu_wallpapers"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_wallpapers" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_ringtones"
         android:name="com.hammad.iphoneringtones.ui.ringtones.RingtonesFragment"
         android:label="@string/menu_ringtones"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_ringtones" />
 </navigation>

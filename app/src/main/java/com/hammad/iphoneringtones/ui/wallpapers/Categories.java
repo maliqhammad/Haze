@@ -1,4 +1,4 @@
-package com.hammad.iphoneringtones.ui.home;
+package com.hammad.iphoneringtones.ui.wallpapers;
 
 import android.content.Context;
 import android.content.res.TypedArray;

@@ -1,4 +1,4 @@
-package com.hammad.iphoneringtones.ui.home;
+package com.hammad.iphoneringtones.ui.wallpapers;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hammad.iphoneringtones.R;
 import com.hammad.iphoneringtones.classes.ColorGenerator;
-import com.hammad.iphoneringtones.ui.wallpapers.WallpaperModel;
+import com.hammad.iphoneringtones.ui.home.HomeModel;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -22,9 +22,9 @@ import java.util.ArrayList;
 
 public class FeaturesAdapter extends RecyclerView.Adapter<FeaturesAdapter.HomeAdapterViewHolder> {
     Context context;
-    ArrayList<WallpaperModel> arrayList;
+    ArrayList<HomeModel> arrayList;
 
-    public FeaturesAdapter(Context context, ArrayList<WallpaperModel> arrayList) {
+    public FeaturesAdapter(Context context, ArrayList<HomeModel> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
     }

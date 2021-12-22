@@ -6,21 +6,21 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_baseline_home_24"
             android:title="@string/menu_home"
-            android:iconTint="@color/purple_700"
-            tools:targetApi="o" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_wallpapers"
-            android:iconTint="@color/purple_700"
+            android:iconTint="@color/colorPrimary"
             tools:targetApi="o"/>
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_wallpapers"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/menu_wallpapers"
+            android:iconTint="@color/colorPrimary"
+            tools:targetApi="o" />
+        <item
+            android:id="@+id/nav_ringtones"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_ringtones"
-            android:iconTint="@color/purple_700"
+            android:iconTint="@color/colorPrimary"
             tools:targetApi="o"/>
     </group>
 </menu>

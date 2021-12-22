@@ -8,9 +8,14 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#E0E0E0</color>
+    <color name="new1">#A13084</color>
+    <color name="new2">#301F58</color>
 
-    <color name="colorPrimary">#10030D</color>
-    <color name="colorPrimaryVariant">#050104</color>
+<!--    <color name="colorPrimary">#684198</color>-->
+<!--    <color name="colorPrimaryVariant">#3F196E</color>-->
+    <color name="colorPrimary">#A13084</color>
+    <color name="colorPrimaryVariant">#301F58</color>
+    <color name="colorAccent">#FFEA35</color>
 
     <color name="whiteLight">#FFFFFFFF</color>
     <color name="light_black">#2f3336</color>
@@ -108,7 +113,6 @@
     <color name="gradientStart20">#FF0A6C</color>
     <color name="gradientEnd20">#9452A5</color>
 
-    <color name="colorAccent">#FF4081</color>
     <color name="indicator_unselected">#4D000000</color>
     <!--Indigo 500-->
     <color name="primary_500">#3F51B5</color>

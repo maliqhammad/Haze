@@ -1,9 +1,9 @@
-package com.hammad.iphoneringtones.ui.wallpapers;
+package com.hammad.iphoneringtones.ui.home;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
 
-public class WallpaperModel {
+public class HomeModel {
     private Integer image = 0;
     private String imageName = "";
     private Bitmap bitmap;

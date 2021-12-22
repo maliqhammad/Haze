@@ -26,7 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hammad.iphoneringtones.R;
-import com.hammad.iphoneringtones.databinding.FragmentSlideshowBinding;
+import com.hammad.iphoneringtones.databinding.FragmentRingtonesBinding;
 import com.hammad.iphoneringtones.dialogs.DialogBottomSheet;
 
 import java.io.File;
@@ -34,14 +34,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import kotlin.jvm.internal.Ref;
 
 public class RingtonesFragment extends Fragment {
 
     RingtonesViewModel ringtonesViewModel;
-    private FragmentSlideshowBinding binding;
+    private FragmentRingtonesBinding binding;
     RecyclerView recyclerViewRingtones;
     SongAdapter songAdapter;
     Context context;
@@ -55,7 +54,7 @@ public class RingtonesFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ringtonesViewModel = new ViewModelProvider(this).get(RingtonesViewModel.class);
-        binding = FragmentSlideshowBinding.inflate(inflater, container, false);
+        binding = FragmentRingtonesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         initialize();
         setIds();
