@@ -9,6 +9,7 @@
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.IPhoneRingtones">
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
