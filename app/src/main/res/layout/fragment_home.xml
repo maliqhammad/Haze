@@ -9,6 +9,7 @@
     tools:context=".ui.home.HomeFragment">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_view_wallpapers_fragment_home"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_165sdp"
         android:layout_margin="@dimen/_10sdp"
@@ -26,6 +27,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_view_ringtone_fragment_home"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_165sdp"
         android:layout_margin="@dimen/_10sdp"

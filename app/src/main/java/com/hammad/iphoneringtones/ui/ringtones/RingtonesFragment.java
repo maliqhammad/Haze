@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,12 +34,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import kotlin.jvm.internal.Ref;
 
 public class RingtonesFragment extends Fragment {
-
+    private static final String TAG = "RingtonesFragment";
     RingtonesViewModel ringtonesViewModel;
     private FragmentRingtonesBinding binding;
     RecyclerView recyclerViewRingtones;
@@ -67,12 +69,15 @@ public class RingtonesFragment extends Fragment {
     private void initialize() {
         songItemArrayList = new ArrayList<>();
         songItemArrayList.addAll(SongProvider.getAllSongs(context));
+        mediaPlayer = new MediaPlayer();
     }
 
     private void setIds() {
         recyclerViewRingtones = binding.recyclerViewRingtones;
 
     }
+
+    MediaPlayer mediaPlayer;
 
     private void setRecyclerView() {
         recyclerViewRingtones.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
@@ -85,16 +90,89 @@ public class RingtonesFragment extends Fragment {
             }
 
             @Override
-            public void onSetRingClick(int position) {
+            public void onSetRingtone(int position) {
                 Toast.makeText(context, "onSetRingClick", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onPlayerRingClick(int position) {
+            public void onPlayRingtone(int position) {
+                playRingtone(position);
                 Toast.makeText(context, "onPlayerRingClick", Toast.LENGTH_SHORT).show();
             }
         });
         recyclerViewRingtones.setAdapter(songAdapter);
+    }
+
+    int lastPosition = -1;
+
+    private void playRingtone(int position) {
+        if (lastPosition == position) {
+            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                mediaPlayer.pause();
+                Log.d(TAG, "playRingtone: pause: ");
+            }
+//            else if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+//                mediaPlayer.start();
+//                Log.d(TAG, "playRingtone: resume: ");
+//            }
+            else {
+                Log.d(TAG, "playRingtone: start: ");
+                if (mediaPlayer != null) {
+                    mediaPlayer.stop();
+                    mediaPlayer.reset();
+                    mediaPlayer.release();
+                    mediaPlayer = null;
+                }
+                try {
+                mediaPlayer = new MediaPlayer();
+                    mediaPlayer.setDataSource("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3");
+//                    mediaPlayer = MediaPlayer.create(context, songItemArrayList.get(position).getSongUrl());
+                    mediaPlayer.prepare();
+                    mediaPlayer.setVolume(10, 10);
+                    mediaPlayer.start();
+                    mediaPlayer.setOnPreparedListener(mp -> {
+
+                    });
+                    mediaPlayer.setOnCompletionListener(mp -> {
+
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            Log.d(TAG, "playRingtone: start: new ");
+            if (mediaPlayer != null) {
+                mediaPlayer.stop();
+                mediaPlayer.reset();
+                mediaPlayer.release();
+                mediaPlayer = null;
+            }
+
+            try {
+                mediaPlayer = new MediaPlayer();
+                mediaPlayer.setDataSource("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3");
+//                mediaPlayer = MediaPlayer.create(context, songItemArrayList.get(position).getSongUrl());
+                mediaPlayer.prepare();
+                mediaPlayer.setVolume(10, 10);
+                mediaPlayer.start();
+                mediaPlayer.setOnPreparedListener(mp -> {
+
+                });
+                mediaPlayer.setOnCompletionListener(mp -> {
+
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+        } else {
+            mediaPlayer = MediaPlayer.create(context, songItemArrayList.get(position).getSongUrl());
+            mediaPlayer.start();
+        }
+        lastPosition = position;
     }
 
     @Override

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,25 +41,25 @@ class SongAdapter extends Adapter<SongAdapter.SongViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull SongViewHolder holder, int position) {
         SongItem songItem = mSongList.get(position);
-        holder.itemView.setOnClickListener((OnClickListener) (it -> {
+        holder.itemView.setOnClickListener(view -> {
             if (position != -1) {
                 mListener.onItemClick(position);
             }
-        }));
-        holder.musicPlay.setOnClickListener((OnClickListener) (it -> {
+        });
+        holder.iv_play_ringtone_song_item.setOnClickListener(view -> {
             if (position != -1) {
-                mListener.onPlayerRingClick(position);
+                mListener.onPlayRingtone(position);
             }
-        }));
-        holder.setRingtone.setOnClickListener((OnClickListener) (it -> {
+        });
+        holder.iv_set_ringtone_song_item.setOnClickListener(view -> {
             if (position != -1) {
-                mListener.onSetRingClick(position);
+                mListener.onSetRingtone(position);
             }
-        }));
-        holder.tvSongTitle.setText(songItem.getSongTitle());
-        holder.tvSongDuration.setText(SongProvider.getDurationMilliToSec(songItem.getSongDuration()));
+        });
+        holder.tv_title_ringtone_song_item.setText(songItem.getSongTitle());
+        holder.tv_duration_ringtone_song_item.setText(SongProvider.getDurationMilliToSec(songItem.getSongDuration()));
         holder.songItemLayout.setBackgroundResource(songItem.getSongBg());
-        holder.musicPlay.setImageResource(songItem.getSongPlayImage());
+        holder.iv_play_ringtone_song_item.setImageResource(songItem.getSongPlayImage());
     }
 
     @Override
@@ -69,18 +68,18 @@ class SongAdapter extends Adapter<SongAdapter.SongViewHolder> {
     }
 
     public static class SongViewHolder extends ViewHolder {
-        TextView tvSongTitle;
-        TextView tvSongDuration;
-        ImageView musicPlay;
-        ImageView setRingtone;
+        TextView tv_title_ringtone_song_item;
+        TextView tv_duration_ringtone_song_item;
+        ImageView iv_play_ringtone_song_item;
+        ImageView iv_set_ringtone_song_item;
         ConstraintLayout songItemLayout;
 
         public SongViewHolder(View itemView) {
             super(itemView);
-            tvSongTitle = itemView.findViewById(R.id.tvSongTitle);
-            tvSongDuration = itemView.findViewById(R.id.tvSongDuration);
-            musicPlay = itemView.findViewById(R.id.musicPlay);
-            setRingtone = itemView.findViewById(R.id.setRingtone);
+            tv_title_ringtone_song_item = itemView.findViewById(R.id.tv_title_ringtone_song_item);
+            tv_duration_ringtone_song_item = itemView.findViewById(R.id.tv_duration_ringtone_song_item);
+            iv_play_ringtone_song_item = itemView.findViewById(R.id.iv_play_ringtone_song_item);
+            iv_set_ringtone_song_item = itemView.findViewById(R.id.iv_set_ringtone_song_item);
             songItemLayout = itemView.findViewById(R.id.songItemLayout);
         }
     }
@@ -88,9 +87,9 @@ class SongAdapter extends Adapter<SongAdapter.SongViewHolder> {
     public interface OnSongItemClickListener {
         void onItemClick(int position);
 
-        void onSetRingClick(int position);
+        void onSetRingtone(int position);
 
-        void onPlayerRingClick(int position);
+        void onPlayRingtone(int position);
     }
 }
 

@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -22,8 +23,7 @@ public class HomeFragment extends Fragment {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-//        final TextView textView = binding.textGallery;
+        setlisteners();
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -32,6 +32,16 @@ public class HomeFragment extends Fragment {
         });
         return root;
     }
+
+    private void setlisteners() {
+        binding.cardViewWallpapersFragmentHome.setOnClickListener(view -> {
+
+        });
+        binding.cardViewRingtoneFragmentHome.setOnClickListener(view -> {
+
+        });
+    }
+
 
     @Override
     public void onDestroyView() {
