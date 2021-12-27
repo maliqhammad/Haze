@@ -18,7 +18,7 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.hammad.iphoneringtones.R;
-import com.hammad.iphoneringtones.ui.ringtones.SongItem;
+import com.hammad.iphoneringtones.ui.ringtones.RingtoneModel;
 import com.hammad.iphoneringtones.ui.home.HomeModel;
 
 
@@ -31,12 +31,12 @@ public class DialogBottomSheet extends BottomSheetDialogFragment {
     Context context;
     WallpaperManager wallpaperManager;
     HomeModel homeModel;
-    SongItem songItem;
+    RingtoneModel ringtoneModel;
 
-    public DialogBottomSheet(Context context, HomeModel homeModel, SongItem songItem) {
+    public DialogBottomSheet(Context context, HomeModel homeModel, RingtoneModel ringtoneModel) {
         this.context = context;
         this.homeModel = homeModel;
-        this.songItem = songItem;
+        this.ringtoneModel = ringtoneModel;
         wallpaperManager = WallpaperManager.getInstance(context);
     }
 
@@ -89,7 +89,7 @@ public class DialogBottomSheet extends BottomSheetDialogFragment {
     }
 
     private boolean isRingtones() {
-        return songItem != null && homeModel == null;
+        return ringtoneModel != null && homeModel == null;
     }
 
     @Override

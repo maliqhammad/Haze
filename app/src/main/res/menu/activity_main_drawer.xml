@@ -8,19 +8,19 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_baseline_home_24"
             android:title="@string/menu_home"
-            android:iconTint="@color/colorPrimary"
+            android:iconTint="@color/white"
             tools:targetApi="o"/>
         <item
             android:id="@+id/nav_wallpapers"
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/menu_wallpapers"
-            android:iconTint="@color/colorPrimary"
+            android:iconTint="@color/white"
             tools:targetApi="o" />
         <item
             android:id="@+id/nav_ringtones"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_ringtones"
-            android:iconTint="@color/colorPrimary"
+            android:iconTint="@color/white"
             tools:targetApi="o"/>
     </group>
 </menu>

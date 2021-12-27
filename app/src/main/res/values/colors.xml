@@ -22,6 +22,7 @@
     <color name="light_white">#DADADA</color>
     <color name="gray_color">#7c8184</color>
     <color name="dark_gray">#3d484d</color>
+    <color name="light_gray">#C1C1C1</color>
 
     <color name="lightColor">#8300BCD4</color>
     <color name="transparentColor">#994c2e23</color>

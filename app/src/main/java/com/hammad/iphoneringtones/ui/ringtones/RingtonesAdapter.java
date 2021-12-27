@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
@@ -20,12 +19,12 @@ import kotlin.jvm.internal.Intrinsics;
 
 import org.jetbrains.annotations.NotNull;
 
-class SongAdapter extends Adapter<SongAdapter.SongViewHolder> {
-    ArrayList<SongItem> mSongList;
+class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
+    ArrayList<RingtoneModel> mSongList;
     OnSongItemClickListener mListener;
     Context context;
 
-    public SongAdapter(Context context, ArrayList<SongItem> songList, OnSongItemClickListener listener) {
+    public RingtonesAdapter(Context context, ArrayList<RingtoneModel> songList, OnSongItemClickListener listener) {
         this.mSongList = songList;
         this.context = context;
         this.mListener = listener;
@@ -40,7 +39,7 @@ class SongAdapter extends Adapter<SongAdapter.SongViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull SongViewHolder holder, int position) {
-        SongItem songItem = mSongList.get(position);
+        RingtoneModel ringtoneModel = mSongList.get(position);
         holder.itemView.setOnClickListener(view -> {
             if (position != -1) {
                 mListener.onItemClick(position);
@@ -56,10 +55,14 @@ class SongAdapter extends Adapter<SongAdapter.SongViewHolder> {
                 mListener.onSetRingtone(position);
             }
         });
-        holder.tv_title_ringtone_song_item.setText(songItem.getSongTitle());
-        holder.tv_duration_ringtone_song_item.setText(SongProvider.getDurationMilliToSec(songItem.getSongDuration()));
-        holder.songItemLayout.setBackgroundResource(songItem.getSongBg());
-        holder.iv_play_ringtone_song_item.setImageResource(songItem.getSongPlayImage());
+        holder.tv_title_ringtone_song_item.setText(ringtoneModel.getSongTitle());
+//        holder.tv_duration_ringtone_song_item.setText(SongProvider.getDurationMilliToSec(songItem.getSongDuration()));
+    }
+
+    public void setPlayPauseIcon(int lastPosition, int currentPosition) {
+        if (lastPosition != -1) {
+
+        }
     }
 
     @Override
@@ -72,7 +75,6 @@ class SongAdapter extends Adapter<SongAdapter.SongViewHolder> {
         TextView tv_duration_ringtone_song_item;
         ImageView iv_play_ringtone_song_item;
         ImageView iv_set_ringtone_song_item;
-        ConstraintLayout songItemLayout;
 
         public SongViewHolder(View itemView) {
             super(itemView);
@@ -80,7 +82,6 @@ class SongAdapter extends Adapter<SongAdapter.SongViewHolder> {
             tv_duration_ringtone_song_item = itemView.findViewById(R.id.tv_duration_ringtone_song_item);
             iv_play_ringtone_song_item = itemView.findViewById(R.id.iv_play_ringtone_song_item);
             iv_set_ringtone_song_item = itemView.findViewById(R.id.iv_set_ringtone_song_item);
-            songItemLayout = itemView.findViewById(R.id.songItemLayout);
         }
     }
 

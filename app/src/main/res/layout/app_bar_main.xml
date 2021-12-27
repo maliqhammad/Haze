@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="?attr/colorPrimaryVariant"
             app:popupTheme="@style/Theme.IPhoneRingtones.PopupOverlay" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            app:itemBackground="@color/colorPrimary"
+            app:itemBackground="@color/colorPrimaryVariant"
             app:itemIconSize="@dimen/_16sdp"
             app:itemIconTint="@color/white"
             app:itemTextColor="@color/white"

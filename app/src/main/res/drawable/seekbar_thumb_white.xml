@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/white"/>
+            <stroke android:color="@color/white" android:width="2dp"/>
+            <size android:height="@dimen/_20sdp" android:width="@dimen/_20sdp"/>
+        </shape>
+    </item>
+</selector>
+<!--<selector xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--    <item android:drawable="@drawable/ic_white_dot" android:state_enabled="false" />-->
+<!--    <item android:drawable="@drawable/ic_white_dot_pressed" android:state_pressed="true" />-->
+<!--    <item android:drawable="@drawable/ic_white_dot_pressed" android:state_selected="true" />-->
+<!--    <item android:drawable="@drawable/ic_white_dot" />-->
+<!--</selector>-->

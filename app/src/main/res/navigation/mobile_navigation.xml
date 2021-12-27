@@ -9,7 +9,14 @@
         android:id="@+id/nav_home"
         android:name="com.hammad.iphoneringtones.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_nav_wallpapers"
+            app:destination="@id/nav_wallpapers" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_ringtones"
+            app:destination="@id/nav_ringtones" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_wallpapers"

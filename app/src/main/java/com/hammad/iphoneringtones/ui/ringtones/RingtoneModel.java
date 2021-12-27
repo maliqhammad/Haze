@@ -2,20 +2,22 @@ package com.hammad.iphoneringtones.ui.ringtones;
 
 import java.io.Serializable;
 
-public class SongItem implements Serializable {
+public class RingtoneModel implements Serializable {
 
     String songTitle = "";
     int songDuration = 0;
     int songUrl = 0;
-    int songBg = 0;
-    int songPlayImage = 0;
+    String ringtoneURL = "";
 
-    public SongItem(String songTitle, int songDuration, int songUrl, int songBg, int songPlayImage) {
+    public RingtoneModel(String songTitle, int songDuration, int songUrl) {
         this.songTitle = songTitle;
         this.songDuration = songDuration;
         this.songUrl = songUrl;
-        this.songBg = songBg;
-        this.songPlayImage = songPlayImage;
+    }
+
+    public RingtoneModel(String songTitle, String ringtoneURL) {
+        this.songTitle = songTitle;
+        this.ringtoneURL = ringtoneURL;
     }
 
     public String getSongTitle() {
@@ -42,19 +44,11 @@ public class SongItem implements Serializable {
         this.songUrl = songUrl;
     }
 
-    public int getSongBg() {
-        return songBg;
+    public String getRingtoneURL() {
+        return ringtoneURL;
     }
 
-    public void setSongBg(int songBg) {
-        this.songBg = songBg;
-    }
-
-    public int getSongPlayImage() {
-        return songPlayImage;
-    }
-
-    public void setSongPlayImage(int songPlayImage) {
-        this.songPlayImage = songPlayImage;
+    public void setRingtoneURL(String ringtoneURL) {
+        this.ringtoneURL = ringtoneURL;
     }
 }

@@ -38,6 +38,7 @@
                 android:id="@+id/recycler_view_feature_home_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                tools:listitem="@layout/features_adapter_item"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_feature_label_home_fragment" />
@@ -60,6 +61,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_popular_home_fragment"
                 android:layout_width="match_parent"
+                tools:listitem="@layout/popular_wallpaper_adapter_item"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
