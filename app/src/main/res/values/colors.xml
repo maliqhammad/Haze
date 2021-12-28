@@ -13,8 +13,10 @@
 
 <!--    <color name="colorPrimary">#684198</color>-->
 <!--    <color name="colorPrimaryVariant">#3F196E</color>-->
-    <color name="colorPrimary">#A13084</color>
-    <color name="colorPrimaryVariant">#301F58</color>
+<!--    <color name="colorPrimary">#A13084</color>-->
+<!--    <color name="colorPrimaryVariant">#301F58</color>-->
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryVariant">#000000</color>
     <color name="colorAccent">#FFEA35</color>
 
     <color name="whiteLight">#FFFFFFFF</color>

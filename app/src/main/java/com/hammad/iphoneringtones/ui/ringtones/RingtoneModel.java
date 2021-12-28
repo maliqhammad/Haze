@@ -4,28 +4,29 @@ import java.io.Serializable;
 
 public class RingtoneModel implements Serializable {
 
-    String songTitle = "";
+    String ringtoneTitle = "";
+    boolean isPlaying = false;
     int songDuration = 0;
     int songUrl = 0;
     String ringtoneURL = "";
 
-    public RingtoneModel(String songTitle, int songDuration, int songUrl) {
-        this.songTitle = songTitle;
+    public RingtoneModel(String ringtoneTitle, int songDuration, int songUrl) {
+        this.ringtoneTitle = ringtoneTitle;
         this.songDuration = songDuration;
         this.songUrl = songUrl;
     }
 
-    public RingtoneModel(String songTitle, String ringtoneURL) {
-        this.songTitle = songTitle;
+    public RingtoneModel(String ringtoneTitle, String ringtoneURL) {
+        this.ringtoneTitle = ringtoneTitle;
         this.ringtoneURL = ringtoneURL;
     }
 
-    public String getSongTitle() {
-        return songTitle;
+    public String getRingtoneTitle() {
+        return ringtoneTitle;
     }
 
-    public void setSongTitle(String songTitle) {
-        this.songTitle = songTitle;
+    public void setRingtoneTitle(String ringtoneTitle) {
+        this.ringtoneTitle = ringtoneTitle;
     }
 
     public int getSongDuration() {
@@ -50,5 +51,13 @@ public class RingtoneModel implements Serializable {
 
     public void setRingtoneURL(String ringtoneURL) {
         this.ringtoneURL = ringtoneURL;
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
     }
 }

@@ -19,7 +19,7 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.hammad.iphoneringtones.R;
 import com.hammad.iphoneringtones.ui.ringtones.RingtoneModel;
-import com.hammad.iphoneringtones.ui.home.HomeModel;
+import com.hammad.iphoneringtones.ui.wallpapers.WallpaperModel;
 
 
 public class DialogBottomSheet extends BottomSheetDialogFragment {
@@ -30,12 +30,12 @@ public class DialogBottomSheet extends BottomSheetDialogFragment {
             linear_add_to_favourite_dialog_bottom_sheet;
     Context context;
     WallpaperManager wallpaperManager;
-    HomeModel homeModel;
+    WallpaperModel wallpaperModel;
     RingtoneModel ringtoneModel;
 
-    public DialogBottomSheet(Context context, HomeModel homeModel, RingtoneModel ringtoneModel) {
+    public DialogBottomSheet(Context context, WallpaperModel wallpaperModel, RingtoneModel ringtoneModel) {
         this.context = context;
-        this.homeModel = homeModel;
+        this.wallpaperModel = wallpaperModel;
         this.ringtoneModel = ringtoneModel;
         wallpaperManager = WallpaperManager.getInstance(context);
     }
@@ -89,7 +89,7 @@ public class DialogBottomSheet extends BottomSheetDialogFragment {
     }
 
     private boolean isRingtones() {
-        return ringtoneModel != null && homeModel == null;
+        return ringtoneModel != null && wallpaperModel == null;
     }
 
     @Override

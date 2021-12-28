@@ -82,7 +82,7 @@ public class RingtonesViewModel extends ViewModel {
         });
     }
 
-    private void retrieveRingtones() {
+    public void retrieveRingtones() {
         DatabaseReference ringtonesRef = FirebaseDatabase.getInstance().getReference();
         firebaseStorage = FirebaseStorage.getInstance();
         pathReference = FirebaseStorage.getInstance().getReference().child("ringtones");

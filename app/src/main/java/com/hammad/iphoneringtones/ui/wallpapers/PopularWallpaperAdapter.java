@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.hammad.iphoneringtones.R;
-import com.hammad.iphoneringtones.ui.home.HomeModel;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -21,10 +20,10 @@ import java.util.ArrayList;
 
 public class PopularWallpaperAdapter extends RecyclerView.Adapter<PopularWallpaperAdapter.HomeAdapterViewHolder> {
     Context context;
-    ArrayList<HomeModel> arrayList;
+    ArrayList<WallpaperModel> arrayList;
     PopularWallpaperAdapterCallback callback;
 
-    public PopularWallpaperAdapter(Context context, ArrayList<HomeModel> arrayList, PopularWallpaperAdapterCallback callback) {
+    public PopularWallpaperAdapter(Context context, ArrayList<WallpaperModel> arrayList, PopularWallpaperAdapterCallback callback) {
         this.context = context;
         this.arrayList = arrayList;
         this.callback = callback;
@@ -42,7 +41,7 @@ public class PopularWallpaperAdapter extends RecyclerView.Adapter<PopularWallpap
         Glide.with(context).load(arrayList.get(position).getUri()).into(holder.iv_popular_wallpaper_adapter_item);
 //        Picasso.get().load(arrayList.get(position).getUri()).into(holder.iv_popular_wallpaper_adapter_item);
 //        holder.iv_popular_wallpaper_adapter_item.setImageURI(arrayList.get(position).getUri());
-        holder.tv_name_popular_wallpaper_adapter_item.setText(arrayList.get(position).getImageName());
+        holder.tv_name_popular_wallpaper_adapter_item.setText(arrayList.get(position).getImageTitle());
         holder.iv_download_popular_wallpaper_adapter_item.setOnClickListener(view -> callback.onItemClickListener(arrayList.get(position)));
     }
 
@@ -64,6 +63,6 @@ public class PopularWallpaperAdapter extends RecyclerView.Adapter<PopularWallpap
     }
 
     public interface PopularWallpaperAdapterCallback {
-        void onItemClickListener(HomeModel homeModel);
+        void onItemClickListener(WallpaperModel wallpaperModel);
     }
 }

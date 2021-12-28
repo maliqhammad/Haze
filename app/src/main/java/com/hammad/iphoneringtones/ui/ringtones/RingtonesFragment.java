@@ -48,7 +48,9 @@ public class RingtonesFragment extends Fragment {
     Context context;
     MediaPlayer mediaPlayer;
     int lastPosition = -1;
+    RingtonesAdapter ringtonesAdapter;
     Observer<ArrayList<RingtoneModel>> observer;
+    ArrayList<RingtoneModel> ringtoneModelArrayList;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -63,6 +65,7 @@ public class RingtonesFragment extends Fragment {
         initialize();
         setListener();
         setRecyclerView();
+//        ringtonesViewModel.retrieveRingtones();
         return root;
     }
 
@@ -79,8 +82,6 @@ public class RingtonesFragment extends Fragment {
         clearMediaPlayer();
         ringtonesViewModel.getRingtones().removeObserver(observer);
     }
-
-    ArrayList<RingtoneModel> ringtoneModelArrayList;
 
     private void initialize() {
         ringtoneModelArrayList = new ArrayList<>();
@@ -100,15 +101,13 @@ public class RingtonesFragment extends Fragment {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                binding.ivPlayRingtoneFragment.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),
-                        R.drawable.ic_play_icon, null));
+                updateViews(lastPosition, false);
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 mediaPlayer.start();
-                binding.ivPlayRingtoneFragment.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(),
-                        R.drawable.ic_pause_icon, null));
+                updateViews(lastPosition, true);
             }
         });
         binding.ivPlayRingtoneFragment.setOnClickListener(view -> {
@@ -125,7 +124,7 @@ public class RingtonesFragment extends Fragment {
             Log.d(TAG, "setRecyclerView: " + ringtoneModels.size());
             ringtoneModelArrayList.addAll(ringtoneModels);
             binding.recyclerViewRingtones.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-            binding.recyclerViewRingtones.setAdapter(new RingtonesAdapter(context, ringtoneModels, new RingtonesAdapter.OnSongItemClickListener() {
+            ringtonesAdapter = new RingtonesAdapter(context, ringtoneModels, new RingtonesAdapter.OnSongItemClickListener() {
                 @Override
                 public void onItemClick(int position) {
                     Toast.makeText(context, "onItemClick", Toast.LENGTH_SHORT).show();
@@ -143,7 +142,8 @@ public class RingtonesFragment extends Fragment {
                     playRingtone(position);
                     Toast.makeText(context, "onPlayerRingClick", Toast.LENGTH_SHORT).show();
                 }
-            }));
+            });
+            binding.recyclerViewRingtones.setAdapter(ringtonesAdapter);
         };
         ringtonesViewModel.getRingtones().observe(getViewLifecycleOwner(), observer);
     }
@@ -153,12 +153,12 @@ public class RingtonesFragment extends Fragment {
             if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                 Log.d(TAG, "playRingtone: pause: lastPosition: ");
                 mediaPlayer.pause();
-                binding.ivPlayRingtoneFragment.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_play_icon, null));
+                updateViews(position, false);
             } else if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
                 Log.d(TAG, "playRingtone: resume: lastPosition: ");
                 mediaPlayer.start();
                 update(mediaPlayer, context);
-                binding.ivPlayRingtoneFragment.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_pause_icon, null));
+                updateViews(position, true);
             } else {
                 Log.d(TAG, "playRingtone: start: lastPosition: ");
                 startMediaPlayer(position);
@@ -175,20 +175,30 @@ public class RingtonesFragment extends Fragment {
         try {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setDataSource(ringtoneModelArrayList.get(position).getRingtoneURL());
+            binding.tvTitlePlayerRingtoneFragment.setText(ringtoneModelArrayList.get(position).getRingtoneTitle());
             mediaPlayer.prepare();
-            mediaPlayer.setVolume(10, 10);
+            mediaPlayer.setVolume(100, 100);
             mediaPlayer.start();
             update(mediaPlayer, context);
+            updateViews(position, true);
             mediaPlayer.setOnPreparedListener(mp -> {
                 Log.d(TAG, "playRingtone: new ");
-                binding.ivPlayRingtoneFragment.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_pause_icon, null));
             });
             mediaPlayer.setOnCompletionListener(mp -> {
                 clearMediaPlayer();
-                binding.ivPlayRingtoneFragment.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_play_icon, null));
+                updateViews(position, false);
             });
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void updateViews(int position, boolean isPlay) {
+        ringtonesAdapter.setPlayPauseIcon(lastPosition, position, isPlay);
+        if (isPlay) {
+            binding.ivPlayRingtoneFragment.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_pause_icon, null));
+        } else {
+            binding.ivPlayRingtoneFragment.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_play_icon, null));
         }
     }
 

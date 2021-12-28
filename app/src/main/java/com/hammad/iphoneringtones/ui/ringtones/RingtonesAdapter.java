@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
@@ -20,12 +21,12 @@ import kotlin.jvm.internal.Intrinsics;
 import org.jetbrains.annotations.NotNull;
 
 class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
-    ArrayList<RingtoneModel> mSongList;
+    ArrayList<RingtoneModel> ringtoneModelArrayList;
     OnSongItemClickListener mListener;
     Context context;
 
-    public RingtonesAdapter(Context context, ArrayList<RingtoneModel> songList, OnSongItemClickListener listener) {
-        this.mSongList = songList;
+    public RingtonesAdapter(Context context, ArrayList<RingtoneModel> ringtoneModelArrayList, OnSongItemClickListener listener) {
+        this.ringtoneModelArrayList = ringtoneModelArrayList;
         this.context = context;
         this.mListener = listener;
     }
@@ -39,35 +40,31 @@ class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull SongViewHolder holder, int position) {
-        RingtoneModel ringtoneModel = mSongList.get(position);
-        holder.itemView.setOnClickListener(view -> {
-            if (position != -1) {
-                mListener.onItemClick(position);
-            }
-        });
-        holder.iv_play_ringtone_song_item.setOnClickListener(view -> {
-            if (position != -1) {
-                mListener.onPlayRingtone(position);
-            }
-        });
-        holder.iv_set_ringtone_song_item.setOnClickListener(view -> {
-            if (position != -1) {
-                mListener.onSetRingtone(position);
-            }
-        });
-        holder.tv_title_ringtone_song_item.setText(ringtoneModel.getSongTitle());
+        RingtoneModel ringtoneModel = ringtoneModelArrayList.get(position);
+        if (ringtoneModel.isPlaying) {
+            holder.iv_play_ringtone_song_item.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_pause_icon, null));
+        } else {
+            holder.iv_play_ringtone_song_item.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_play_icon, null));
+        }
+        holder.itemView.setOnClickListener(view -> mListener.onItemClick(position));
+        holder.iv_play_ringtone_song_item.setOnClickListener(view -> mListener.onPlayRingtone(position));
+        holder.iv_set_ringtone_song_item.setOnClickListener(view -> mListener.onSetRingtone(position));
+        holder.tv_title_ringtone_song_item.setText(ringtoneModel.getRingtoneTitle());
 //        holder.tv_duration_ringtone_song_item.setText(SongProvider.getDurationMilliToSec(songItem.getSongDuration()));
     }
 
-    public void setPlayPauseIcon(int lastPosition, int currentPosition) {
+    public void setPlayPauseIcon(int lastPosition, int currentPosition, boolean isPlay) {
         if (lastPosition != -1) {
-
+            ringtoneModelArrayList.get(lastPosition).setPlaying(false);
+            notifyItemChanged(lastPosition);
         }
+        ringtoneModelArrayList.get(currentPosition).setPlaying(isPlay);
+        notifyItemChanged(currentPosition);
     }
 
     @Override
     public int getItemCount() {
-        return mSongList.size();
+        return ringtoneModelArrayList.size();
     }
 
     public static class SongViewHolder extends ViewHolder {

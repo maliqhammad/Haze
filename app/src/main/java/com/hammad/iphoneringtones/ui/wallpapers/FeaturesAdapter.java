@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hammad.iphoneringtones.R;
 import com.hammad.iphoneringtones.classes.ColorGenerator;
-import com.hammad.iphoneringtones.ui.home.HomeModel;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -22,9 +21,9 @@ import java.util.ArrayList;
 
 public class FeaturesAdapter extends RecyclerView.Adapter<FeaturesAdapter.HomeAdapterViewHolder> {
     Context context;
-    ArrayList<HomeModel> arrayList;
+    ArrayList<WallpaperModel> arrayList;
 
-    public FeaturesAdapter(Context context, ArrayList<HomeModel> arrayList) {
+    public FeaturesAdapter(Context context, ArrayList<WallpaperModel> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
     }
@@ -39,7 +38,7 @@ public class FeaturesAdapter extends RecyclerView.Adapter<FeaturesAdapter.HomeAd
     @Override
     public void onBindViewHolder(@NonNull @NotNull HomeAdapterViewHolder holder, int position) {
         holder.view_features_adapter_item.setBackgroundColor(holder.colorGenerator.getRandomColor());
-        holder.tv_features_adapter_item.setText(arrayList.get(position).getImageName());
+        holder.tv_features_adapter_item.setText(arrayList.get(position).getImageTitle());
         holder.iv_features_adapter_item.setImageResource(arrayList.get(position).getImage());
     }
 
