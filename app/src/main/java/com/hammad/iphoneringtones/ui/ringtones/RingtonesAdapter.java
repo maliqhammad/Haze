@@ -25,8 +25,8 @@ class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
     OnSongItemClickListener mListener;
     Context context;
 
-    public RingtonesAdapter(Context context, ArrayList<RingtoneModel> ringtoneModelArrayList, OnSongItemClickListener listener) {
-        this.ringtoneModelArrayList = ringtoneModelArrayList;
+    public RingtonesAdapter(Context context, OnSongItemClickListener listener) {
+        ringtoneModelArrayList = new ArrayList<>();
         this.context = context;
         this.mListener = listener;
     }
@@ -80,6 +80,11 @@ class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
             iv_play_ringtone_song_item = itemView.findViewById(R.id.iv_play_ringtone_song_item);
             iv_set_ringtone_song_item = itemView.findViewById(R.id.iv_set_ringtone_song_item);
         }
+    }
+
+    public void updateRingtoneList(RingtoneModel ringtoneModel) {
+        ringtoneModelArrayList.add(ringtoneModel);
+        notifyDataSetChanged();
     }
 
     public interface OnSongItemClickListener {

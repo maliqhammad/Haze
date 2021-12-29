@@ -29,6 +29,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.hammad.iphoneringtones.R;
+import com.hammad.iphoneringtones.classes.DialogProgressBar;
 import com.hammad.iphoneringtones.databinding.FragmentRingtonesBinding;
 import com.hammad.iphoneringtones.dialogs.DialogBottomSheet;
 
@@ -49,8 +50,9 @@ public class RingtonesFragment extends Fragment {
     MediaPlayer mediaPlayer;
     int lastPosition = -1;
     RingtonesAdapter ringtonesAdapter;
-    Observer<ArrayList<RingtoneModel>> observer;
+    Observer<RingtoneModel> ringtoneModelObserver;
     ArrayList<RingtoneModel> ringtoneModelArrayList;
+    DialogProgressBar progressBar;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -80,11 +82,13 @@ public class RingtonesFragment extends Fragment {
         super.onDestroyView();
         binding = null;
         clearMediaPlayer();
-        ringtonesViewModel.getRingtones().removeObserver(observer);
+        ringtonesViewModel.getRingtones1().removeObserver(ringtoneModelObserver);
     }
 
     private void initialize() {
         ringtoneModelArrayList = new ArrayList<>();
+        progressBar=new DialogProgressBar(context);
+        progressBar.showSpinnerDialog();
     }
 
     private void setListener() {
@@ -120,32 +124,33 @@ public class RingtonesFragment extends Fragment {
     }
 
     private void setRecyclerView() {
-        observer = ringtoneModels -> {
-            Log.d(TAG, "setRecyclerView: " + ringtoneModels.size());
-            ringtoneModelArrayList.addAll(ringtoneModels);
-            binding.recyclerViewRingtones.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-            ringtonesAdapter = new RingtonesAdapter(context, ringtoneModels, new RingtonesAdapter.OnSongItemClickListener() {
-                @Override
-                public void onItemClick(int position) {
-                    Toast.makeText(context, "onItemClick", Toast.LENGTH_SHORT).show();
-                    DialogBottomSheet dialogBottomSheet = new DialogBottomSheet(context, null, ringtoneModels.get(position));
-                    dialogBottomSheet.show(getChildFragmentManager(), "Dowload");
-                }
+        binding.recyclerViewRingtones.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        ringtonesAdapter = new RingtonesAdapter(context, new RingtonesAdapter.OnSongItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Log.d(TAG, "onItemClick: ");
+                DialogBottomSheet dialogBottomSheet = new DialogBottomSheet(context, null, ringtoneModelArrayList.get(position));
+                dialogBottomSheet.show(getChildFragmentManager(), "Dowload");
+            }
 
-                @Override
-                public void onSetRingtone(int position) {
-                    Toast.makeText(context, "onSetRingClick", Toast.LENGTH_SHORT).show();
-                }
+            @Override
+            public void onSetRingtone(int position) {
+                Log.d(TAG, "onSetRingtone: ");
+            }
 
-                @Override
-                public void onPlayRingtone(int position) {
-                    playRingtone(position);
-                    Toast.makeText(context, "onPlayerRingClick", Toast.LENGTH_SHORT).show();
-                }
-            });
-            binding.recyclerViewRingtones.setAdapter(ringtonesAdapter);
+            @Override
+            public void onPlayRingtone(int position) {
+                Log.d(TAG, "onPlayRingtone: ");
+                playRingtone(position);
+            }
+        });
+        binding.recyclerViewRingtones.setAdapter(ringtonesAdapter);
+        ringtonesViewModel.getRingtones1().observe(getViewLifecycleOwner(), ringtoneModelObserver);
+        ringtoneModelObserver = ringtoneModel -> {
+            ringtoneModelArrayList.add(ringtoneModel);
+            Log.d(TAG, "setRecyclerView: " + ringtoneModel.getRingtoneTitle());
+            ringtonesAdapter.updateRingtoneList(ringtoneModel);
         };
-        ringtonesViewModel.getRingtones().observe(getViewLifecycleOwner(), observer);
     }
 
     private void playRingtone(int position) {

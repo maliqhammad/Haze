@@ -5,10 +5,10 @@ import java.io.Serializable;
 public class RingtoneModel implements Serializable {
 
     String ringtoneTitle = "";
+    String ringtoneURL = "";
     boolean isPlaying = false;
     int songDuration = 0;
     int songUrl = 0;
-    String ringtoneURL = "";
 
     public RingtoneModel(String ringtoneTitle, int songDuration, int songUrl) {
         this.ringtoneTitle = ringtoneTitle;
