@@ -23,10 +23,10 @@ public class PopularWallpaperAdapter extends RecyclerView.Adapter<PopularWallpap
     ArrayList<WallpaperModel> arrayList;
     PopularWallpaperAdapterCallback callback;
 
-    public PopularWallpaperAdapter(Context context, ArrayList<WallpaperModel> arrayList, PopularWallpaperAdapterCallback callback) {
+    public PopularWallpaperAdapter(Context context, PopularWallpaperAdapterCallback callback) {
         this.context = context;
-        this.arrayList = arrayList;
         this.callback = callback;
+        arrayList = new ArrayList<>();
     }
 
     @NonNull
@@ -60,6 +60,11 @@ public class PopularWallpaperAdapter extends RecyclerView.Adapter<PopularWallpap
             iv_download_popular_wallpaper_adapter_item = itemView.findViewById(R.id.iv_download_popular_wallpaper_adapter_item);
             tv_name_popular_wallpaper_adapter_item = itemView.findViewById(R.id.tv_name_popular_wallpaper_adapter_item);
         }
+    }
+
+    public void updateWallpapersList(WallpaperModel wallpaperModel) {
+        arrayList.add(wallpaperModel);
+        notifyDataSetChanged();
     }
 
     public interface PopularWallpaperAdapterCallback {

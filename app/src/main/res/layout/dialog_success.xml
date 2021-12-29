@@ -1,74 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_margin="@dimen/_15sdp"
+    app:cardBackgroundColor="@color/colorPrimary"
+    app:cardCornerRadius="@dimen/_15sdp"
+    app:cardElevation="@dimen/cardview_default_elevation">
 
     <LinearLayout
         android:id="@+id/mainLayoutDialog"
-        android:layout_width="@dimen/_250sdp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_3sdp"
-        android:background="@drawable/bg_dialog"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:paddingTop="@dimen/_20sdp">
 
         <ImageView
-            android:layout_width="@dimen/_60sdp"
-            android:layout_height="@dimen/_60sdp"
-            android:src="@drawable/ic_musical_download"
-            android:scaleType="fitXY"
-            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
             android:layout_gravity="center"
-            android:contentDescription="@string/todo" />
+            android:layout_margin="@dimen/_5sdp"
+            android:contentDescription="@string/todo"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_musical_download" />
 
         <TextView
             android:id="@+id/titleName"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_60sdp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textAlignment="center"
+            android:layout_margin="@dimen/_5sdp"
             android:gravity="center"
-            android:textSize="@dimen/_14ssp"
-            android:textColor="@android:color/black"
-            android:text="@string/success_message"/>
+            android:text="@string/success_message"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp" />
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Button
-                android:layout_weight="1"
+            android:layout_margin="@dimen/_5sdp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/_shareMusic"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_35sdp"
-                android:text="@string/share_ringtone"
-                android:layout_marginEnd="@dimen/_2sdp"
-                android:layout_marginStart="@dimen/_2sdp"
-                android:background="@drawable/bg_share_button"
-                android:textAlignment="center"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:background="@drawable/style_button"
                 android:gravity="center"
+                android:text="@string/share"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@drawable/text_button"
                 android:textSize="@dimen/_12ssp"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                />
-        </LinearLayout>
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/cancelDialog"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:background="@drawable/style_button"
+                android:gravity="center"
+                android:text="@string/close"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@drawable/text_button"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/cancelDialog"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
-        android:src="@drawable/ic_cancel_icon"
-        android:scaleType="fitXY"
-        android:layout_marginTop="@dimen/_15sdp"
-        app:layout_constraintTop_toTopOf="@+id/mainLayoutDialog"
-        app:layout_constraintBottom_toTopOf="@+id/mainLayoutDialog"
-        app:layout_constraintEnd_toEndOf="@+id/mainLayoutDialog"
-        android:contentDescription="@string/todo" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

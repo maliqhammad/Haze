@@ -1,68 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/songItemLayout"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_65sdp"
-    android:background="@drawable/bg_gradient1"
-    android:layout_marginStart="@dimen/_6sdp"
-    android:layout_marginTop="@dimen/_6sdp"
-    android:layout_marginEnd="@dimen/_6sdp">
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_5sdp"
+    app:cardCornerRadius="@dimen/_15sdp"
+    app:cardElevation="@dimen/cardview_default_elevation">
 
-    <TextView
-        android:id="@+id/tv_title_ringtone_song_item"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/songItemLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_16ssp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_duration_ringtone_song_item"
-        app:layout_constraintEnd_toStartOf="@+id/iv_play_ringtone_song_item"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@drawable/bg_gradient1"
+        android:padding="@dimen/_5sdp">
 
-    <TextView
-        android:id="@+id/tv_duration_ringtone_song_item"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_12ssp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/iv_play_ringtone_song_item"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title_ringtone_song_item" />
+        <RelativeLayout
+            android:id="@+id/relative_play_ringtone_song_item"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp"
+            android:background="?selectableItemBackgroundBorderless"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/iv_play_ringtone_song_item"
-        android:layout_width="@dimen/_30sdp"
-        android:layout_height="@dimen/_30sdp"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginEnd="@dimen/_15sdp"
-        android:background="?selectableItemBackgroundBorderless"
-        android:contentDescription="@string/music_player"
-        android:elevation="@dimen/_5sdp"
-        android:src="@drawable/ic_play_icon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/iv_set_ringtone_song_item"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/white" />
+            <ImageView
+                android:id="@+id/iv_play_ringtone_song_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:contentDescription="@string/music_player"
+                android:elevation="@dimen/_5sdp"
+                android:src="@drawable/ic_play_icon"
+                android:visibility="visible"
+                app:tint="@color/white" />
 
-    <ImageView
-        android:id="@+id/iv_set_ringtone_song_item"
-        android:layout_width="@dimen/_30sdp"
-        android:layout_height="@dimen/_30sdp"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
-        android:background="?selectableItemBackgroundBorderless"
-        android:contentDescription="@string/set_ringtone"
-        android:elevation="@dimen/_5sdp"
-        android:src="@drawable/ic_ringtone_setting_icon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/white" />
+            <ProgressBar
+                android:id="@+id/progress_bar_play_ringtone_song_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="@drawable/progress_shape"
+                android:visibility="invisible"
+                app:tint="@color/white" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_title_ringtone_song_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_16ssp"
+            app:layout_constraintBottom_toTopOf="@id/tv_duration_ringtone_song_item"
+            app:layout_constraintEnd_toStartOf="@id/iv_set_ringtone_song_item"
+            app:layout_constraintStart_toEndOf="@+id/relative_play_ringtone_song_item"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_duration_ringtone_song_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:text="@string/_00_00"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_set_ringtone_song_item"
+            app:layout_constraintStart_toEndOf="@+id/relative_play_ringtone_song_item" />
+
+        <ImageView
+            android:id="@+id/iv_set_ringtone_song_item"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/set_ringtone"
+            android:elevation="@dimen/_5sdp"
+            android:src="@drawable/ic_ringtone_setting_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/white" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

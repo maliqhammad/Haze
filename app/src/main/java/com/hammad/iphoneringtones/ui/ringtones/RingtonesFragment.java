@@ -1,15 +1,17 @@
 package com.hammad.iphoneringtones.ui.ringtones;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +19,9 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.SeekBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -47,8 +46,6 @@ public class RingtonesFragment extends Fragment {
     RingtonesViewModel ringtonesViewModel;
     private FragmentRingtonesBinding binding;
     Context context;
-    MediaPlayer mediaPlayer;
-    int lastPosition = -1;
     RingtonesAdapter ringtonesAdapter;
     Observer<RingtoneModel> ringtoneModelObserver;
     ArrayList<RingtoneModel> ringtoneModelArrayList;
@@ -74,53 +71,29 @@ public class RingtonesFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        clearMediaPlayer();
+        if (ringtonesAdapter != null) {
+            ringtonesAdapter.stopMediaPlayer();
+        }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (ringtonesAdapter != null) {
+            ringtonesAdapter.stopMediaPlayer();
+        }
         binding = null;
-        clearMediaPlayer();
         ringtonesViewModel.getRingtones1().removeObserver(ringtoneModelObserver);
     }
 
     private void initialize() {
         ringtoneModelArrayList = new ArrayList<>();
-        progressBar=new DialogProgressBar(context);
+        progressBar = new DialogProgressBar(context);
         progressBar.showSpinnerDialog();
     }
 
     private void setListener() {
-        binding.seekBarRingtoneFragment.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-                mediaPlayer.seekTo(progress);
-                try {
-                    update(mediaPlayer, context);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                updateViews(lastPosition, false);
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                mediaPlayer.start();
-                updateViews(lastPosition, true);
-            }
-        });
-        binding.ivPlayRingtoneFragment.setOnClickListener(view -> {
-            if (mediaPlayer != null && lastPosition != -1) {
-                playRingtone(lastPosition);
-            } else {
-                playRingtone(0);
-            }
-        });
     }
 
     private void setRecyclerView() {
@@ -136,135 +109,34 @@ public class RingtonesFragment extends Fragment {
             @Override
             public void onSetRingtone(int position) {
                 Log.d(TAG, "onSetRingtone: ");
+//                downloadFileFromRawFolder(context, ringtoneModelArrayList.get(position).getRingtoneURL(), ringtoneModelArrayList.get(position).getRingtoneTitle());
             }
 
             @Override
             public void onPlayRingtone(int position) {
                 Log.d(TAG, "onPlayRingtone: ");
-                playRingtone(position);
             }
         });
         binding.recyclerViewRingtones.setAdapter(ringtonesAdapter);
-        ringtonesViewModel.getRingtones1().observe(getViewLifecycleOwner(), ringtoneModelObserver);
         ringtoneModelObserver = ringtoneModel -> {
+            progressBar.cancelSpinnerDialog();
             ringtoneModelArrayList.add(ringtoneModel);
             Log.d(TAG, "setRecyclerView: " + ringtoneModel.getRingtoneTitle());
             ringtonesAdapter.updateRingtoneList(ringtoneModel);
         };
+        ringtonesViewModel.getRingtones1().observe(getViewLifecycleOwner(), ringtoneModelObserver);
     }
 
-    private void playRingtone(int position) {
-        if (lastPosition == position) {
-            if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                Log.d(TAG, "playRingtone: pause: lastPosition: ");
-                mediaPlayer.pause();
-                updateViews(position, false);
-            } else if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
-                Log.d(TAG, "playRingtone: resume: lastPosition: ");
-                mediaPlayer.start();
-                update(mediaPlayer, context);
-                updateViews(position, true);
-            } else {
-                Log.d(TAG, "playRingtone: start: lastPosition: ");
-                startMediaPlayer(position);
-            }
-        } else {
-            Log.d(TAG, "playRingtone: start: newPosition: ");
-            startMediaPlayer(position);
-        }
-        lastPosition = position;
-    }
-
-    private void startMediaPlayer(int position) {
-        clearMediaPlayer();
-        try {
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setDataSource(ringtoneModelArrayList.get(position).getRingtoneURL());
-            binding.tvTitlePlayerRingtoneFragment.setText(ringtoneModelArrayList.get(position).getRingtoneTitle());
-            mediaPlayer.prepare();
-            mediaPlayer.setVolume(100, 100);
-            mediaPlayer.start();
-            update(mediaPlayer, context);
-            updateViews(position, true);
-            mediaPlayer.setOnPreparedListener(mp -> {
-                Log.d(TAG, "playRingtone: new ");
-            });
-            mediaPlayer.setOnCompletionListener(mp -> {
-                clearMediaPlayer();
-                updateViews(position, false);
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void updateViews(int position, boolean isPlay) {
-        ringtonesAdapter.setPlayPauseIcon(lastPosition, position, isPlay);
-        if (isPlay) {
-            binding.ivPlayRingtoneFragment.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_pause_icon, null));
-        } else {
-            binding.ivPlayRingtoneFragment.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_play_icon, null));
-        }
-    }
-
-    private void clearMediaPlayer() {
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.reset();
-            mediaPlayer.release();
-            mediaPlayer = null;
-        }
-    }
-
-    private void update(final MediaPlayer mediaPlayer, final Context context) {
-//        binding.seekBarRingtoneFragment.setMax(mediaPlayer.getDuration());
-//        ((Activity) context).runOnUiThread(() -> {
-//            binding.seekBarRingtoneFragment.setProgress(mediaPlayer.getCurrentPosition());
-//            if (mediaPlayer.getDuration() - mediaPlayer.getCurrentPosition() > 100) {
-//                binding.tvTimerRingtoneFragment.setText(MessageFormat.format("{0}", convertSecondsToHMmSs(mediaPlayer.getCurrentPosition() / 1000)));
-//            } else {
-//                binding.tvTimerRingtoneFragment.setText(convertSecondsToHMmSs(mediaPlayer.getDuration() / 1000));
-//                binding.seekBarRingtoneFragment.setProgress(0);
-//            }
-//            Handler handler = new Handler();
-//            try {
-//                Runnable runnable = () -> {
-//                    try {
-//                        if (mediaPlayer.getCurrentPosition() > -1) {
-//                            try {
-//                                update(mediaPlayer, context);
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                };
-//                handler.postDelayed(runnable, 2);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//        });
-    }
-
-    private static String convertSecondsToHMmSs(long seconds) {
-        long s = seconds % 60;
-        long m = (seconds / 60) % 60;
-        return String.format(Locale.getDefault(), "%02d:%02d", m, s);
-    }
-
-    private void downloadFileFromRawFolder(Context context, int mPath, String musicTitle) {
+    private void downloadFileFromRawFolder(Context context, String fileUrl, String ringtoneTitle) {
         Dialog progressDialog = new Dialog(context);
         progressDialog.requestWindowFeature(1);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setContentView(R.layout.progress_bar);
         progressDialog.show();
-        String musicNameExtra = String.valueOf(mPath);
+        String musicNameExtra = String.valueOf(fileUrl);
         try {
             InputStream inputStream = context.getResources().openRawResource(context.getResources().getIdentifier(musicNameExtra, "raw", context.getPackageName()));
-            File myMusicFilePath = new File(checkFolder(context), musicTitle + ".mp3");
+            File myMusicFilePath = new File(checkFolder(context), ringtoneTitle);
             Log.e("FILEPATH ", "fileWithinMyDir " + myMusicFilePath);
             FileOutputStream out = new FileOutputStream(myMusicFilePath);
             byte[] buff = new byte[2097152];
@@ -290,11 +162,14 @@ public class RingtonesFragment extends Fragment {
         } catch (IOException e) {
             requireActivity().runOnUiThread(() -> {
                 progressDialog.dismiss();
-                showErrorDialog(context);
+                showDialog(
+                        context.getResources().getString(R.string.failed),
+                        context.getResources().getString(R.string.error_message),
+                        context.getResources().getString(R.string.ok)
+                );
             });
             e.printStackTrace();
         }
-
     }
 
     private File checkFolder(Context context) {
@@ -308,20 +183,26 @@ public class RingtonesFragment extends Fragment {
         return root;
     }
 
-    private void showErrorDialog(Context context) {
-        Dialog mDialog = new Dialog(context);
-        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        mDialog.setCanceledOnTouchOutside(true);
-        mDialog.setContentView(R.layout.dialog_error);
-        Button button = mDialog.findViewById(R.id._gotIt);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mDialog.dismiss();
-            }
-        });
-        mDialog.show();
+    public void showDialog(final String title, final String message, final String buttonText) {
+        try {
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(() -> {
+                AlertDialog.Builder adbb = new AlertDialog.Builder(context);
+                adbb.setIcon(R.drawable.app_icon);
+                adbb.setTitle(title);
+                if (message != null)
+                    adbb.setMessage(message);
+                adbb.setPositiveButton(buttonText, null);
+                try {
+                    adbb.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void showSuccessDialog(Context context, File file) {
@@ -341,7 +222,7 @@ public class RingtonesFragment extends Fragment {
     }
 
     private void shareMusicFile(Context context, File file) {
-        Uri contentUri = FileProvider.getUriForFile(context, "com.azan.ringtones.provider", file);
+        Uri contentUri = FileProvider.getUriForFile(context, "com.hammad.iphoneringtones.provider", file);
         if (file.exists()) {
             Intent shareIntent = new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);

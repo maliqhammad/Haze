@@ -1,6 +1,5 @@
 package com.hammad.iphoneringtones.ui.ringtones;
 
-import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -14,7 +13,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.hammad.iphoneringtones.classes.SingleLiveEvent;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -31,16 +29,14 @@ public class RingtonesViewModel extends ViewModel {
     MutableLiveData<ArrayList<RingtoneModel>> arrayListMutableLiveData;
     ArrayList<RingtoneModel> ringtoneModelArrayList;
     MutableLiveData<RingtoneModel> ringtoneModelMutableLiveData;
-    RingtoneModel ringtoneModel;
 
-    public RingtonesViewModel(Context context) {
-        arrayListMutableLiveData = new MutableLiveData<>();
-        loadRingTones();
-        arrayListMutableLiveData.setValue(ringtoneModelArrayList);
+    public RingtonesViewModel() {
+
     }
 
     public MutableLiveData<ArrayList<RingtoneModel>> getRingtones() {
-        Log.d(TAG, "getRingtones: ");
+        arrayListMutableLiveData = new MutableLiveData<>();
+        loadRingTones();
         return arrayListMutableLiveData;
     }
 
@@ -103,10 +99,6 @@ public class RingtonesViewModel extends ViewModel {
             }
             arrayListMutableLiveData.setValue(ringtoneModelArrayList);
         }).addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.getMessage()));
-    }
-
-    public RingtonesViewModel() {
-
     }
 
     public MutableLiveData<RingtoneModel> getRingtones1() {

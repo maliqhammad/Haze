@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.database.DataSnapshot;
@@ -28,13 +27,14 @@ public class WallpapersViewModel extends ViewModel {
     FirebaseStorage firebaseStorage;
     StorageReference pathReference;
     SingleLiveEvent<ArrayList<WallpaperModel>> arrayListMutableLiveData;
+    SingleLiveEvent<WallpaperModel> wallpaperModelSingleLiveEvent;
     private SingleLiveEvent<ArrayList<WallpaperModel>> featuresMutableLiveData;
 
     public WallpapersViewModel() {
 
     }
 
-    public LiveData<ArrayList<WallpaperModel>> setFeaturesData(Context context) {
+    public SingleLiveEvent<ArrayList<WallpaperModel>> setFeaturesData(Context context) {
         if (featuresMutableLiveData == null) {
             featuresMutableLiveData = new SingleLiveEvent<>();
             featuresMutableLiveData.setValue(getFeaturesList(context));
@@ -53,7 +53,7 @@ public class WallpapersViewModel extends ViewModel {
         return featuresArrayList;
     }
 
-    public LiveData<ArrayList<WallpaperModel>> getPopularData() {
+    public SingleLiveEvent<ArrayList<WallpaperModel>> getPopularData() {
         if (arrayListMutableLiveData == null) {
             arrayListMutableLiveData = new SingleLiveEvent<>();
             Log.d("TAG", "getPopularData: ");
@@ -117,6 +117,70 @@ public class WallpapersViewModel extends ViewModel {
                 });
             }
             arrayListMutableLiveData.setValue(ringtoneModelArrayList);
+        }).addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.getMessage()));
+    }
+
+    public SingleLiveEvent<WallpaperModel> getPopularData1() {
+        if (wallpaperModelSingleLiveEvent == null) {
+            wallpaperModelSingleLiveEvent = new SingleLiveEvent<>();
+            loadPopularWallpaper1();
+        }
+        return wallpaperModelSingleLiveEvent;
+    }
+
+    private void loadPopularWallpaper1() {
+        DatabaseReference wallpapersRef = FirebaseDatabase.getInstance().getReference().child("wallpapers");
+        wallpapersRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                ArrayList<WallpaperModel> list = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    dataSnapshot.child(Objects.requireNonNull(dataSnapshot.getKey())).getRef().addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            wallpaperModelSingleLiveEvent.setValue(new WallpaperModel(
+                                    Objects.requireNonNull(dataSnapshot.child("imageTitle").getValue()).toString(),
+                                    Uri.parse(Objects.requireNonNull(dataSnapshot.child("imageUrl").getValue()).toString())
+                            ));
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void retrieveWallpapers1() {
+        DatabaseReference ringtonesRef = FirebaseDatabase.getInstance().getReference();
+        firebaseStorage = FirebaseStorage.getInstance();
+        pathReference = FirebaseStorage.getInstance().getReference().child("wallpapers");
+        pathReference.listAll().addOnSuccessListener(listResult -> {
+            ArrayList<WallpaperModel> ringtoneModelArrayList = new ArrayList<>();
+            for (StorageReference item : listResult.getItems()) {
+                item.getDownloadUrl().addOnSuccessListener(uri -> {
+                    String key = ringtonesRef.child("wallpapers").getKey();
+                    if (key != null) {
+                        HashMap<String, String> hashMap = new HashMap<>();
+                        hashMap.put("imageUrl", uri.toString());
+                        hashMap.put("imageTitle", FirebaseStorage.getInstance().getReferenceFromUrl(uri.toString()).getName());
+                        ringtonesRef.child(key).push().setValue(hashMap);
+                    }
+                    wallpaperModelSingleLiveEvent.setValue(new WallpaperModel(item.getName(), uri));
+                    Log.d(TAG, "onSuccess: "
+                            + "\n | file: " + FirebaseStorage.getInstance().getReferenceFromUrl(uri.toString()).getName()
+                            + "\n | key: " + ringtonesRef.push().getKey()
+                            + "\n | uri:  " + uri);
+                });
+            }
         }).addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.getMessage()));
     }
 }

@@ -29,7 +29,7 @@
     <string name="moreapps_link" translatable="false">https://play.google.com/store/apps/developer?id=WALRUS+TECH</string>
 
 
-    <string name="share">Share App</string>
+    <string name="share_app">Share App</string>
     <string name="rate_us">Rate us</string>
     <string name="more_apps">More Apps</string>
     <string name="privacy_policy">Privacy Policy</string>
@@ -51,7 +51,7 @@
     <string name="open">Open</string>
     <string name="success_message">RingTone successfully downloaded</string>
     <string name="ok">OK</string>
-    <string name="error_message">Oh no! There is some problem to download. Please try later</string>
+    <string name="error_message">Oops! Something went wrong while downloading. Please try later</string>
     <string name="downloading_ringtone">Downloading Ringtone…</string>
     <string name="please_wait">Please Wait</string>
     <string name="accept">Accept</string>
@@ -91,5 +91,9 @@
     <string name="song_title25">Istanbul Azan</string>
     <string name="song_title26">Sweet Azan</string>
     <string name="image_name">Image Name</string>
+    <string name="_00_00">00:00</string>
+    <string name="failed">Failed!</string>
+    <string name="close">Close</string>
+    <string name="share">Share</string>
 
 </resources>
