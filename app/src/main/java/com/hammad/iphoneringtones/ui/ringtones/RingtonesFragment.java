@@ -2,8 +2,11 @@ package com.hammad.iphoneringtones.ui.ringtones;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -19,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
@@ -36,7 +40,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 import kotlin.jvm.internal.Ref;
@@ -84,12 +90,14 @@ public class RingtonesFragment extends Fragment {
         }
         binding = null;
         ringtonesViewModel.getRingtones1().removeObserver(ringtoneModelObserver);
+        context.unregisterReceiver(onDownloadComplete);
     }
 
     private void initialize() {
         ringtoneModelArrayList = new ArrayList<>();
         progressBar = new DialogProgressBar(context);
         progressBar.showSpinnerDialog();
+        context.registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
     private void setListener() {
@@ -109,7 +117,9 @@ public class RingtonesFragment extends Fragment {
             @Override
             public void onSetRingtone(int position) {
                 Log.d(TAG, "onSetRingtone: ");
-//                downloadFileFromRawFolder(context, ringtoneModelArrayList.get(position).getRingtoneURL(), ringtoneModelArrayList.get(position).getRingtoneTitle());
+                String[] array = ringtoneModelArrayList.get(position).getRingtoneTitle().split("\\.");
+                String fileName = array[0];
+                downloadPdf(ringtoneModelArrayList.get(position).getRingtoneURL(), fileName);
             }
 
             @Override
@@ -127,59 +137,69 @@ public class RingtonesFragment extends Fragment {
         ringtonesViewModel.getRingtones1().observe(getViewLifecycleOwner(), ringtoneModelObserver);
     }
 
-    private void downloadFileFromRawFolder(Context context, String fileUrl, String ringtoneTitle) {
-        Dialog progressDialog = new Dialog(context);
-        progressDialog.requestWindowFeature(1);
-        progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setContentView(R.layout.progress_bar);
-        progressDialog.show();
-        String musicNameExtra = String.valueOf(fileUrl);
-        try {
-            InputStream inputStream = context.getResources().openRawResource(context.getResources().getIdentifier(musicNameExtra, "raw", context.getPackageName()));
-            File myMusicFilePath = new File(checkFolder(context), ringtoneTitle);
-            Log.e("FILEPATH ", "fileWithinMyDir " + myMusicFilePath);
-            FileOutputStream out = new FileOutputStream(myMusicFilePath);
-            byte[] buff = new byte[2097152];
-            Ref.IntRef read = new Ref.IntRef();
-            try {
-                while (true) {
-                    int var6 = inputStream.read(buff);
-                    read.element = var6;
-                    if (var6 <= 0) {
-                        break;
-                    }
-                    out.write(buff, 0, read.element);
-                }
-            } finally {
-                inputStream.close();
-                out.close();
-            }
+    long downloadReference;
 
-            requireActivity().runOnUiThread(() -> {
-                progressDialog.dismiss();
-                showSuccessDialog(context, myMusicFilePath);
-            });
-        } catch (IOException e) {
-            requireActivity().runOnUiThread(() -> {
-                progressDialog.dismiss();
-                showDialog(
-                        context.getResources().getString(R.string.failed),
-                        context.getResources().getString(R.string.error_message),
-                        context.getResources().getString(R.string.ok)
-                );
-            });
-            e.printStackTrace();
-        }
+    public void downloadPdf(String url, String fileName) {
+        Uri Download_Uri = Uri.parse(url);
+        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        DownloadManager.Request request = new DownloadManager.Request(Download_Uri);
+//Restrict the types of networks over which this download may proceed.
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
+//Set whether this download may proceed over a roaming connection.
+        request.setAllowedOverRoaming(false);
+//Set the title of this download, to be displayed in notifications (if enabled).
+        request.setTitle("Downloading");
+//Set a description of this download, to be displayed in notifications (if enabled)
+        request.setDescription("Downloading " + fileName);
+//Set the local destination for the downloaded file to a path within the application's external files directory
+        request.setDestinationInExternalFilesDir(context, getDirectoryPath(), getSubPath(fileName));
+        request.allowScanningByMediaScanner();
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION);
+        request.setTitle(fileName);
+//Enqueue a new download and same the referenceId
+        downloadReference = downloadManager.enqueue(request);
+        Log.d(TAG, "downloadPdf: " + downloadReference);
     }
 
+    public String getDirectoryPath() {
+        File directory;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            directory = context.getExternalFilesDir("IPhoneRingtone");
+        } else {
+            directory = Environment.getExternalStoragePublicDirectory("IPhoneRingtone");
+        }
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+        Log.d(TAG, "saveFileName: " + directory.getPath());
+        return directory.getPath();
+    }
+
+    private String getSubPath(String fileName) {
+        Log.d(TAG, "getSubPath: " + fileName + "_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date()) + ".mp3");
+        return fileName + "_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date()) + ".mp3";
+    }
+
+    private final BroadcastReceiver onDownloadComplete = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //Fetching the download id received with the broadcast
+            long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+            //Checking if the received broadcast is for our enqueued download by matching download id
+            if (downloadReference == id) {
+                Toast.makeText(context, "Download Completed", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
     private File checkFolder(Context context) {
-        File root = Build.VERSION.SDK_INT > 29 ? new File(context.getExternalFilesDir((String) null), "AzaanRingtone") : new File(Environment.getExternalStorageDirectory(), "AzaanRingtone");
+        File root = Build.VERSION.SDK_INT > 29 ? new File(context.getExternalFilesDir((String) null), "IPhoneRingtones") : new File(Environment.getExternalStorageDirectory(), "IPhoneRingtones");
         boolean isDirectoryCreated = root.exists();
         if (!isDirectoryCreated) {
             isDirectoryCreated = root.mkdir();
-            Log.d("Folder", "Created = " + isDirectoryCreated);
+            Log.d(TAG, "Created = " + isDirectoryCreated);
         }
-        Log.d("Folder", "Created ? " + isDirectoryCreated);
+        Log.d(TAG, "Created ? " + isDirectoryCreated);
         return root;
     }
 
