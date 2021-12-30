@@ -5,13 +5,13 @@ import android.net.Uri;
 
 public class WallpaperModel {
     private Integer image = 0;
-    private String imageTitle = "";
+    private String wallpaperTitle = "";
     private Bitmap bitmap;
-    private Uri uri;
+    private Uri wallpaperUri;
 
-    public WallpaperModel(String imageTitle, Uri uri) {
-        this.imageTitle = imageTitle;
-        this.uri = uri;
+    public WallpaperModel(String wallpaperTitle, Uri wallpaperUri) {
+        this.wallpaperTitle = wallpaperTitle;
+        this.wallpaperUri = wallpaperUri;
     }
 
     public WallpaperModel() {
@@ -25,12 +25,12 @@ public class WallpaperModel {
         this.image = image;
     }
 
-    public String getImageTitle() {
-        return imageTitle;
+    public String getWallpaperTitle() {
+        return wallpaperTitle;
     }
 
-    public void setImageTitle(String imageTitle) {
-        this.imageTitle = imageTitle;
+    public void setWallpaperTitle(String wallpaperTitle) {
+        this.wallpaperTitle = wallpaperTitle;
     }
 
     public Bitmap getBitmap() {
@@ -41,11 +41,11 @@ public class WallpaperModel {
         this.bitmap = bitmap;
     }
 
-    public Uri getUri() {
-        return uri;
+    public Uri getWallpaperUri() {
+        return wallpaperUri;
     }
 
-    public void setUri(Uri uri) {
-        this.uri = uri;
+    public void setWallpaperUri(Uri wallpaperUri) {
+        this.wallpaperUri = wallpaperUri;
     }
 }

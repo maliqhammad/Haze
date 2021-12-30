@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/_15sdp"
+    android:layout_margin="@dimen/_10sdp"
     app:cardBackgroundColor="@color/colorPrimary"
     app:cardCornerRadius="@dimen/_15sdp"
     app:cardElevation="@dimen/cardview_default_elevation">
@@ -12,6 +12,7 @@
         android:id="@+id/mainLayoutDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/black"
         android:orientation="vertical"
         android:paddingTop="@dimen/_20sdp">
 
@@ -40,11 +41,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_5sdp"
+            android:gravity="center"
             android:orientation="horizontal"
             android:weightSum="2">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/_shareMusic"
+                android:id="@+id/shareButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_5sdp"
@@ -56,10 +58,11 @@
                 android:textAllCaps="false"
                 android:textColor="@drawable/text_button"
                 android:textSize="@dimen/_12ssp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="visible" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/cancelDialog"
+                android:id="@+id/closeButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_5sdp"

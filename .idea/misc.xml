@@ -41,7 +41,7 @@
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/content_main.xml" value="0.2" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/dialog_bottom_sheet.xml" value="0.20615384615384616" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/dialog_error.xml" value="0.209375" />
-        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/dialog_success.xml" value="0.209375" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/dialog_success.xml" value="0.22" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/features_adapter_item.xml" value="0.20555555555555555" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/fragment_gallery.xml" value="0.209375" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/fragment_home.xml" value="0.209375" />
@@ -52,7 +52,9 @@
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/popular_wallpaper_adapter_item.xml" value="0.209375" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/progress_bar.xml" value="0.20615384615384616" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/progress_bar_layout.xml" value="0.20615384615384616" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/ringtone_bottom_sheet_dialog.xml" value="0.209375" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/song_item.xml" value="0.209375" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/wallpaper_bottom_sheet_dialog.xml" value="0.209375" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/menu/activity_main_drawer.xml" value="0.20615384615384616" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/xml/network_security_config.xml" value="0.1" />
       </map>

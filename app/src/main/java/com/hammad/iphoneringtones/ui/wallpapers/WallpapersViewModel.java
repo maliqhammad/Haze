@@ -46,7 +46,7 @@ public class WallpapersViewModel extends ViewModel {
         ArrayList<WallpaperModel> featuresArrayList = new ArrayList<>();
         for (int i = 0; i < Categories.getFeatures(context).size(); i++) {
             WallpaperModel wallpaperModel = new WallpaperModel();
-            wallpaperModel.setImageTitle(Categories.getFeatures(context).get(i));
+            wallpaperModel.setWallpaperTitle(Categories.getFeatures(context).get(i));
             wallpaperModel.setImage(Categories.getFeatureImages(context).getResourceId(i, 0));
             featuresArrayList.add(wallpaperModel);
         }
@@ -73,7 +73,7 @@ public class WallpapersViewModel extends ViewModel {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             WallpaperModel wallpaperModel = new WallpaperModel();
-                            wallpaperModel.setUri(Uri.parse(Objects.requireNonNull(dataSnapshot.child("imageUrl").getValue()).toString()));
+                            wallpaperModel.setWallpaperUri(Uri.parse(Objects.requireNonNull(dataSnapshot.child("imageUrl").getValue()).toString()));
                             list.add(wallpaperModel);
                             arrayListMutableLiveData.setValue(list);
                         }

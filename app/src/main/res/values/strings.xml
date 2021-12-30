@@ -45,6 +45,7 @@
 
     <string name="todo">TODO</string>
     <string name="download">Download</string>
+    <string name="downloading_start">Downloading Start</string>
     <string name="play">PLAY</string>
     <string name="privacy_checkbox_text">By continuing accept our</string>
     <string name="get_started">Get Started</string>
@@ -95,5 +96,10 @@
     <string name="failed">Failed!</string>
     <string name="close">Close</string>
     <string name="share">Share</string>
+    <string name="set_as_ringtone">Set as Ringtone</string>
+    <string name="set_as_wallpaper">Set as Wallpaper</string>
+    <string name="download_wallpaper">Download Wallpaper</string>
+    <string name="wallpaper_download_success">Wallpaper Successfully Downloaded</string>
+    <string name="ringtone_download_success">Ringtone Successfully Downloaded</string>
 
 </resources>

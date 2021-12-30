@@ -1,6 +1,8 @@
 package com.hammad.iphoneringtones.ui.wallpapers;
 
+import android.app.DownloadManager;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,9 +17,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.hammad.iphoneringtones.R;
 import com.hammad.iphoneringtones.classes.DialogProgressBar;
+import com.hammad.iphoneringtones.classes.DownloadBroadcastReceiver;
 import com.hammad.iphoneringtones.databinding.FragmentWallpapersBinding;
-import com.hammad.iphoneringtones.dialogs.DialogBottomSheet;
+import com.hammad.iphoneringtones.dialogs.WallpaperBottomSheetDialog;
 
 import java.util.ArrayList;
 
@@ -32,6 +36,7 @@ public class WallpapersFragment extends Fragment {
     Observer<WallpaperModel> wallpaperModelObserver;
     DialogProgressBar progressBar;
     Context context;
+    DownloadBroadcastReceiver receiver;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -42,6 +47,7 @@ public class WallpapersFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         wallpapersViewModel = new ViewModelProvider(this).get(WallpapersViewModel.class);
         binding = FragmentWallpapersBinding.inflate(inflater, container, false);
+        Log.d(TAG, "onCreateView: ");
         View root = binding.getRoot();
         initialize();
         bindViews(binding);
@@ -51,6 +57,8 @@ public class WallpapersFragment extends Fragment {
     }
 
     private void initialize() {
+        receiver = new DownloadBroadcastReceiver(context.getResources().getString(R.string.wallpaper_download_success));
+        context.registerReceiver(receiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         wallpaperModelArrayList = new ArrayList<>();
         progressBar = new DialogProgressBar(context);
         progressBar.showSpinnerDialog();
@@ -64,8 +72,8 @@ public class WallpapersFragment extends Fragment {
     private void setListeners() {
         recycler_view_popular_home_fragment.setLayoutManager(new StaggeredGridLayoutManager(3, LinearLayoutManager.VERTICAL));
         popularWallpaperAdapter = new PopularWallpaperAdapter(getActivity(), wallpaperModel -> {
-            DialogBottomSheet dialogBottomSheet = new DialogBottomSheet(getContext(), wallpaperModel, null);
-            dialogBottomSheet.show(getChildFragmentManager(), "Download");
+            WallpaperBottomSheetDialog wallpaperBottomSheetDialog = new WallpaperBottomSheetDialog(getContext(), wallpaperModel);
+            wallpaperBottomSheetDialog.show(getChildFragmentManager(), "Download");
         });
         recycler_view_popular_home_fragment.setAdapter(popularWallpaperAdapter);
         wallpaperModelObserver = wallpaperModel -> {
@@ -88,6 +96,6 @@ public class WallpapersFragment extends Fragment {
         binding = null;
         wallpapersViewModel.getPopularData1().removeObserver(wallpaperModelObserver);
         wallpapersViewModel.setFeaturesData(getContext()).removeObserver(featureObserver);
-        Log.d(TAG, "onDestroyView: ");
+        context.unregisterReceiver(receiver);
     }
 }

@@ -38,7 +38,7 @@ public class FeaturesAdapter extends RecyclerView.Adapter<FeaturesAdapter.HomeAd
     @Override
     public void onBindViewHolder(@NonNull @NotNull HomeAdapterViewHolder holder, int position) {
         holder.view_features_adapter_item.setBackgroundColor(holder.colorGenerator.getRandomColor());
-        holder.tv_features_adapter_item.setText(arrayList.get(position).getImageTitle());
+        holder.tv_features_adapter_item.setText(arrayList.get(position).getWallpaperTitle());
         holder.iv_features_adapter_item.setImageResource(arrayList.get(position).getImage());
     }
 

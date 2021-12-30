@@ -38,11 +38,11 @@ public class PopularWallpaperAdapter extends RecyclerView.Adapter<PopularWallpap
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull HomeAdapterViewHolder holder, int position) {
-        Glide.with(context).load(arrayList.get(position).getUri()).into(holder.iv_popular_wallpaper_adapter_item);
+        Glide.with(context).load(arrayList.get(position).getWallpaperUri()).into(holder.iv_popular_wallpaper_adapter_item);
 //        Picasso.get().load(arrayList.get(position).getUri()).into(holder.iv_popular_wallpaper_adapter_item);
 //        holder.iv_popular_wallpaper_adapter_item.setImageURI(arrayList.get(position).getUri());
-        holder.tv_name_popular_wallpaper_adapter_item.setText(arrayList.get(position).getImageTitle());
-        holder.iv_download_popular_wallpaper_adapter_item.setOnClickListener(view -> callback.onItemClickListener(arrayList.get(position)));
+        holder.tv_name_popular_wallpaper_adapter_item.setText(arrayList.get(position).getWallpaperTitle());
+        holder.iv_download_popular_wallpaper_adapter_item.setOnClickListener(view -> callback.onDownloadWallpaper(arrayList.get(position)));
     }
 
     @Override
@@ -68,6 +68,6 @@ public class PopularWallpaperAdapter extends RecyclerView.Adapter<PopularWallpap
     }
 
     public interface PopularWallpaperAdapterCallback {
-        void onItemClickListener(WallpaperModel wallpaperModel);
+        void onDownloadWallpaper(WallpaperModel wallpaperModel);
     }
 }

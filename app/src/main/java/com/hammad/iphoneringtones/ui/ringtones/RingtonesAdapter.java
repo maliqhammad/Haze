@@ -63,7 +63,7 @@ class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
         holder.iv_set_ringtone_song_item.setOnClickListener(view -> mListener.onSetRingtone(position));
         holder.tv_title_ringtone_song_item.setText(ringtoneModel.getRingtoneTitle());
         holder.iv_play_ringtone_song_item.setOnClickListener(view -> {
-            playRingtone(holder,position);
+            playRingtone(holder, position);
             iv_pause = holder.iv_play_ringtone_song_item;
         });
     }
@@ -211,8 +211,6 @@ class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
         void onItemClick(int position);
 
         void onSetRingtone(int position);
-
-        void onPlayRingtone(int position);
     }
 }
 
