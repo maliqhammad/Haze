@@ -43,6 +43,7 @@ public class PopularWallpaperAdapter extends RecyclerView.Adapter<PopularWallpap
 //        holder.iv_popular_wallpaper_adapter_item.setImageURI(arrayList.get(position).getUri());
         holder.tv_name_popular_wallpaper_adapter_item.setText(arrayList.get(position).getWallpaperTitle());
         holder.iv_download_popular_wallpaper_adapter_item.setOnClickListener(view -> callback.onDownloadWallpaper(arrayList.get(position)));
+        holder.itemView.setOnClickListener(view -> callback.onItemClick(view, arrayList));
     }
 
     @Override
@@ -69,5 +70,7 @@ public class PopularWallpaperAdapter extends RecyclerView.Adapter<PopularWallpap
 
     public interface PopularWallpaperAdapterCallback {
         void onDownloadWallpaper(WallpaperModel wallpaperModel);
+
+        void onItemClick(View view, ArrayList<WallpaperModel> wallpaperModel);
     }
 }

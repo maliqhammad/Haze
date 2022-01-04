@@ -23,7 +23,6 @@
         android:id="@+id/tv_title_wallpaper_bottom_sheet_dialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/selectableItemBackgroundBorderless"
         android:drawablePadding="@dimen/_10sdp"
         android:ellipsize="end"
         android:fontFamily="sans-serif-black"
@@ -47,7 +46,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/selectableItemBackgroundBorderless"
             android:drawablePadding="@dimen/_10sdp"
             android:gravity="center"
             android:padding="@dimen/_5sdp"
@@ -74,7 +72,6 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/selectableItemBackgroundBorderless"
             android:drawablePadding="@dimen/_10sdp"
             android:gravity="center"
             android:padding="@dimen/_5sdp"

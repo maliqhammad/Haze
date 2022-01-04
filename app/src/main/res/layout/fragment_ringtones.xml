@@ -8,4 +8,4 @@
     android:layout_marginBottom="@dimen/_10sdp"
     android:fadingEdge="vertical"
     tools:context=".ui.ringtones.RingtonesFragment"
-    tools:listitem="@layout/song_item" />
+    tools:listitem="@layout/ringtone_item" />

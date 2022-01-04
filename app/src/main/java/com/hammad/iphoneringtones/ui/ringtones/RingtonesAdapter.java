@@ -46,7 +46,7 @@ class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
     @NotNull
     public SongViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         Intrinsics.checkNotNullParameter(parent, "parent");
-        View v = LayoutInflater.from(context).inflate(R.layout.song_item, parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.ringtone_item, parent, false);
         return new SongViewHolder(v);
     }
 
@@ -69,14 +69,16 @@ class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
     }
 
     private void playRingtone(SongViewHolder holder, int position) {
+        holder.progress_bar_play_ringtone_song_item.setVisibility(View.VISIBLE);
+        holder.iv_play_ringtone_song_item.setVisibility(View.GONE);
         if (lastPosition == position) {
             if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                 mediaPlayer.pause();
-                holder.progress_bar_play_ringtone_song_item.setVisibility(View.INVISIBLE);
+                holder.progress_bar_play_ringtone_song_item.setVisibility(View.GONE);
                 holder.iv_play_ringtone_song_item.setVisibility(View.VISIBLE);
                 holder.iv_play_ringtone_song_item.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_play_icon, null));
             } else if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
-                holder.progress_bar_play_ringtone_song_item.setVisibility(View.INVISIBLE);
+                holder.progress_bar_play_ringtone_song_item.setVisibility(View.GONE);
                 holder.iv_play_ringtone_song_item.setVisibility(View.VISIBLE);
                 holder.iv_play_ringtone_song_item.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_pause_icon, null));
                 mediaPlayer.start();
@@ -94,8 +96,6 @@ class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
     }
 
     private void startMediaPlayer(int position, SongViewHolder holder) {
-        holder.progress_bar_play_ringtone_song_item.setVisibility(View.VISIBLE);
-        holder.iv_play_ringtone_song_item.setVisibility(View.INVISIBLE);
 
         try {
             mediaPlayer = new MediaPlayer();
@@ -106,12 +106,12 @@ class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
             update(mediaPlayer, holder.tv_duration_ringtone_song_item, context);
             mediaPlayer.setOnPreparedListener(mp -> {
                 holder.tv_duration_ringtone_song_item.setText(MessageFormat.format("{0}", convertSecondsToHMmSs(mp.getDuration() / 1000)));
-                holder.progress_bar_play_ringtone_song_item.setVisibility(View.INVISIBLE);
+                holder.progress_bar_play_ringtone_song_item.setVisibility(View.GONE);
                 holder.iv_play_ringtone_song_item.setVisibility(View.VISIBLE);
                 holder.iv_play_ringtone_song_item.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_pause_icon, null));
             });
             mediaPlayer.setOnCompletionListener(mp -> {
-                holder.progress_bar_play_ringtone_song_item.setVisibility(View.INVISIBLE);
+                holder.progress_bar_play_ringtone_song_item.setVisibility(View.GONE);
                 holder.iv_play_ringtone_song_item.setVisibility(View.VISIBLE);
                 holder.iv_play_ringtone_song_item.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_play_icon, null));
             });

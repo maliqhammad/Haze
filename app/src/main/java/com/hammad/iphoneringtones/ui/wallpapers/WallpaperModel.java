@@ -3,7 +3,9 @@ package com.hammad.iphoneringtones.ui.wallpapers;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
-public class WallpaperModel {
+import java.io.Serializable;
+
+public class WallpaperModel implements Serializable {
     private Integer image = 0;
     private String wallpaperTitle = "";
     private Bitmap bitmap;
