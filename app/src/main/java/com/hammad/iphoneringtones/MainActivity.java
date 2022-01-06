@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.hammad.iphoneringtones.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static int CURRENT_POSITION = 0;
     private AppBarConfiguration mAppBarConfiguration;
     ActivityMainBinding binding;
     BottomNavigationView bottomNavigationMainActivity;

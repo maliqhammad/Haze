@@ -1,17 +1,13 @@
 package com.hammad.iphoneringtones.ui.wallpapers;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
-
 import java.io.Serializable;
 
 public class WallpaperModel implements Serializable {
-    private Integer image = 0;
+    private int image = 0;
     private String wallpaperTitle = "";
-    private Bitmap bitmap;
-    private Uri wallpaperUri;
+    private String wallpaperUri;
 
-    public WallpaperModel(String wallpaperTitle, Uri wallpaperUri) {
+    public WallpaperModel(String wallpaperTitle, String wallpaperUri) {
         this.wallpaperTitle = wallpaperTitle;
         this.wallpaperUri = wallpaperUri;
     }
@@ -19,11 +15,11 @@ public class WallpaperModel implements Serializable {
     public WallpaperModel() {
     }
 
-    public Integer getImage() {
+    public int getImage() {
         return image;
     }
 
-    public void setImage(Integer image) {
+    public void setImage(int image) {
         this.image = image;
     }
 
@@ -35,19 +31,11 @@ public class WallpaperModel implements Serializable {
         this.wallpaperTitle = wallpaperTitle;
     }
 
-    public Bitmap getBitmap() {
-        return bitmap;
-    }
-
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
-    }
-
-    public Uri getWallpaperUri() {
+    public String getWallpaperUri() {
         return wallpaperUri;
     }
 
-    public void setWallpaperUri(Uri wallpaperUri) {
+    public void setWallpaperUri(String wallpaperUri) {
         this.wallpaperUri = wallpaperUri;
     }
 }

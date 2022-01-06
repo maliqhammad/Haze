@@ -73,7 +73,7 @@ public class WallpapersViewModel extends ViewModel {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             WallpaperModel wallpaperModel = new WallpaperModel();
-                            wallpaperModel.setWallpaperUri(Uri.parse(Objects.requireNonNull(dataSnapshot.child("imageUrl").getValue()).toString()));
+                            wallpaperModel.setWallpaperUri(Objects.requireNonNull(dataSnapshot.child("imageUrl").getValue()).toString());
                             list.add(wallpaperModel);
                             arrayListMutableLiveData.setValue(list);
                         }
@@ -109,7 +109,7 @@ public class WallpapersViewModel extends ViewModel {
                         hashMap.put("imageTitle", FirebaseStorage.getInstance().getReferenceFromUrl(uri.toString()).getName());
                         ringtonesRef.child(key).push().setValue(hashMap);
                     }
-                    ringtoneModelArrayList.add(new WallpaperModel(item.getName(), uri));
+                    ringtoneModelArrayList.add(new WallpaperModel(item.getName(), uri.toString()));
                     Log.d(TAG, "onSuccess: "
                             + "\n | file: " + FirebaseStorage.getInstance().getReferenceFromUrl(uri.toString()).getName()
                             + "\n | key: " + ringtonesRef.push().getKey()
@@ -140,7 +140,7 @@ public class WallpapersViewModel extends ViewModel {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             wallpaperModelSingleLiveEvent.setValue(new WallpaperModel(
                                     Objects.requireNonNull(dataSnapshot.child("imageTitle").getValue()).toString(),
-                                    Uri.parse(Objects.requireNonNull(dataSnapshot.child("imageUrl").getValue()).toString())
+                                    Objects.requireNonNull(dataSnapshot.child("imageUrl").getValue()).toString()
                             ));
                         }
 
@@ -174,7 +174,7 @@ public class WallpapersViewModel extends ViewModel {
                         hashMap.put("imageTitle", FirebaseStorage.getInstance().getReferenceFromUrl(uri.toString()).getName());
                         ringtonesRef.child(key).push().setValue(hashMap);
                     }
-                    wallpaperModelSingleLiveEvent.setValue(new WallpaperModel(item.getName(), uri));
+                    wallpaperModelSingleLiveEvent.setValue(new WallpaperModel(item.getName(), uri.toString()));
                     Log.d(TAG, "onSuccess: "
                             + "\n | file: " + FirebaseStorage.getInstance().getReferenceFromUrl(uri.toString()).getName()
                             + "\n | key: " + ringtonesRef.push().getKey()

@@ -70,7 +70,7 @@ public class WallpaperBottomSheetDialog extends BottomSheetDialogFragment {
 
     void setListener() {
         linear_download_wallpaper_bottom_sheet_dialog.setOnClickListener(v -> {
-            downloadWallpaper(context, wallpaperModel.getWallpaperUri().toString(), wallpaperModel.getWallpaperTitle());
+            downloadWallpaper(context, wallpaperModel.getWallpaperUri(), wallpaperModel.getWallpaperTitle());
             dismiss();
         });
         linear_set_wallpaper_bottom_sheet_dialog.setOnClickListener(v -> {

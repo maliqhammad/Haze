@@ -1,5 +1,7 @@
 package com.hammad.iphoneringtones.ui.wallpapers;
 
+import static com.hammad.iphoneringtones.MainActivity.CURRENT_POSITION;
+
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -14,16 +16,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.hammad.iphoneringtones.R;
 import com.hammad.iphoneringtones.classes.DialogProgressBar;
 import com.hammad.iphoneringtones.classes.DownloadBroadcastReceiver;
-import com.hammad.iphoneringtones.customViews.SpannedGridLayoutManager;
 import com.hammad.iphoneringtones.databinding.FragmentWallpapersBinding;
 import com.hammad.iphoneringtones.dialogs.WallpaperBottomSheetDialog;
 
@@ -33,7 +31,6 @@ public class WallpapersFragment extends Fragment {
     private static final String TAG = "HomeFragment";
     private WallpapersViewModel wallpapersViewModel;
     private FragmentWallpapersBinding binding;
-    RecyclerView recycler_view_popular_home_fragment, recyclerViewFeatureHomeFragment;
     PopularWallpaperAdapter popularWallpaperAdapter;
     Observer<ArrayList<WallpaperModel>> featureObserver;
     Observer<WallpaperModel> wallpaperModelObserver;
@@ -53,7 +50,6 @@ public class WallpapersFragment extends Fragment {
         Log.d(TAG, "onCreateView: ");
         View root = binding.getRoot();
         initialize();
-        bindViews(binding);
         setListeners();
 //        wallpapersViewModel.retrieveWallpapers();
         return root;
@@ -66,26 +62,8 @@ public class WallpapersFragment extends Fragment {
         progressBar.showSpinnerDialog();
     }
 
-    private void bindViews(FragmentWallpapersBinding binding) {
-        recycler_view_popular_home_fragment = binding.recyclerViewPopularHomeFragment;
-        recyclerViewFeatureHomeFragment = binding.recyclerViewFeatureHomeFragment;
-    }
-
     private void setListeners() {
-//        SpannedGridLayoutManager manager = new SpannedGridLayoutManager(
-//                position -> {
-//                    // Conditions for 2x2 items
-//                    if (position % 6 == 0 || position % 6 == 4) {
-//                        return new SpannedGridLayoutManager.SpanInfo(2, 2);
-//                    } else {
-//                        return new SpannedGridLayoutManager.SpanInfo(1, 1);
-//                    }
-//                },
-//                3, // number of columns
-//                1f // how big is default item
-//        );
-//        recycler_view_popular_home_fragment.setLayoutManager(manager);
-        recycler_view_popular_home_fragment.setLayoutManager(new StaggeredGridLayoutManager(3, LinearLayoutManager.VERTICAL));
+        binding.recyclerViewPopularHomeFragment.setLayoutManager(new StaggeredGridLayoutManager(3, LinearLayoutManager.VERTICAL));
         popularWallpaperAdapter = new PopularWallpaperAdapter(getActivity(), new PopularWallpaperAdapter.PopularWallpaperAdapterCallback() {
             @Override
             public void onDownloadWallpaper(WallpaperModel wallpaperModel) {
@@ -94,15 +72,17 @@ public class WallpapersFragment extends Fragment {
             }
 
             @Override
-            public void onItemClick(View view, ArrayList<WallpaperModel> modelArrayList) {
-//                Navigation.findNavController(view).navigate(R.id.nav_full_screen_wallpaper);
-//                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main).navigate(R.id.nav_full_screen_wallpaper);
+            public void onItemClick(View view, ArrayList<WallpaperModel> modelArrayList, int position) {
+                CURRENT_POSITION = position;
                 Intent intent = new Intent(context, DisplayFullWallpaperActivity.class);
-                intent.putExtra("list", modelArrayList);
-                startActivity(intent);
+                WallpaperListObject wallpaperListObject = new WallpaperListObject();
+                wallpaperListObject.setWallpaperModelList(modelArrayList);
+                intent.putExtra("list", wallpaperListObject);
+                intent.putExtra("CURRENT_POSITION", CURRENT_POSITION);
+                context.startActivity(intent);
             }
         });
-        recycler_view_popular_home_fragment.setAdapter(popularWallpaperAdapter);
+        binding.recyclerViewPopularHomeFragment.setAdapter(popularWallpaperAdapter);
         wallpaperModelObserver = wallpaperModel -> {
             progressBar.cancelSpinnerDialog();
             popularWallpaperAdapter.updateWallpapersList(wallpaperModel);
@@ -110,8 +90,8 @@ public class WallpapersFragment extends Fragment {
         wallpapersViewModel.getPopularData1().observe(getViewLifecycleOwner(), wallpaperModelObserver);
 
         featureObserver = wallpaperModels -> {
-            recyclerViewFeatureHomeFragment.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-            recyclerViewFeatureHomeFragment.setAdapter(new FeaturesAdapter(getActivity(), wallpaperModels));
+            binding.recyclerViewFeatureHomeFragment.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            binding.recyclerViewFeatureHomeFragment.setAdapter(new FeaturesAdapter(getActivity(), wallpaperModels));
         };
         wallpapersViewModel.setFeaturesData(getContext()).observe(getViewLifecycleOwner(), featureObserver);
 

@@ -14,14 +14,16 @@ import com.bumptech.glide.Glide;
 import com.hammad.iphoneringtones.R;
 import com.tbuonomo.creativeviewpager.adapter.CreativePagerAdapter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Adapter implements CreativePagerAdapter {
     Context context;
-    ArrayList<WallpaperModel> wallpaperModelArrayList;
+    List<WallpaperModel> wallpaperModelArrayList;
+    int CURRENT_POSITION;
 
-    public Adapter(Context context, ArrayList<WallpaperModel> wallpaperModelArrayList) {
+    public Adapter(Context context, int CURRENT_POSITION, List<WallpaperModel> wallpaperModelArrayList) {
         this.context = context;
+        this.CURRENT_POSITION = CURRENT_POSITION;
         this.wallpaperModelArrayList = wallpaperModelArrayList;
     }
 
@@ -32,19 +34,19 @@ public class Adapter implements CreativePagerAdapter {
 
     @NonNull
     @Override
-    public View instantiateContentItem(@NonNull LayoutInflater layoutInflater, @NonNull ViewGroup viewGroup, int i) {
+    public View instantiateContentItem(@NonNull LayoutInflater layoutInflater, @NonNull ViewGroup viewGroup, int position) {
         View view = layoutInflater.inflate(R.layout.creative_view_header_item, viewGroup, false);
-        ImageView iv_popular_wallpaper_adapter_item = view.findViewById(R.id.iv_popular_wallpaper_adapter_item);
-        Glide.with(view).load(wallpaperModelArrayList.get(i).getWallpaperUri()).into(iv_popular_wallpaper_adapter_item);
+        ImageView iv_creative_view_header_item = view.findViewById(R.id.iv_creative_view_header_item);
+        Glide.with(view).load(wallpaperModelArrayList.get(position).getWallpaperUri()).into(iv_creative_view_header_item);
         return view;
     }
 
     @NonNull
     @Override
-    public View instantiateHeaderItem(@NonNull LayoutInflater layoutInflater, @NonNull ViewGroup viewGroup, int i) {
+    public View instantiateHeaderItem(@NonNull LayoutInflater layoutInflater, @NonNull ViewGroup viewGroup, int position) {
         View view = layoutInflater.inflate(R.layout.creative_view_content_item, viewGroup, false);
-        ImageView iv_popular_wallpaper_adapter_item = view.findViewById(R.id.iv_popular_wallpaper_adapter_item);
-        Glide.with(view).load(wallpaperModelArrayList.get(i).getWallpaperUri()).into(iv_popular_wallpaper_adapter_item);
+        ImageView iv_image_creative_view_content_item = view.findViewById(R.id.iv_image_creative_view_content_item);
+        Glide.with(view).load(wallpaperModelArrayList.get(position).getWallpaperUri()).into(iv_image_creative_view_content_item);
         return view;
     }
 

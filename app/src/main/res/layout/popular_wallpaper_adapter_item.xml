@@ -72,10 +72,11 @@
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="@dimen/_5sdp"
             android:layout_marginBottom="@dimen/_5sdp"
+            android:background="@drawable/imageview_shadow_rounded"
             android:clickable="true"
             android:contentDescription="@string/todo"
             android:focusable="true"
-            android:padding="@dimen/_1sdp"
+            android:padding="@dimen/_5sdp"
             android:src="@drawable/download_change_state_icon" />
 
     </RelativeLayout>
