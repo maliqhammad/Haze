@@ -76,7 +76,6 @@
             android:clickable="true"
             android:contentDescription="@string/todo"
             android:focusable="true"
-            android:padding="@dimen/_5sdp"
             android:src="@drawable/download_change_state_icon" />
 
     </RelativeLayout>

@@ -70,55 +70,49 @@ class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
 
     private void playRingtone(SongViewHolder holder, int position) {
         Log.d(TAG, "playRingtone: ");
-        holder.progress_bar_play_ringtone_song_item.setVisibility(View.VISIBLE);
-        holder.iv_play_ringtone_song_item.setVisibility(View.GONE);
         if (lastPosition == position) {
             if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                Log.d(TAG, "playRingtone: pause");
                 mediaPlayer.pause();
-                holder.progress_bar_play_ringtone_song_item.setVisibility(View.GONE);
-                holder.iv_play_ringtone_song_item.setVisibility(View.VISIBLE);
                 holder.iv_play_ringtone_song_item.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_play_icon, null));
             } else if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
-                holder.progress_bar_play_ringtone_song_item.setVisibility(View.GONE);
-                holder.iv_play_ringtone_song_item.setVisibility(View.VISIBLE);
+                Log.d(TAG, "playRingtone: start");
                 holder.iv_play_ringtone_song_item.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_pause_icon, null));
                 mediaPlayer.start();
-                update(mediaPlayer, holder.tv_duration_ringtone_song_item, context);
+                update(mediaPlayer, holder.tv_duration_ringtone_song_item, holder.progressBar, context);
             } else {
-                startMediaPlayer(position, holder);
+                Log.d(TAG, "playRingtone: startMediaPlayer");
+                startMediaPlayer(position, holder, 0);
             }
             lastPosition = position;
         } else {
             notifyItemChanged(lastPosition);
             lastPosition = position;
             clearMediaPlayer();
-            startMediaPlayer(position, holder);
+            startMediaPlayer(position, holder, 1000);
         }
     }
 
-    private void startMediaPlayer(int position, SongViewHolder holder) {
-
-        try {
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setDataSource(ringtoneModelArrayList.get(position).getRingtoneURL());
-            mediaPlayer.prepare();
-            mediaPlayer.setVolume(10, 10);
-            mediaPlayer.start();
-            update(mediaPlayer, holder.tv_duration_ringtone_song_item, context);
-            mediaPlayer.setOnPreparedListener(mp -> {
-                holder.tv_duration_ringtone_song_item.setText(MessageFormat.format("{0}", convertSecondsToHMmSs(mp.getDuration() / 1000)));
-                holder.progress_bar_play_ringtone_song_item.setVisibility(View.GONE);
-                holder.iv_play_ringtone_song_item.setVisibility(View.VISIBLE);
-                holder.iv_play_ringtone_song_item.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_pause_icon, null));
-            });
-            mediaPlayer.setOnCompletionListener(mp -> {
-                holder.progress_bar_play_ringtone_song_item.setVisibility(View.GONE);
-                holder.iv_play_ringtone_song_item.setVisibility(View.VISIBLE);
-                holder.iv_play_ringtone_song_item.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_play_icon, null));
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void startMediaPlayer(int position, SongViewHolder holder, int timer) {
+        new Handler().postDelayed(() -> {
+            try {
+                mediaPlayer = new MediaPlayer();
+                mediaPlayer.setDataSource(ringtoneModelArrayList.get(position).getRingtoneURL());
+                mediaPlayer.prepare();
+                mediaPlayer.setVolume(10, 10);
+                mediaPlayer.start();
+                mediaPlayer.setOnPreparedListener(mp -> {
+                    update(mediaPlayer, holder.tv_duration_ringtone_song_item, holder.progressBar, context);
+                    holder.iv_play_ringtone_song_item.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_pause_icon, null));
+                });
+                mediaPlayer.setOnCompletionListener(mp -> {
+                    handler.removeCallbacks(runnable);
+                    holder.iv_play_ringtone_song_item.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_play_icon, null));
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }, timer);
     }
 
     private void clearMediaPlayer() {
@@ -141,25 +135,33 @@ class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
     private static String convertSecondsToHMmSs(long seconds) {
         long s = seconds % 60;
         long m = (seconds / 60) % 60;
-//        long h = (seconds / (60 * 60)) % 24;
-//        return String.format(Locale.getDefault(), "%02d:%02d:%02d", h, m, s);
         return String.format(Locale.getDefault(), "%02d:%02d", m, s);
     }
 
-    private void update(final MediaPlayer mediaPlayer, final TextView tv_time, final Context context) {
+    Handler handler;
+    Runnable runnable;
+
+    private void update(final MediaPlayer mediaPlayer, final TextView tv_time, ProgressBar progressBar, final Context context) {
+        tv_time.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
         ((Activity) context).runOnUiThread(() -> {
+            Log.d(TAG, "update: " + mediaPlayer.getDuration() + " | " + mediaPlayer.getCurrentPosition() + " | " + (mediaPlayer.getDuration() - mediaPlayer.getCurrentPosition()));
             if (mediaPlayer.getDuration() - mediaPlayer.getCurrentPosition() > 100) {
                 tv_time.setText(MessageFormat.format("{0}", convertSecondsToHMmSs(mediaPlayer.getCurrentPosition() / 1000)));
+                long finishedSeconds = mediaPlayer.getDuration() - mediaPlayer.getCurrentPosition();
+                int total = (int) (((float) finishedSeconds / (float) mediaPlayer.getDuration()) * 100.0);
+                progressBar.setProgress(total);
             } else {
-                tv_time.setText(convertSecondsToHMmSs(mediaPlayer.getDuration() / 1000));
+                tv_time.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
             }
-            Handler handler = new Handler();
+            handler = new Handler();
             try {
-                Runnable runnable = () -> {
+                runnable = () -> {
                     try {
                         if (mediaPlayer.getCurrentPosition() > -1) {
                             try {
-                                update(mediaPlayer, tv_time, context);
+                                update(mediaPlayer, tv_time, progressBar, context);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -186,7 +188,7 @@ class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
         TextView tv_duration_ringtone_song_item;
         ImageView iv_play_ringtone_song_item;
         ImageView iv_set_ringtone_song_item;
-        ProgressBar progress_bar_play_ringtone_song_item;
+        ProgressBar progressBar;
 
         public SongViewHolder(View itemView) {
             super(itemView);
@@ -194,7 +196,7 @@ class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
             tv_duration_ringtone_song_item = itemView.findViewById(R.id.tv_duration_ringtone_song_item);
             iv_play_ringtone_song_item = itemView.findViewById(R.id.iv_play_ringtone_song_item);
             iv_set_ringtone_song_item = itemView.findViewById(R.id.iv_set_ringtone_song_item);
-            progress_bar_play_ringtone_song_item = itemView.findViewById(R.id.progress_bar_play_ringtone_song_item);
+            progressBar = itemView.findViewById(R.id.progress_bar_play_ringtone_song_item);
         }
     }
 
