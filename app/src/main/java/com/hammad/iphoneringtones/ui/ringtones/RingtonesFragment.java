@@ -2,6 +2,7 @@ package com.hammad.iphoneringtones.ui.ringtones;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
@@ -88,9 +89,12 @@ public class RingtonesFragment extends BaseFragment {
         ringtonesAdapter = new RingtonesAdapter(context, new RingtonesAdapter.OnSongItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                Intent intent = new Intent(context, RingtonePlayerActivity.class);
+                intent.putExtra("list", ringtoneModelArrayList.get(position));
+                startActivity(intent);
                 Log.d(TAG, "onItemClick: ");
-                RingtoneBottomSheetDialog ringtoneBottomSheetDialog = new RingtoneBottomSheetDialog(context, ringtoneModelArrayList.get(position));
-                ringtoneBottomSheetDialog.show(getChildFragmentManager(), "Download");
+//                RingtoneBottomSheetDialog ringtoneBottomSheetDialog = new RingtoneBottomSheetDialog(context, ringtoneModelArrayList.get(position));
+//                ringtoneBottomSheetDialog.show(getChildFragmentManager(), "Download");
             }
 
             @Override

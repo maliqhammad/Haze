@@ -101,6 +101,7 @@ class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
                 mediaPlayer.prepare();
                 mediaPlayer.setVolume(10, 10);
                 mediaPlayer.start();
+                holder.progressBar.setMax(mediaPlayer.getDuration());
                 mediaPlayer.setOnPreparedListener(mp -> {
                     update(mediaPlayer, holder.tv_duration_ringtone_song_item, holder.progressBar, context);
                     holder.iv_play_ringtone_song_item.setImageDrawable(ResourcesCompat.getDrawable(context.getResources(), R.drawable.ic_pause_icon, null));
@@ -141,19 +142,15 @@ class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
     Handler handler;
     Runnable runnable;
 
+
     private void update(final MediaPlayer mediaPlayer, final TextView tv_time, ProgressBar progressBar, final Context context) {
-        tv_time.setVisibility(View.VISIBLE);
-        progressBar.setVisibility(View.VISIBLE);
         ((Activity) context).runOnUiThread(() -> {
-            Log.d(TAG, "update: " + mediaPlayer.getDuration() + " | " + mediaPlayer.getCurrentPosition() + " | " + (mediaPlayer.getDuration() - mediaPlayer.getCurrentPosition()));
+            progressBar.setProgress(mediaPlayer.getCurrentPosition());
             if (mediaPlayer.getDuration() - mediaPlayer.getCurrentPosition() > 100) {
-                tv_time.setText(MessageFormat.format("{0}", convertSecondsToHMmSs(mediaPlayer.getCurrentPosition() / 1000)));
-                long finishedSeconds = mediaPlayer.getDuration() - mediaPlayer.getCurrentPosition();
-                int total = (int) (((float) finishedSeconds / (float) mediaPlayer.getDuration()) * 100.0);
-                progressBar.setProgress(total);
+                tv_time.setText(MessageFormat.format("{0}", convertSecondsToHMmSs(mediaPlayer.getCurrentPosition())));
             } else {
-                tv_time.setVisibility(View.INVISIBLE);
-                progressBar.setVisibility(View.INVISIBLE);
+                tv_time.setText(context.getResources().getString(R.string._00_00));
+                progressBar.setProgress(0);
             }
             handler = new Handler();
             try {
@@ -177,6 +174,42 @@ class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
 
         });
     }
+//    private void update1(final MediaPlayer mediaPlayer, final TextView tv_time, ProgressBar progressBar, final Context context) {
+//        tv_time.setVisibility(View.VISIBLE);
+//        progressBar.setVisibility(View.VISIBLE);
+//        ((Activity) context).runOnUiThread(() -> {
+//            Log.d(TAG, "update: " + mediaPlayer.getDuration() + " | " + mediaPlayer.getCurrentPosition() + " | " + (mediaPlayer.getDuration() - mediaPlayer.getCurrentPosition()));
+//            if (mediaPlayer.getDuration() - mediaPlayer.getCurrentPosition() > 100) {
+//                tv_time.setText(MessageFormat.format("{0}", convertSecondsToHMmSs(mediaPlayer.getCurrentPosition() / 1000)));
+//                long finishedSeconds = mediaPlayer.getDuration() - mediaPlayer.getCurrentPosition();
+//                int total = (int) (((float) finishedSeconds / (float) mediaPlayer.getDuration()) * 100.0);
+//                progressBar.setProgress(total);
+//            } else {
+//                tv_time.setVisibility(View.INVISIBLE);
+//                progressBar.setVisibility(View.INVISIBLE);
+//            }
+//            handler = new Handler();
+//            try {
+//                runnable = () -> {
+//                    try {
+//                        if (mediaPlayer.getCurrentPosition() > -1) {
+//                            try {
+//                                update(mediaPlayer, tv_time, progressBar, context);
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                };
+//                handler.postDelayed(runnable, 2);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//        });
+//    }
 
     @Override
     public int getItemCount() {

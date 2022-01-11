@@ -15,6 +15,9 @@
         android:theme="@style/Theme.IPhoneRingtones"
         tools:targetApi="n">
         <activity
+            android:name=".ui.ringtones.RingtonePlayerActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.wallpapers.DisplayFullWallpaperActivity"
             android:exported="false"
             android:theme="@style/Theme.IPhoneRingtones.NoActionBar" />
