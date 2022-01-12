@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.SeekBar;
 
 import com.hammad.iphoneringtones.R;
@@ -88,15 +89,17 @@ public class RingtonePlayerActivity extends BaseActivity {
     }
 
     private void startMediaPlayer() {
+        binding.progressBarActivityRingtonePlayer.setVisibility(View.VISIBLE);
         setToolbarTitle(ringtoneModel.getRingtoneTitle());
         try {
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setDataSource(ringtoneModel.getRingtoneURL());
-            mediaPlayer.prepare();
+            mediaPlayer.prepareAsync();
             mediaPlayer.setVolume(10, 10);
-            mediaPlayer.start();
-            update();
             mediaPlayer.setOnPreparedListener(mp -> {
+                mediaPlayer.start();
+                update();
+                binding.progressBarActivityRingtonePlayer.setVisibility(View.INVISIBLE);
                 binding.ivPlayActivityRingtonePlayer.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_pause_icon, null));
                 binding.seekerActivityRingtonePlayer.setMax(mp.getDuration());
                 binding.tvTotalDurationActivityRingtonePlayer.setText(convertSecondsToHMmSs(mediaPlayer.getDuration()));
@@ -153,17 +156,20 @@ public class RingtonePlayerActivity extends BaseActivity {
     }
 
     private void clearMediaPlayer() {
-//        if (mediaPlayer != null) {
-//            mediaPlayer.stop();
-//            mediaPlayer.reset();
-//            mediaPlayer.release();
-//            mediaPlayer = null;
-//        }
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+        binding.progressBarActivityRingtonePlayer.setVisibility(View.INVISIBLE);
         binding.ivPlayActivityRingtonePlayer.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_play_icon, null));
         binding.tvCurrentDurationActivityRingtonePlayer.setText(getResources().getString(R.string._00_00));
         binding.tvTotalDurationActivityRingtonePlayer.setText(getResources().getString(R.string._00_00));
         binding.seekerActivityRingtonePlayer.setProgress(0);
-        handler.removeCallbacks(runnable);
+        if (handler != null) {
+            handler.removeCallbacks(runnable);
+        }
     }
 
     private static String convertSecondsToHMmSs(long milliSeconds) {

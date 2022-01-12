@@ -94,8 +94,18 @@
                 android:layout_gravity="start|center_vertical"
                 android:background="@drawable/ic_previous_icon"
                 android:clickable="false"
-                android:visibility="invisible"
-                android:contentDescription="@string/todo" />
+                android:contentDescription="@string/todo"
+                android:visibility="invisible" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar_activity_ringtone_player"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:layout_gravity="center"
+                android:indeterminateDrawable="@drawable/progress_shape"
+                android:visibility="invisible" />
+
 
             <ImageView
                 android:id="@+id/iv_play_activity_ringtone_player"
@@ -113,8 +123,8 @@
                 android:layout_gravity="end|center_vertical"
                 android:background="@drawable/ic_next_icon"
                 android:clickable="false"
-                android:visibility="invisible"
-                android:contentDescription="@string/todo" />
+                android:contentDescription="@string/todo"
+                android:visibility="invisible" />
 
         </FrameLayout>
 
