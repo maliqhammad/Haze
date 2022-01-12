@@ -98,6 +98,15 @@ public abstract class BaseFragment extends Fragment {
 
     }
 
+    public void shareRingtoneLink(Context context, String ringtoneLink, String ringToneName) {
+        ringtoneLink = ringtoneLink.replaceAll(" ", "%20");
+        ringtoneLink = "Check out what i have found on the " + context.getResources().getString(R.string.app_name) + ".\nI think you will like \"" + ringToneName + "\"\n\n" + ringtoneLink;
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.putExtra(Intent.EXTRA_SUBJECT, ringToneName);
+        share.putExtra(Intent.EXTRA_TEXT, ringtoneLink);
+        startActivity(Intent.createChooser(share, context.getResources().getString(R.string.app_name)));
+    }
 
     public String capitalize(String capString) {
         StringBuffer capBuffer = new StringBuffer();

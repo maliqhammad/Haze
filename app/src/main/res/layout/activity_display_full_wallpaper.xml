@@ -55,7 +55,8 @@
             android:contentDescription="@string/todo"
             android:padding="@dimen/_10sdp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_share" />
+            android:src="@drawable/ic_share"
+            android:visibility="invisible" />
 
     </FrameLayout>
 

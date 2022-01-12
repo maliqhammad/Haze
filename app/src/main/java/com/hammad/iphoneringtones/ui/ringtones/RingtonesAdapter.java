@@ -24,6 +24,9 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import kotlin.jvm.internal.Intrinsics;
 
@@ -37,6 +40,8 @@ class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
     public MediaPlayer mediaPlayer;
     ImageView iv_pause;
     int lastPosition = -1;
+    Handler handler;
+    Runnable runnable;
 
     public RingtonesAdapter(Context context, OnSongItemClickListener listener) {
         ringtoneModelArrayList = new ArrayList<>();
@@ -56,7 +61,7 @@ class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
         RingtoneModel ringtoneModel = ringtoneModelArrayList.get(position);
         holder.itemView.setOnClickListener(view -> mListener.onItemClick(position));
         holder.iv_set_ringtone_song_item.setOnClickListener(view -> mListener.onSetRingtone(position));
-        holder.tv_title_ringtone_song_item.setText(ringtoneModel.getRingtoneTitle());
+        holder.tv_title_ringtone_song_item.setText(capitalize(ringtoneModel.getRingtoneTitle()));
         holder.iv_play_ringtone_song_item.setOnClickListener(view -> {
             playRingtone(holder, position);
             iv_pause = holder.iv_play_ringtone_song_item;
@@ -139,10 +144,6 @@ class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
         return String.format(Locale.getDefault(), "%02d:%02d", m, s);
     }
 
-    Handler handler;
-    Runnable runnable;
-
-
     private void update(final MediaPlayer mediaPlayer, final TextView tv_time, ProgressBar progressBar, final Context context) {
         ((Activity) context).runOnUiThread(() -> {
             progressBar.setProgress(mediaPlayer.getCurrentPosition());
@@ -174,7 +175,8 @@ class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
 
         });
     }
-//    private void update1(final MediaPlayer mediaPlayer, final TextView tv_time, ProgressBar progressBar, final Context context) {
+
+    //    private void update1(final MediaPlayer mediaPlayer, final TextView tv_time, ProgressBar progressBar, final Context context) {
 //        tv_time.setVisibility(View.VISIBLE);
 //        progressBar.setVisibility(View.VISIBLE);
 //        ((Activity) context).runOnUiThread(() -> {
@@ -210,6 +212,14 @@ class RingtonesAdapter extends Adapter<RingtonesAdapter.SongViewHolder> {
 //
 //        });
 //    }
+    public String capitalize(String capString) {
+        StringBuffer capBuffer = new StringBuffer();
+        Matcher capMatcher = Pattern.compile("([a-z])([a-z]*)", Pattern.CASE_INSENSITIVE).matcher(capString);
+        while (capMatcher.find()) {
+            capMatcher.appendReplacement(capBuffer, Objects.requireNonNull(capMatcher.group(1)).toUpperCase() + Objects.requireNonNull(capMatcher.group(2)).toLowerCase());
+        }
+        return capMatcher.appendTail(capBuffer).toString();
+    }
 
     @Override
     public int getItemCount() {

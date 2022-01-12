@@ -2,13 +2,16 @@ package com.hammad.iphoneringtones.classes;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.hammad.iphoneringtones.R;
+import com.hammad.iphoneringtones.ui.wallpapers.WallpaperModel;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

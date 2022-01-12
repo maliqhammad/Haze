@@ -10,28 +10,17 @@ import com.hammad.iphoneringtones.classes.BaseActivity;
 import com.hammad.iphoneringtones.classes.HorizontalMarginItemDecoration;
 import com.hammad.iphoneringtones.databinding.ActivityDisplayFullWallpaperBinding;
 import com.hammad.iphoneringtones.dialogs.WallpaperBottomSheetDialog;
-import com.squareup.picasso.Picasso;
 
-import android.app.WallpaperManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.ArrayList;
 
 public class DisplayFullWallpaperActivity extends BaseActivity {
     private static final String TAG = "DisplayFullWallpaper";
-    WallpaperListObject wallpaperListObject;
+    ArrayList<WallpaperModel> wallpaperModelArrayList;
     ActivityDisplayFullWallpaperBinding binding;
     int CURRENT_POSITION;
-    WallpaperManager wallpaperManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,33 +33,33 @@ public class DisplayFullWallpaperActivity extends BaseActivity {
     }
 
     private void getIntentData() {
-        wallpaperListObject = (WallpaperListObject) getIntent().getSerializableExtra("list");
+        wallpaperModelArrayList = (ArrayList<WallpaperModel>) getIntent().getSerializableExtra("list");
         CURRENT_POSITION = getIntent().getIntExtra("CURRENT_POSITION", 0);
-        setToolbarTitle(wallpaperListObject.getWallpaperModelList().get(CURRENT_POSITION).getWallpaperTitle());
-        wallpaperManager = WallpaperManager.getInstance(this);
-        Log.d(TAG, "onCreate: getWallpaperModelList: " + wallpaperListObject.getWallpaperModelList().size());
+        setToolbarTitle(capitalize(wallpaperModelArrayList.get(CURRENT_POSITION).getWallpaperTitle()));
+        Log.d(TAG, "onCreate: getWallpaperModelList: " + wallpaperModelArrayList.size());
     }
 
     private void setListeners() {
         binding.ivDownloadActivityDisplayFullWallpaper.setOnClickListener(view -> {
-            WallpaperBottomSheetDialog wallpaperBottomSheetDialog = new WallpaperBottomSheetDialog(this, wallpaperListObject.getWallpaperModelList().get(binding.viewPagerActivityDisplayFullWallpaper.getCurrentItem()), new WallpaperBottomSheetDialog.Callback() {
+            WallpaperBottomSheetDialog wallpaperBottomSheetDialog = new WallpaperBottomSheetDialog(this, wallpaperModelArrayList.get(binding.viewPagerActivityDisplayFullWallpaper.getCurrentItem()), new WallpaperBottomSheetDialog.Callback() {
                 @Override
                 public void onDownloadWallpaper(WallpaperModel wallpaperModel) {
                     downloadWallpaper(DisplayFullWallpaperActivity.this, wallpaperModel.getWallpaperUri(), wallpaperModel.getWallpaperTitle());
                 }
 
                 @Override
-                public void onSetWallpaper(WallpaperModel wallpaperModel) {
-                    new Handler(Looper.getMainLooper()).post(() -> {
+                public void onSetAsWallpaper(WallpaperModel wallpaperModel) {
+                    setAsWallpaper(DisplayFullWallpaperActivity.this, wallpaperModel, false, false);
+                }
 
-                        try {
-                            Bitmap result = Picasso.get().load(wallpaperModel.getWallpaperUri()).get();
-                            wallpaperManager.setBitmap(result);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            Toast.makeText(DisplayFullWallpaperActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                @Override
+                public void onSetAsLockScreen(WallpaperModel wallpaperModel) {
+                    setAsWallpaper(DisplayFullWallpaperActivity.this, wallpaperModel, true, false);
+                }
+
+                @Override
+                public void onSetAsBoth(WallpaperModel wallpaperModel) {
+                    setAsWallpaper(DisplayFullWallpaperActivity.this, wallpaperModel, true, true);
                 }
             });
             wallpaperBottomSheetDialog.show(getSupportFragmentManager(), "Download");
@@ -90,30 +79,15 @@ public class DisplayFullWallpaperActivity extends BaseActivity {
         binding.viewPagerActivityDisplayFullWallpaper.setPageTransformer(pageTransformer);
         HorizontalMarginItemDecoration itemDecoration = new HorizontalMarginItemDecoration(this, R.dimen._20sdp);
         binding.viewPagerActivityDisplayFullWallpaper.addItemDecoration(itemDecoration);
-        binding.viewPagerActivityDisplayFullWallpaper.setAdapter(new FullWallpaperAdapter(this, wallpaperListObject.getWallpaperModelList()));
+        binding.viewPagerActivityDisplayFullWallpaper.setAdapter(new FullWallpaperAdapter(this, wallpaperModelArrayList));
         binding.viewPagerActivityDisplayFullWallpaper.setCurrentItem(CURRENT_POSITION, true);
         binding.viewPagerActivityDisplayFullWallpaper.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 Log.d(TAG, "onPageSelected: " + position);
-                setToolbarTitle(wallpaperListObject.getWallpaperModelList().get(position).getWallpaperTitle());
+                setToolbarTitle(capitalize(wallpaperModelArrayList.get(position).getWallpaperTitle()));
             }
         });
-    }
-
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 }

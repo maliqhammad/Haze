@@ -92,14 +92,10 @@ public class RingtonesFragment extends BaseFragment {
                 Intent intent = new Intent(context, RingtonePlayerActivity.class);
                 intent.putExtra("list", ringtoneModelArrayList.get(position));
                 startActivity(intent);
-                Log.d(TAG, "onItemClick: ");
-//                RingtoneBottomSheetDialog ringtoneBottomSheetDialog = new RingtoneBottomSheetDialog(context, ringtoneModelArrayList.get(position));
-//                ringtoneBottomSheetDialog.show(getChildFragmentManager(), "Download");
             }
 
             @Override
             public void onSetRingtone(int position) {
-                Log.d(TAG, "onSetRingtone: ");
                 RingtoneBottomSheetDialog ringtoneBottomSheetDialog = new RingtoneBottomSheetDialog(context, ringtoneModelArrayList.get(position));
                 ringtoneBottomSheetDialog.show(getChildFragmentManager(), "Download");
             }

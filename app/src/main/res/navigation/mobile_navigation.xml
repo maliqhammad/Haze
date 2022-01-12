@@ -22,17 +22,7 @@
         android:id="@+id/nav_wallpapers"
         android:name="com.hammad.iphoneringtones.ui.wallpapers.WallpapersFragment"
         android:label="@string/menu_wallpapers"
-        tools:layout="@layout/fragment_wallpapers">
-        <action
-            android:id="@+id/action_nav_wallpapers_to_nav_full_screen_wallpaper"
-            app:destination="@id/nav_full_screen_wallpaper" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/nav_full_screen_wallpaper"
-        android:name="com.hammad.iphoneringtones.ui.wallpapers.DisplayFullWallpaperFragment"
-        android:label="@string/menu_wallpapers"
-        tools:layout="@layout/fragment_display_full_wallpaper" />
+        tools:layout="@layout/fragment_wallpapers" />
 
     <fragment
         android:id="@+id/nav_ringtones"

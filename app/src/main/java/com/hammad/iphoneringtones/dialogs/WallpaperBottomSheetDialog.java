@@ -47,14 +47,30 @@ public class WallpaperBottomSheetDialog extends BottomSheetDialogFragment {
         return binding.getRoot();
     }
 
-    void setListener() {
+    private void setListener() {
         binding.linearDownloadWallpaperBottomSheetDialog.setOnClickListener(v -> {
             callback.onDownloadWallpaper(wallpaperModel);
             dismiss();
         });
         binding.linearSetWallpaperBottomSheetDialog.setOnClickListener(v -> {
             if (checkPermission()) {
-                callback.onSetWallpaper(wallpaperModel);
+                callback.onSetAsWallpaper(wallpaperModel);
+                dismiss();
+            } else {
+                askForPermission();
+            }
+        });
+        binding.linearSetLockScreenWallpaperBottomSheetDialog.setOnClickListener(v -> {
+            if (checkPermission()) {
+                callback.onSetAsLockScreen(wallpaperModel);
+                dismiss();
+            } else {
+                askForPermission();
+            }
+        });
+        binding.linearSetBothBottomSheetDialog.setOnClickListener(v -> {
+            if (checkPermission()) {
+                callback.onSetAsBoth(wallpaperModel);
                 dismiss();
             } else {
                 askForPermission();
@@ -79,6 +95,10 @@ public class WallpaperBottomSheetDialog extends BottomSheetDialogFragment {
     public interface Callback {
         void onDownloadWallpaper(WallpaperModel wallpaperModel);
 
-        void onSetWallpaper(WallpaperModel wallpaperModel);
+        void onSetAsWallpaper(WallpaperModel wallpaperModel);
+
+        void onSetAsLockScreen(WallpaperModel wallpaperModel);
+
+        void onSetAsBoth(WallpaperModel wallpaperModel);
     }
 }

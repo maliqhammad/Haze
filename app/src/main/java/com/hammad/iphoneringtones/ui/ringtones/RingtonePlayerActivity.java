@@ -12,6 +12,7 @@ import android.widget.SeekBar;
 import com.hammad.iphoneringtones.R;
 import com.hammad.iphoneringtones.classes.BaseActivity;
 import com.hammad.iphoneringtones.databinding.ActivityRingtonePlayerBinding;
+import com.hammad.iphoneringtones.dialogs.RingtoneBottomSheetDialog;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -43,7 +44,7 @@ public class RingtonePlayerActivity extends BaseActivity {
     }
 
     private void initialize() {
-        setToolbarTitle(ringtoneModel.getRingtoneTitle());
+        setToolbarTitle(capitalize(ringtoneModel.getRingtoneTitle()));
     }
 
     private void getIntentData() {
@@ -73,6 +74,10 @@ public class RingtonePlayerActivity extends BaseActivity {
                     mediaPlayer.start();
                 }
             }
+        });
+        binding.ivDownloadActivityRingtonePlayer.setOnClickListener(view -> {
+            RingtoneBottomSheetDialog ringtoneBottomSheetDialog = new RingtoneBottomSheetDialog(this, ringtoneModel);
+            ringtoneBottomSheetDialog.show(getSupportFragmentManager(), "Download");
         });
     }
 

@@ -108,5 +108,11 @@
     <string name="ringtone">Ringtone</string>
     <string name="wallpaper">Wallpaper</string>
     <string name="what_would_you_like_to_do">What Would You Like To Do?</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="set_wallpaper_successfully">Set wallpaper successfully</string>
+    <string name="set_lock_screen_successfully">Set lock screen successfully</string>
+    <string name="set_wallpaper_on_both_successfully">Set wallpaper on both successfully</string>
+    <string name="set_both">set Both</string>
+    <string name="set_as_lock_screen">Set as lock screen</string>
 
 </resources>

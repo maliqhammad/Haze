@@ -23,7 +23,6 @@ import com.hammad.iphoneringtones.classes.BaseFragment;
 import com.hammad.iphoneringtones.classes.DialogProgressBar;
 import com.hammad.iphoneringtones.classes.DownloadBroadcastReceiver;
 import com.hammad.iphoneringtones.databinding.FragmentWallpapersBinding;
-import com.hammad.iphoneringtones.dialogs.WallpaperBottomSheetDialog;
 
 import java.util.ArrayList;
 
@@ -94,9 +93,7 @@ public class WallpapersFragment extends BaseFragment {
         popularWallpaperAdapter = new PopularWallpaperAdapter(getActivity(), (view, modelArrayList, position) -> {
             CURRENT_POSITION = position;
             Intent intent = new Intent(context, DisplayFullWallpaperActivity.class);
-            WallpaperListObject wallpaperListObject = new WallpaperListObject();
-            wallpaperListObject.setWallpaperModelList(modelArrayList);
-            intent.putExtra("list", wallpaperListObject);
+            intent.putExtra("list", modelArrayList);
             intent.putExtra("CURRENT_POSITION", CURRENT_POSITION);
             context.startActivity(intent);
         });
@@ -118,9 +115,7 @@ public class WallpapersFragment extends BaseFragment {
         popularWallpaperAdapter = new PopularWallpaperAdapter(getActivity(), (view, modelArrayList, position) -> {
             CURRENT_POSITION = position;
             Intent intent = new Intent(context, DisplayFullWallpaperActivity.class);
-            WallpaperListObject wallpaperListObject = new WallpaperListObject();
-            wallpaperListObject.setWallpaperModelList(modelArrayList);
-            intent.putExtra("list", wallpaperListObject);
+            intent.putExtra("list", modelArrayList);
             intent.putExtra("CURRENT_POSITION", CURRENT_POSITION);
             context.startActivity(intent);
         });
