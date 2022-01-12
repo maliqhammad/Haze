@@ -13,13 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.hammad.iphoneringtones.R;
+import com.hammad.iphoneringtones.classes.BaseFragment;
 import com.hammad.iphoneringtones.classes.DialogProgressBar;
 import com.hammad.iphoneringtones.classes.DownloadBroadcastReceiver;
 import com.hammad.iphoneringtones.databinding.FragmentWallpapersBinding;
@@ -27,13 +27,14 @@ import com.hammad.iphoneringtones.dialogs.WallpaperBottomSheetDialog;
 
 import java.util.ArrayList;
 
-public class WallpapersFragment extends Fragment {
-    private static final String TAG = "HomeFragment";
+public class WallpapersFragment extends BaseFragment {
+    private static final String TAG = "WallpapersFragment";
     private WallpapersViewModel wallpapersViewModel;
     private FragmentWallpapersBinding binding;
     PopularWallpaperAdapter popularWallpaperAdapter;
-    Observer<ArrayList<WallpaperModel>> featureObserver;
+    Observer<ArrayList<WallpaperModel>> categoryObserver;
     Observer<WallpaperModel> wallpaperModelObserver;
+    Observer<WallpaperModel> wallpaperByCategoryObserver;
     DialogProgressBar progressBar;
     Context context;
     DownloadBroadcastReceiver receiver;
@@ -51,58 +52,92 @@ public class WallpapersFragment extends Fragment {
         View root = binding.getRoot();
         initialize();
         setListeners();
+        setPopularWallpaperRecyclerView();
+        setCategoryRecyclerView();
 //        wallpapersViewModel.retrieveWallpapers();
         return root;
     }
 
     private void initialize() {
-        receiver = new DownloadBroadcastReceiver(context.getResources().getString(R.string.wallpaper_download_success));
+        receiver = new DownloadBroadcastReceiver(context.getResources().getString(R.string.wallpaper));
         context.registerReceiver(receiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         progressBar = new DialogProgressBar(context);
         progressBar.showSpinnerDialog();
     }
 
     private void setListeners() {
-        binding.recyclerViewPopularHomeFragment.setLayoutManager(new StaggeredGridLayoutManager(3, LinearLayoutManager.VERTICAL));
-        popularWallpaperAdapter = new PopularWallpaperAdapter(getActivity(), new PopularWallpaperAdapter.PopularWallpaperAdapterCallback() {
-            @Override
-            public void onDownloadWallpaper(WallpaperModel wallpaperModel) {
-                WallpaperBottomSheetDialog wallpaperBottomSheetDialog = new WallpaperBottomSheetDialog(getContext(), wallpaperModel);
-                wallpaperBottomSheetDialog.show(getChildFragmentManager(), "Download");
-            }
+        binding.tvButtonClearCategoryHomeFragment.setOnClickListener(view -> {
+            setPopularWallpaperRecyclerView();
+            binding.tvPopularLabelHomeFragment.setVisibility(View.VISIBLE);
+            binding.tvButtonClearCategoryHomeFragment.setVisibility(View.INVISIBLE);
+        });
+    }
 
-            @Override
-            public void onItemClick(View view, ArrayList<WallpaperModel> modelArrayList, int position) {
-                CURRENT_POSITION = position;
-                Intent intent = new Intent(context, DisplayFullWallpaperActivity.class);
-                WallpaperListObject wallpaperListObject = new WallpaperListObject();
-                wallpaperListObject.setWallpaperModelList(modelArrayList);
-                intent.putExtra("list", wallpaperListObject);
-                intent.putExtra("CURRENT_POSITION", CURRENT_POSITION);
-                context.startActivity(intent);
-            }
+    private void setCategoryRecyclerView() {
+        Log.d(TAG, "setCategoryRecyclerView: ");
+        categoryObserver = wallpaperModels -> {
+            binding.recyclerViewCategoryHomeFragment.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            binding.recyclerViewCategoryHomeFragment.setAdapter(new CategoriesAdapter(getActivity(), wallpaperModels, wallpaperModel -> {
+                if (wallpapersViewModel.isRetrieveCategory()) {
+                    wallpapersViewModel.retrieveWallpapersByCategory(wallpaperModel);
+                } else {
+                    setWallpaperByCategory(wallpaperModel);
+                }
+            }));
+        };
+        wallpapersViewModel.setCategoryList(getContext()).observe(getViewLifecycleOwner(), categoryObserver);
+    }
+
+    private void setPopularWallpaperRecyclerView() {
+        Log.d(TAG, "setPopularWallpaperRecyclerView: ");
+        binding.recyclerViewPopularHomeFragment.setLayoutManager(new StaggeredGridLayoutManager(3, LinearLayoutManager.VERTICAL));
+        popularWallpaperAdapter = new PopularWallpaperAdapter(getActivity(), (view, modelArrayList, position) -> {
+            CURRENT_POSITION = position;
+            Intent intent = new Intent(context, DisplayFullWallpaperActivity.class);
+            WallpaperListObject wallpaperListObject = new WallpaperListObject();
+            wallpaperListObject.setWallpaperModelList(modelArrayList);
+            intent.putExtra("list", wallpaperListObject);
+            intent.putExtra("CURRENT_POSITION", CURRENT_POSITION);
+            context.startActivity(intent);
         });
         binding.recyclerViewPopularHomeFragment.setAdapter(popularWallpaperAdapter);
         wallpaperModelObserver = wallpaperModel -> {
             progressBar.cancelSpinnerDialog();
             popularWallpaperAdapter.updateWallpapersList(wallpaperModel);
         };
-        wallpapersViewModel.getPopularData1().observe(getViewLifecycleOwner(), wallpaperModelObserver);
+        wallpapersViewModel.getPopularWallpaper().observe(getViewLifecycleOwner(), wallpaperModelObserver);
+    }
 
-        featureObserver = wallpaperModels -> {
-            binding.recyclerViewFeatureHomeFragment.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-            binding.recyclerViewFeatureHomeFragment.setAdapter(new FeaturesAdapter(getActivity(), wallpaperModels));
+    private void setWallpaperByCategory(WallpaperModel wallpaperModel) {
+        Log.d(TAG, "setWallpaperByCategory: ");
+        binding.tvPopularLabelHomeFragment.setVisibility(View.INVISIBLE);
+        binding.tvButtonClearCategoryHomeFragment.setVisibility(View.VISIBLE);
+        binding.tvButtonClearCategoryHomeFragment.setText(capitalize(wallpaperModel.getCategory()));
+
+        binding.recyclerViewPopularHomeFragment.setLayoutManager(new StaggeredGridLayoutManager(3, LinearLayoutManager.VERTICAL));
+        popularWallpaperAdapter = new PopularWallpaperAdapter(getActivity(), (view, modelArrayList, position) -> {
+            CURRENT_POSITION = position;
+            Intent intent = new Intent(context, DisplayFullWallpaperActivity.class);
+            WallpaperListObject wallpaperListObject = new WallpaperListObject();
+            wallpaperListObject.setWallpaperModelList(modelArrayList);
+            intent.putExtra("list", wallpaperListObject);
+            intent.putExtra("CURRENT_POSITION", CURRENT_POSITION);
+            context.startActivity(intent);
+        });
+        binding.recyclerViewPopularHomeFragment.setAdapter(popularWallpaperAdapter);
+        wallpaperByCategoryObserver = wallpaperModels -> {
+            progressBar.cancelSpinnerDialog();
+            popularWallpaperAdapter.updateWallpapersList(wallpaperModels);
         };
-        wallpapersViewModel.setFeaturesData(getContext()).observe(getViewLifecycleOwner(), featureObserver);
-
+        wallpapersViewModel.getWallpaperByCategory(wallpaperModel).observe(getViewLifecycleOwner(), wallpaperByCategoryObserver);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-        wallpapersViewModel.getPopularData1().removeObserver(wallpaperModelObserver);
-        wallpapersViewModel.setFeaturesData(getContext()).removeObserver(featureObserver);
+        wallpapersViewModel.getPopularWallpaper().removeObserver(wallpaperModelObserver);
+        wallpapersViewModel.setCategoryList(getContext()).removeObserver(categoryObserver);
         context.unregisterReceiver(receiver);
     }
 }

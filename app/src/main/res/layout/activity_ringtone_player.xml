@@ -121,10 +121,10 @@
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_gravity="end|center_vertical"
-                android:background="@drawable/ic_next_icon"
+                android:background="@drawable/download_change_state_icon"
                 android:clickable="false"
                 android:contentDescription="@string/todo"
-                android:visibility="invisible" />
+                android:visibility="visible" />
 
         </FrameLayout>
 

@@ -6,6 +6,7 @@ public class WallpaperModel implements Serializable {
     private int image = 0;
     private String wallpaperTitle = "";
     private String wallpaperUri;
+    private String category = "";
 
     public WallpaperModel(String wallpaperTitle, String wallpaperUri) {
         this.wallpaperTitle = wallpaperTitle;
@@ -37,5 +38,13 @@ public class WallpaperModel implements Serializable {
 
     public void setWallpaperUri(String wallpaperUri) {
         this.wallpaperUri = wallpaperUri;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

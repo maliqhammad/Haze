@@ -1,29 +1,37 @@
 package com.hammad.iphoneringtones.ui.wallpapers;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.palette.graphics.Palette;
+import static com.hammad.iphoneringtones.classes.StaticVariable.downloadWallpaper;
+
+
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.hammad.iphoneringtones.R;
+import com.hammad.iphoneringtones.classes.BaseActivity;
 import com.hammad.iphoneringtones.classes.HorizontalMarginItemDecoration;
 import com.hammad.iphoneringtones.databinding.ActivityDisplayFullWallpaperBinding;
 import com.hammad.iphoneringtones.dialogs.WallpaperBottomSheetDialog;
+import com.squareup.picasso.Picasso;
 
+import android.app.WallpaperManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class DisplayFullWallpaperActivity extends AppCompatActivity {
+public class DisplayFullWallpaperActivity extends BaseActivity {
     private static final String TAG = "DisplayFullWallpaper";
     WallpaperListObject wallpaperListObject;
     ActivityDisplayFullWallpaperBinding binding;
     int CURRENT_POSITION;
+    WallpaperManager wallpaperManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,15 +46,33 @@ public class DisplayFullWallpaperActivity extends AppCompatActivity {
     private void getIntentData() {
         wallpaperListObject = (WallpaperListObject) getIntent().getSerializableExtra("list");
         CURRENT_POSITION = getIntent().getIntExtra("CURRENT_POSITION", 0);
+        setToolbarTitle(wallpaperListObject.getWallpaperModelList().get(CURRENT_POSITION).getWallpaperTitle());
+        wallpaperManager = WallpaperManager.getInstance(this);
         Log.d(TAG, "onCreate: getWallpaperModelList: " + wallpaperListObject.getWallpaperModelList().size());
     }
 
     private void setListeners() {
         binding.ivDownloadActivityDisplayFullWallpaper.setOnClickListener(view -> {
-            WallpaperBottomSheetDialog wallpaperBottomSheetDialog =
-                    new WallpaperBottomSheetDialog(this,
-                            wallpaperListObject.getWallpaperModelList()
-                                    .get(binding.viewPagerActivityDisplayFullWallpaper.getCurrentItem()));
+            WallpaperBottomSheetDialog wallpaperBottomSheetDialog = new WallpaperBottomSheetDialog(this, wallpaperListObject.getWallpaperModelList().get(binding.viewPagerActivityDisplayFullWallpaper.getCurrentItem()), new WallpaperBottomSheetDialog.Callback() {
+                @Override
+                public void onDownloadWallpaper(WallpaperModel wallpaperModel) {
+                    downloadWallpaper(DisplayFullWallpaperActivity.this, wallpaperModel.getWallpaperUri(), wallpaperModel.getWallpaperTitle());
+                }
+
+                @Override
+                public void onSetWallpaper(WallpaperModel wallpaperModel) {
+                    new Handler(Looper.getMainLooper()).post(() -> {
+
+                        try {
+                            Bitmap result = Picasso.get().load(wallpaperModel.getWallpaperUri()).get();
+                            wallpaperManager.setBitmap(result);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Toast.makeText(DisplayFullWallpaperActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
             wallpaperBottomSheetDialog.show(getSupportFragmentManager(), "Download");
         });
     }
@@ -70,11 +96,8 @@ public class DisplayFullWallpaperActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-//                Palette palette = Palette.from(bitmap).generate();
-// OR
-//                Palette palette = Palette.from(
-//                        getBitmapFromURL(wallpaperListObject.getWallpaperModelList().get(position).getWallpaperUri())).maximumColorCount(3).generate();
                 Log.d(TAG, "onPageSelected: " + position);
+                setToolbarTitle(wallpaperListObject.getWallpaperModelList().get(position).getWallpaperTitle());
             }
         });
     }

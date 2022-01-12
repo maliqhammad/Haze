@@ -15,6 +15,10 @@ public class Categories {
         return new ArrayList<>(Arrays.asList(context.getResources().getStringArray(R.array.features_name)));
     }
 
+    public static List<String> getCategoryNames(Context context) {
+        return Arrays.asList(context.getResources().getStringArray(R.array.category_name));
+    }
+
     public static List<String> getColors(Context context) {
         Log.d("TAG", "getColors: " + Arrays.asList(context.getResources().getStringArray(R.array.colors_array)).size());
         return Arrays.asList(context.getResources().getStringArray(R.array.colors_array));

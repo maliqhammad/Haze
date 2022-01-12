@@ -76,9 +76,9 @@
             android:clickable="true"
             android:contentDescription="@string/todo"
             android:focusable="true"
-            android:src="@drawable/download_change_state_icon" />
+            android:src="@drawable/download_change_state_icon"
+            android:visibility="invisible" />
 
     </RelativeLayout>
-
 
 </androidx.cardview.widget.CardView>

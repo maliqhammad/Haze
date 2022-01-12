@@ -37,11 +37,10 @@ public abstract class StaticVariable {
         //Set the local destination for the downloaded file to a path within the application's external files directory
         request.setDestinationInExternalFilesDir(context, getDirectoryPath(context), getRingtoneSubPath(fileName));
         request.allowScanningByMediaScanner();
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION);
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         request.setTitle(fileName);
         //Enqueue a new download and same the referenceId
         downloadReference = downloadManager.enqueue(request);
-        Log.d(TAG, "downloadPdf: " + downloadReference);
     }
 
     public static String getRingtoneSubPath(String fileName) {
@@ -65,11 +64,10 @@ public abstract class StaticVariable {
         //Set the local destination for the downloaded file to a path within the application's external files directory
         request.setDestinationInExternalFilesDir(context, getDirectoryPath(context), getWallpaperSubPath(fileName));
         request.allowScanningByMediaScanner();
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION);
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         request.setTitle(fileName);
         //Enqueue a new download and same the referenceId
         downloadReference = downloadManager.enqueue(request);
-        Log.d(TAG, "downloadPdf: " + downloadReference);
     }
 
     public static String getWallpaperSubPath(String fileName) {

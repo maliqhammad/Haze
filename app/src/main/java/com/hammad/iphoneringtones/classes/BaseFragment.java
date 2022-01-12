@@ -33,6 +33,9 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public abstract class BaseFragment extends Fragment {
     private static final String TAG = "BaseFragment";
@@ -93,5 +96,15 @@ public abstract class BaseFragment extends Fragment {
             startActivity(Intent.createChooser(shareIntent, "Choose an app"));
         }
 
+    }
+
+
+    public String capitalize(String capString) {
+        StringBuffer capBuffer = new StringBuffer();
+        Matcher capMatcher = Pattern.compile("([a-z])([a-z]*)", Pattern.CASE_INSENSITIVE).matcher(capString);
+        while (capMatcher.find()) {
+            capMatcher.appendReplacement(capBuffer, Objects.requireNonNull(capMatcher.group(1)).toUpperCase() + Objects.requireNonNull(capMatcher.group(2)).toLowerCase());
+        }
+        return capMatcher.appendTail(capBuffer).toString();
     }
 }

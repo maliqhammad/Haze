@@ -19,13 +19,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class FeaturesAdapter extends RecyclerView.Adapter<FeaturesAdapter.HomeAdapterViewHolder> {
+public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.HomeAdapterViewHolder> {
     Context context;
     ArrayList<WallpaperModel> arrayList;
+    FeaturesAdapterCallback callback;
 
-    public FeaturesAdapter(Context context, ArrayList<WallpaperModel> arrayList) {
+    public CategoriesAdapter(Context context, ArrayList<WallpaperModel> arrayList, FeaturesAdapterCallback callback) {
         this.context = context;
         this.arrayList = arrayList;
+        this.callback = callback;
     }
 
     @NonNull
@@ -38,8 +40,9 @@ public class FeaturesAdapter extends RecyclerView.Adapter<FeaturesAdapter.HomeAd
     @Override
     public void onBindViewHolder(@NonNull @NotNull HomeAdapterViewHolder holder, int position) {
         holder.view_features_adapter_item.setBackgroundColor(holder.colorGenerator.getRandomColor());
-        holder.tv_features_adapter_item.setText(arrayList.get(position).getWallpaperTitle());
+        holder.tv_features_adapter_item.setText(arrayList.get(position).getCategory());
         holder.iv_features_adapter_item.setImageResource(arrayList.get(position).getImage());
+        holder.itemView.setOnClickListener(view -> callback.onItemClick(arrayList.get(position)));
     }
 
     @Override
@@ -61,5 +64,9 @@ public class FeaturesAdapter extends RecyclerView.Adapter<FeaturesAdapter.HomeAd
             iv_features_adapter_item = itemView.findViewById(R.id.iv_features_adapter_item);
             tv_features_adapter_item = itemView.findViewById(R.id.tv_features_adapter_item);
         }
+    }
+
+    public interface FeaturesAdapterCallback {
+        void onItemClick(WallpaperModel wallpaperModel);
     }
 }

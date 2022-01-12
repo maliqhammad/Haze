@@ -20,33 +20,37 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tv_feature_label_home_fragment"
-                android:layout_width="match_parent"
+                android:id="@+id/tv_category_label_home_fragment"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-smallcaps"
                 android:gravity="center_vertical|start"
                 android:padding="@dimen/_5sdp"
-                android:text="@string/features"
+                android:text="@string/categories"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_16ssp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_feature_home_fragment"
+                android:id="@+id/recycler_view_category_home_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_feature_label_home_fragment"
+                app:layout_constraintTop_toBottomOf="@id/tv_category_label_home_fragment"
                 tools:listitem="@layout/features_adapter_item" />
 
             <TextView
                 android:id="@+id/tv_popular_label_home_fragment"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-smallcaps"
                 android:gravity="center_vertical|start"
@@ -54,18 +58,40 @@
                 android:text="@string/popular"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_16ssp"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/recycler_view_feature_home_fragment" />
+                app:layout_constraintTop_toBottomOf="@id/recycler_view_category_home_fragment" />
+
+            <TextView
+                android:id="@+id/tv_button_clear_category_home_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:background="@drawable/style_button"
+                android:gravity="center_vertical|start"
+                android:text="@string/categories"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                app:drawableEndCompat="@drawable/ic_close_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recycler_view_category_home_fragment" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_popular_home_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_popular_label_home_fragment"
-                tools:listitem="@layout/popular_wallpaper_adapter_item" />
+                tools:listitem="@layout/wallpaper_item" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>

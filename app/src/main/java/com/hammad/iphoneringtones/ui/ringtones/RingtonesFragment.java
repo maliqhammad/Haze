@@ -73,7 +73,7 @@ public class RingtonesFragment extends BaseFragment {
     }
 
     private void initialize() {
-        receiver = new DownloadBroadcastReceiver(context.getResources().getString(R.string.ringtone_download_success));
+        receiver = new DownloadBroadcastReceiver(context.getResources().getString(R.string.ringtone));
         context.registerReceiver(receiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         ringtoneModelArrayList = new ArrayList<>();
         progressBar = new DialogProgressBar(context);

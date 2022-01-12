@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
+    android:background="@drawable/style_bottom_dialog"
     android:minHeight="@dimen/_200sdp"
     android:orientation="vertical">
 
     <View
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_4sdp"
+        android:layout_width="@dimen/_130sdp"
+        android:layout_height="@dimen/_5sdp"
+        android:layout_gravity="center_horizontal"
         android:layout_margin="@dimen/_5sdp"
         android:background="@drawable/navigate_line_bg"
         android:visibility="visible" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_gravity="center_horizontal"
         android:background="@color/grey"
         android:visibility="visible" />
 
@@ -23,36 +26,38 @@
         android:id="@+id/tv_title_wallpaper_bottom_sheet_dialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
         android:drawablePadding="@dimen/_10sdp"
-        android:ellipsize="end"
-        android:fontFamily="sans-serif-black"
+        android:fontFamily="sans-serif-medium"
         android:gravity="center"
-        android:lines="2"
-        android:maxLines="2"
         android:padding="@dimen/_5sdp"
-        android:text="@string/download_wallpaper"
+        android:text="@string/what_would_you_like_to_do"
         android:textAllCaps="false"
-        android:textSize="@dimen/_16ssp"
-        android:textStyle="bold"
+        android:textSize="@dimen/_12ssp"
         android:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/linear_download_wallpaper_bottom_sheet_dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/_5sdp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingEnd="@dimen/_10sdp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:drawablePadding="@dimen/_10sdp"
-            android:gravity="center"
+            android:gravity="start"
             android:padding="@dimen/_5sdp"
             android:text="@string/download_wallpaper"
             android:textAllCaps="false"
             android:textSize="@dimen/_14ssp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/ic_download_pressed_icon"
+            app:drawableTint="@color/colorPrimary" />
 
         <View
             android:layout_width="match_parent"
@@ -66,19 +71,24 @@
         android:id="@+id/linear_set_wallpaper_bottom_sheet_dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/_5sdp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingEnd="@dimen/_10sdp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:drawablePadding="@dimen/_10sdp"
-            android:gravity="center"
+            android:gravity="start"
             android:padding="@dimen/_5sdp"
             android:text="@string/set_as_wallpaper"
             android:textAllCaps="false"
             android:textSize="@dimen/_14ssp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:drawableStartCompat="@drawable/exo_ic_settings"
+            app:drawableTint="@color/colorPrimary" />
 
         <View
             android:layout_width="match_parent"

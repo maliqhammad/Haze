@@ -28,6 +28,31 @@
         <!--        <item>On Top</item>-->
         <item>The Man</item>
     </string-array>
+    <string-array name="category_name">
+        <item>animal</item>
+        <item>nature</item>
+        <item>logos</item>
+        <item>bollywood</item>
+        <item>cars and vehicles</item>
+        <item>design</item>
+        <item>drawing</item>
+        <item>entertainment</item>
+        <item>funny</item>
+        <item>games</item>
+        <item>love</item>
+        <item>music</item>
+        <item>news and politics</item>
+        <item>people</item>
+        <item>patterns</item>
+        <item>spiritual</item>
+        <item>sayings</item>
+        <item>sport</item>
+        <item>technology</item>
+        <item>space</item>
+        <item>holiday</item>
+        <item>anime</item>
+        <item>others</item>
+    </string-array>
     <string-array name="colors_array">
         <item>@color/blue_grey</item>
         <item>@color/red</item>
@@ -59,7 +84,6 @@
     <integer-array name="features_images_array">
         <item>@drawable/summer_time</item>
         <item>@drawable/famous_graffiti</item>
-        <!--        <item>@drawanle/morne_venter</item>-->
         <item>@drawable/hot_listing</item>
         <item>@drawable/five_hundred_million</item>
         <item>@drawable/chocolate_art</item>
@@ -79,9 +103,7 @@
         <item>@drawable/good_morning</item>
         <item>@drawable/sports</item>
         <item>@drawable/animals</item>
-        <!--        <item>@drawanle/fake_out</item>-->
         <item>@drawable/neon</item>
-        <!--        <item>@drawanle/on_top</item>-->
         <item>@drawable/the_man</item>
     </integer-array>
 

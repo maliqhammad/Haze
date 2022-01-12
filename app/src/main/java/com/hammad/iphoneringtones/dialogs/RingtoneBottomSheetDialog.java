@@ -8,23 +8,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.hammad.iphoneringtones.R;
+import com.hammad.iphoneringtones.databinding.RingtoneBottomSheetDialogBinding;
 import com.hammad.iphoneringtones.ui.ringtones.RingtoneModel;
-
 
 public class RingtoneBottomSheetDialog extends BottomSheetDialogFragment {
     private static final String TAG = "DialogEditProfileBottom";
-    LinearLayout
-            linear_download_ringtone_bottom_sheet_dialog,
-            linear_set_ringtone_bottom_sheet_dialog;
-    TextView tv_title_ringtone_bottom_sheet_dialog;
+    RingtoneBottomSheetDialogBinding binding;
     Context context;
     RingtoneModel ringtoneModel;
 
@@ -42,28 +37,18 @@ public class RingtoneBottomSheetDialog extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.ringtone_bottom_sheet_dialog, container, false);
+        binding = RingtoneBottomSheetDialogBinding.inflate(getLayoutInflater());
         Log.d(TAG, "onCreateView: ");
-        setIds(view);
         setListener();
-        return view;
-    }
-
-    void setIds(View view) {
-        tv_title_ringtone_bottom_sheet_dialog = view.findViewById(R.id.tv_title_ringtone_bottom_sheet_dialog);
-        tv_title_ringtone_bottom_sheet_dialog.setText(ringtoneModel.getRingtoneTitle());
-        linear_download_ringtone_bottom_sheet_dialog = view.findViewById(R.id.linear_download_ringtone_bottom_sheet_dialog);
-        linear_set_ringtone_bottom_sheet_dialog = view.findViewById(R.id.linear_set_ringtone_bottom_sheet_dialog);
+        return binding.getRoot();
     }
 
     void setListener() {
-        linear_download_ringtone_bottom_sheet_dialog.setOnClickListener(v -> {
+        binding.linearDownloadRingtoneBottomSheetDialog.setOnClickListener(v -> {
             downloadRingtone(context, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle());
             dismiss();
         });
-        linear_set_ringtone_bottom_sheet_dialog.setOnClickListener(v -> {
-            dismiss();
-        });
+        binding.linearSetRingtoneBottomSheetDialog.setOnClickListener(v -> dismiss());
     }
 
     @Override
