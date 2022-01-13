@@ -1,5 +1,7 @@
 package com.hammad.iphoneringtones.ui.ringtones;
 
+import static com.hammad.iphoneringtones.classes.RingtoneHelperUtils.downloadRingtone;
+
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -96,7 +98,17 @@ public class RingtonesFragment extends BaseFragment {
 
             @Override
             public void onSetRingtone(int position) {
-                RingtoneBottomSheetDialog ringtoneBottomSheetDialog = new RingtoneBottomSheetDialog(context, ringtoneModelArrayList.get(position));
+                RingtoneBottomSheetDialog ringtoneBottomSheetDialog = new RingtoneBottomSheetDialog(context, ringtoneModelArrayList.get(position), new RingtoneBottomSheetDialog.Callback() {
+                    @Override
+                    public void onSetAsRingtone(RingtoneModel ringtoneModel) {
+                        downloadRingtone(context, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(),true);
+                    }
+
+                    @Override
+                    public void onDownloadRingtone(RingtoneModel ringtoneModel) {
+                        downloadRingtone(context, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(),false);
+                    }
+                });
                 ringtoneBottomSheetDialog.show(getChildFragmentManager(), "Download");
             }
         });

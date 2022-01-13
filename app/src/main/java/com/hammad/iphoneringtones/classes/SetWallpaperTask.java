@@ -49,14 +49,14 @@ public class SetWallpaperTask extends AsyncTask<String, Void, Bitmap> {
         try {
             if (isSetBoth) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    wallpaperManager.setBitmap(result, null, true, WallpaperManager.FLAG_SYSTEM);
+                    wallpaperManager.setBitmap(result, null, false, WallpaperManager.FLAG_LOCK);
                 }
                 wallpaperManager.setBitmap(result);
                 Toast.makeText(context, context.getResources().getString(R.string.set_wallpaper_on_both_successfully), Toast.LENGTH_SHORT).show();
             } else {
                 if (isSetAsLockScreen) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        wallpaperManager.setBitmap(result, null, true, WallpaperManager.FLAG_LOCK);
+                        wallpaperManager.setBitmap(result, null, false, WallpaperManager.FLAG_LOCK);
                         Toast.makeText(context, context.getResources().getString(R.string.set_lock_screen_successfully), Toast.LENGTH_SHORT).show();
                     }
                 } else {

@@ -1,5 +1,7 @@
 package com.hammad.iphoneringtones.ui.ringtones;
 
+import static com.hammad.iphoneringtones.classes.RingtoneHelperUtils.downloadRingtone;
+
 import androidx.core.content.res.ResourcesCompat;
 
 import android.media.MediaPlayer;
@@ -45,6 +47,7 @@ public class RingtonePlayerActivity extends BaseActivity {
 
     private void initialize() {
         setToolbarTitle(capitalize(ringtoneModel.getRingtoneTitle()));
+        startMediaPlayer();
     }
 
     private void getIntentData() {
@@ -76,25 +79,41 @@ public class RingtonePlayerActivity extends BaseActivity {
             }
         });
         binding.ivDownloadActivityRingtonePlayer.setOnClickListener(view -> {
-            RingtoneBottomSheetDialog ringtoneBottomSheetDialog = new RingtoneBottomSheetDialog(this, ringtoneModel);
+            RingtoneBottomSheetDialog ringtoneBottomSheetDialog = new RingtoneBottomSheetDialog(this, ringtoneModel, new RingtoneBottomSheetDialog.Callback() {
+                @Override
+                public void onSetAsRingtone(RingtoneModel ringtoneModel) {
+                    downloadRingtone(RingtonePlayerActivity.this, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), true);
+                }
+
+                @Override
+                public void onDownloadRingtone(RingtoneModel ringtoneModel) {
+                    downloadRingtone(RingtonePlayerActivity.this, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), false);
+                }
+            });
             ringtoneBottomSheetDialog.show(getSupportFragmentManager(), "Download");
         });
     }
 
     private void playMediaPlayer() {
-        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+        if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
             binding.ivPlayActivityRingtonePlayer.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_play_icon, null));
-        } else if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+        }
+//        else if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+//            binding.ivPlayActivityRingtonePlayer.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_pause_icon, null));
+//            mediaPlayer.start();
+//        }
+        else {
             binding.ivPlayActivityRingtonePlayer.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_pause_icon, null));
             mediaPlayer.start();
-        } else {
-            startMediaPlayer();
+//            startMediaPlayer();
         }
     }
 
     private void startMediaPlayer() {
         binding.progressBarActivityRingtonePlayer.setVisibility(View.VISIBLE);
+        binding.progressBarDownloadActivityRingtonePlayer.setVisibility(View.VISIBLE);
+        binding.ivDownloadActivityRingtonePlayer.setEnabled(false);
         setToolbarTitle(ringtoneModel.getRingtoneTitle());
         try {
             mediaPlayer = new MediaPlayer();
@@ -105,6 +124,8 @@ public class RingtonePlayerActivity extends BaseActivity {
                 mediaPlayer.start();
                 update();
                 binding.progressBarActivityRingtonePlayer.setVisibility(View.INVISIBLE);
+                binding.progressBarDownloadActivityRingtonePlayer.setVisibility(View.INVISIBLE);
+                binding.ivDownloadActivityRingtonePlayer.setEnabled(true);
                 binding.ivPlayActivityRingtonePlayer.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_pause_icon, null));
                 binding.seekerActivityRingtonePlayer.setMax(mp.getDuration());
                 binding.tvTotalDurationActivityRingtonePlayer.setText(convertSecondsToHMmSs(mediaPlayer.getDuration()));
@@ -151,6 +172,7 @@ public class RingtonePlayerActivity extends BaseActivity {
         super.onPause();
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
+            binding.ivPlayActivityRingtonePlayer.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_play_icon, null));
         }
     }
 
@@ -168,6 +190,7 @@ public class RingtonePlayerActivity extends BaseActivity {
             mediaPlayer = null;
         }
         binding.progressBarActivityRingtonePlayer.setVisibility(View.INVISIBLE);
+        binding.progressBarDownloadActivityRingtonePlayer.setVisibility(View.INVISIBLE);
         binding.ivPlayActivityRingtonePlayer.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_play_icon, null));
         binding.tvCurrentDurationActivityRingtonePlayer.setText(getResources().getString(R.string._00_00));
         binding.tvTotalDurationActivityRingtonePlayer.setText(getResources().getString(R.string._00_00));

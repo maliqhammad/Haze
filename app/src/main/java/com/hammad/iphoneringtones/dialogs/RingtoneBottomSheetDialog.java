@@ -1,7 +1,5 @@
 package com.hammad.iphoneringtones.dialogs;
 
-import static com.hammad.iphoneringtones.classes.StaticVariable.downloadRingtone;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,10 +20,12 @@ public class RingtoneBottomSheetDialog extends BottomSheetDialogFragment {
     RingtoneBottomSheetDialogBinding binding;
     Context context;
     RingtoneModel ringtoneModel;
+    Callback callback;
 
-    public RingtoneBottomSheetDialog(Context context, RingtoneModel ringtoneModel) {
+    public RingtoneBottomSheetDialog(Context context, RingtoneModel ringtoneModel, Callback callback) {
         this.context = context;
         this.ringtoneModel = ringtoneModel;
+        this.callback = callback;
     }
 
     @Override
@@ -45,15 +45,24 @@ public class RingtoneBottomSheetDialog extends BottomSheetDialogFragment {
 
     void setListener() {
         binding.linearDownloadRingtoneBottomSheetDialog.setOnClickListener(v -> {
-            downloadRingtone(context, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle());
+            callback.onDownloadRingtone(ringtoneModel);
             dismiss();
         });
-        binding.linearSetRingtoneBottomSheetDialog.setOnClickListener(v -> dismiss());
+        binding.linearSetRingtoneBottomSheetDialog.setOnClickListener(v -> {
+            callback.onSetAsRingtone(ringtoneModel);
+            dismiss();
+        });
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
+    }
+
+    public interface Callback {
+        void onSetAsRingtone(RingtoneModel ringtoneModel);
+
+        void onDownloadRingtone(RingtoneModel ringtoneModel);
     }
 }

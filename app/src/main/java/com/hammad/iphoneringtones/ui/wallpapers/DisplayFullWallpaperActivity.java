@@ -1,6 +1,6 @@
 package com.hammad.iphoneringtones.ui.wallpapers;
 
-import static com.hammad.iphoneringtones.classes.StaticVariable.downloadWallpaper;
+import static com.hammad.iphoneringtones.classes.WallpaperHelperUtils.downloadWallpaper;
 
 
 import androidx.viewpager2.widget.ViewPager2;

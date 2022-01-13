@@ -1,21 +1,15 @@
 package com.hammad.iphoneringtones.classes;
 
-import static com.hammad.iphoneringtones.classes.StaticVariable.downloadReference;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,9 +24,6 @@ import androidx.fragment.app.Fragment;
 import com.hammad.iphoneringtones.R;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -1,14 +1,11 @@
 package com.hammad.iphoneringtones.classes;
 
-import static com.hammad.iphoneringtones.classes.StaticVariable.downloadReference;
+import static com.hammad.iphoneringtones.classes.WallpaperHelperUtils.downloadReference;
 
-import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Looper;
 import android.widget.Toast;
 
 import com.hammad.iphoneringtones.R;

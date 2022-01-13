@@ -1,13 +1,15 @@
 package com.hammad.iphoneringtones.classes;
 
+import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +19,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.hammad.iphoneringtones.R;
 import com.hammad.iphoneringtones.ui.wallpapers.WallpaperModel;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -93,7 +96,55 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void setAsWallpaper(Context context, WallpaperModel wallpaperModel, boolean isSetAsLockScreen, boolean isSetBoth) {
-        AsyncTask<String, Void, Bitmap> asyncTask = new SetWallpaperTask(context, isSetAsLockScreen, isSetBoth);
-        asyncTask.execute(wallpaperModel.getWallpaperUri());
+        new BackgroundTask(this) {
+            Bitmap result;
+            DialogProgressBar progressDialog;
+
+            @Override
+            public void onPreExeucte() {
+                progressDialog = new DialogProgressBar(context);
+                progressDialog.showSpinnerDialog();
+            }
+
+            @Override
+            public void doInBackground() {
+                try {
+                    result = Picasso.get().load(wallpaperModel.getWallpaperUri()).get();
+                    WallpaperManager wallpaperManager = WallpaperManager.getInstance(context);
+                    wallpaperManager.setBitmap(result);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onPostExecute() {
+                WallpaperManager wallpaperManager = WallpaperManager.getInstance(context);
+                try {
+                    if (isSetBoth) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            wallpaperManager.setBitmap(result, null, false, WallpaperManager.FLAG_LOCK);
+                        }
+                        wallpaperManager.setBitmap(result);
+                        Toast.makeText(context, context.getResources().getString(R.string.set_wallpaper_on_both_successfully), Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (isSetAsLockScreen) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                wallpaperManager.setBitmap(result, null, false, WallpaperManager.FLAG_LOCK);
+                                Toast.makeText(context, context.getResources().getString(R.string.set_lock_screen_successfully), Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            wallpaperManager.setBitmap(result);
+                            Toast.makeText(context, context.getResources().getString(R.string.set_wallpaper_successfully), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    progressDialog.cancelSpinnerDialog();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    progressDialog.cancelSpinnerDialog();
+                    Toast.makeText(context, context.getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
     }
 }
