@@ -7,20 +7,20 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_baseline_home_24"
-            android:title="@string/menu_home"
             android:iconTint="@color/white"
-            tools:targetApi="o"/>
+            android:title="@string/menu_home"
+            tools:targetApi="o" />
         <item
             android:id="@+id/nav_wallpapers"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_wallpapers"
+            android:icon="@drawable/ic_wallpaper_icon"
             android:iconTint="@color/white"
+            android:title="@string/menu_wallpapers"
             tools:targetApi="o" />
         <item
             android:id="@+id/nav_ringtones"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_ringtones"
+            android:icon="@drawable/ic_ring_24"
             android:iconTint="@color/white"
-            tools:targetApi="o"/>
+            android:title="@string/menu_ringtones"
+            tools:targetApi="o" />
     </group>
 </menu>

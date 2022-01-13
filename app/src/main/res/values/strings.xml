@@ -114,5 +114,7 @@
     <string name="set_wallpaper_on_both_successfully">Set wallpaper on both successfully</string>
     <string name="set_both">set Both</string>
     <string name="set_as_lock_screen">Set as lock screen</string>
+    <string name="internet_connection">Internet Connection</string>
+    <string name="please_check_your_network_connection_and_try_again">Please check your network connection and try again.</string>
 
 </resources>

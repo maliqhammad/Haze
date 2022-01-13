@@ -21,7 +21,6 @@ import java.util.Locale;
 
 public abstract class WallpaperHelperUtils {
     private static final String TAG = "StaticVariable";
-    public static long downloadReference = 0;
 
     public static void downloadWallpaper(Context context, String url, String name) {
         String[] array = name.split("\\.");
@@ -43,7 +42,7 @@ public abstract class WallpaperHelperUtils {
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         request.setTitle(fileName);
         //Enqueue a new download and same the referenceId
-        downloadReference = downloadManager.enqueue(request);
+        DownloadBroadcastReceiver.downloadReference = downloadManager.enqueue(request);
     }
 
     public static String getWallpaperSubPath(String fileName) {

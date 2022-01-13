@@ -24,7 +24,6 @@ import java.util.Locale;
 public class RingtoneHelperUtils {
 
     private static final String TAG = "RingtoneUtils";
-    public static long downloadReference = 0;
 
     public static void downloadRingtone(Context context, String url, String name, boolean isSetAsRingtone) {
         String[] array = name.split("\\.");
@@ -47,7 +46,7 @@ public class RingtoneHelperUtils {
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         request.setTitle(fileName);
         //Enqueue a new download and same the referenceId
-        downloadReference = downloadManager.enqueue(request);
+        DownloadBroadcastReceiver.downloadReference = downloadManager.enqueue(request);
         Log.d(TAG, "downloadRingtone: " + getDirectoryPath(context) + "/" + getRingtoneSubPath(fileName));
         if (isSetAsRingtone) {
             RingtoneHelperUtils.setRingtone(context, Uri.parse(getDirectoryPath(context) + "/" + getRingtoneSubPath(fileName)));

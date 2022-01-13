@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.hammad.iphoneringtones.R;
 import com.hammad.iphoneringtones.classes.BaseFragment;
-import com.hammad.iphoneringtones.classes.DialogProgressBar;
 import com.hammad.iphoneringtones.classes.DownloadBroadcastReceiver;
 import com.hammad.iphoneringtones.databinding.FragmentRingtonesBinding;
 import com.hammad.iphoneringtones.dialogs.RingtoneBottomSheetDialog;
@@ -34,7 +33,6 @@ public class RingtonesFragment extends BaseFragment {
     RingtonesAdapter ringtonesAdapter;
     Observer<RingtoneModel> ringtoneModelObserver;
     ArrayList<RingtoneModel> ringtoneModelArrayList;
-    DialogProgressBar progressBar;
     DownloadBroadcastReceiver receiver;
 
     @Override
@@ -70,7 +68,7 @@ public class RingtonesFragment extends BaseFragment {
             ringtonesAdapter.stopMediaPlayer();
         }
         binding = null;
-        ringtonesViewModel.getRingtones1().removeObserver(ringtoneModelObserver);
+        ringtonesViewModel.getRingtones(context).removeObserver(ringtoneModelObserver);
         context.unregisterReceiver(receiver);
     }
 
@@ -78,8 +76,6 @@ public class RingtonesFragment extends BaseFragment {
         receiver = new DownloadBroadcastReceiver(context.getResources().getString(R.string.ringtone));
         context.registerReceiver(receiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         ringtoneModelArrayList = new ArrayList<>();
-        progressBar = new DialogProgressBar(context);
-        progressBar.showSpinnerDialog();
     }
 
     private void setListener() {
@@ -101,12 +97,12 @@ public class RingtonesFragment extends BaseFragment {
                 RingtoneBottomSheetDialog ringtoneBottomSheetDialog = new RingtoneBottomSheetDialog(context, ringtoneModelArrayList.get(position), new RingtoneBottomSheetDialog.Callback() {
                     @Override
                     public void onSetAsRingtone(RingtoneModel ringtoneModel) {
-                        downloadRingtone(context, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(),true);
+                        downloadRingtone(context, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), true);
                     }
 
                     @Override
                     public void onDownloadRingtone(RingtoneModel ringtoneModel) {
-                        downloadRingtone(context, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(),false);
+                        downloadRingtone(context, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), false);
                     }
                 });
                 ringtoneBottomSheetDialog.show(getChildFragmentManager(), "Download");
@@ -114,11 +110,9 @@ public class RingtonesFragment extends BaseFragment {
         });
         binding.recyclerViewRingtones.setAdapter(ringtonesAdapter);
         ringtoneModelObserver = ringtoneModel -> {
-            progressBar.cancelSpinnerDialog();
             ringtoneModelArrayList.add(ringtoneModel);
-            Log.d(TAG, "setRecyclerView: " + ringtoneModel.getRingtoneTitle());
             ringtonesAdapter.updateRingtoneList(ringtoneModel);
         };
-        ringtonesViewModel.getRingtones1().observe(getViewLifecycleOwner(), ringtoneModelObserver);
+        ringtonesViewModel.getRingtones(context).observe(getViewLifecycleOwner(), ringtoneModelObserver);
     }
 }

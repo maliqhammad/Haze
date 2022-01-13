@@ -1,6 +1,5 @@
 package com.hammad.iphoneringtones.classes;
 
-import static com.hammad.iphoneringtones.classes.WallpaperHelperUtils.downloadReference;
 
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
@@ -11,7 +10,7 @@ import android.widget.Toast;
 import com.hammad.iphoneringtones.R;
 
 public class DownloadBroadcastReceiver extends BroadcastReceiver {
-
+    public static long downloadReference = 0;
     String message;
 
     public DownloadBroadcastReceiver(String message) {

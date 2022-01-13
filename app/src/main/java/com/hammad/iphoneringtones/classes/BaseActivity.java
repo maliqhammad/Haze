@@ -1,5 +1,6 @@
 package com.hammad.iphoneringtones.classes;
 
+import android.app.AlertDialog;
 import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +8,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -29,13 +33,14 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class BaseActivity extends AppCompatActivity {
-
+public abstract class BaseActivity extends AppCompatActivity {
+    private static final String TAG = "BaseActivity";
     public ActionBar actionBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: ");
         actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
@@ -147,4 +152,28 @@ public class BaseActivity extends AppCompatActivity {
             }
         }.execute();
     }
+
+    public void showDialog(final String title, final String message, final String buttonText) {
+        try {
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(() -> {
+                AlertDialog.Builder adbb = new AlertDialog.Builder(this);
+                adbb.setIcon(R.mipmap.ic_app_launcher_suqare);
+                adbb.setTitle(title);
+                if (message != null)
+                    adbb.setMessage(message);
+                adbb.setPositiveButton(buttonText, null);
+                try {
+                    adbb.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
 }
