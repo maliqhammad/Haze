@@ -6,6 +6,7 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -97,12 +98,12 @@ public class RingtonesFragment extends BaseFragment {
                 RingtoneBottomSheetDialog ringtoneBottomSheetDialog = new RingtoneBottomSheetDialog(context, ringtoneModelArrayList.get(position), new RingtoneBottomSheetDialog.Callback() {
                     @Override
                     public void onSetAsRingtone(RingtoneModel ringtoneModel) {
-                        downloadRingtone(context, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), true);
+                        downloadRingtone(context, RingtoneManager.TYPE_RINGTONE, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), true);
                     }
 
                     @Override
                     public void onDownloadRingtone(RingtoneModel ringtoneModel) {
-                        downloadRingtone(context, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), false);
+                        downloadRingtone(context,RingtoneManager.TYPE_RINGTONE, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), false);
                     }
                 });
                 ringtoneBottomSheetDialog.show(getChildFragmentManager(), "Download");

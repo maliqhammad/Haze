@@ -12,9 +12,14 @@ import com.hammad.iphoneringtones.R;
 public class DownloadBroadcastReceiver extends BroadcastReceiver {
     public static long downloadReference = 0;
     String message;
-
+    OnDownloadCompleteListener completeListener;
     public DownloadBroadcastReceiver(String message) {
         this.message = message;
+    }
+
+    public DownloadBroadcastReceiver(String message,OnDownloadCompleteListener completeListener) {
+        this.message = message;
+        this.completeListener=completeListener;
     }
 
     @Override
@@ -22,6 +27,13 @@ public class DownloadBroadcastReceiver extends BroadcastReceiver {
         long downloadID = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
         if (downloadReference == downloadID) {
             Toast.makeText(context, message + " " + context.getResources().getString(R.string.saved), Toast.LENGTH_SHORT).show();
+            if (completeListener!=null){
+                completeListener.onDownloadCompleted(downloadReference);
+            }
         }
+    }
+
+    public interface OnDownloadCompleteListener{
+        void onDownloadCompleted(long ref);
     }
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <external-path name="WallTone"
+        path="." /> //pictures is the folder where your image will store
+    <external-path name="WallTone"
+        path="." /> //pictures is the folder where your image will store
+</paths>

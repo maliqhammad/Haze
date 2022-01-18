@@ -185,7 +185,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void askPermissions() {
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_SETTINGS}, REQ_PERMISSION);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE}, REQ_PERMISSION);
     }
 
 }
