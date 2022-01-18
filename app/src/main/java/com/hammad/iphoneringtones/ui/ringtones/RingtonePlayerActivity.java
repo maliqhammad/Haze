@@ -2,14 +2,17 @@ package com.hammad.iphoneringtones.ui.ringtones;
 
 import static com.hammad.iphoneringtones.classes.RingtoneHelperUtils.downloadRingtone;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.hammad.iphoneringtones.R;
 import com.hammad.iphoneringtones.classes.BaseActivity;
@@ -82,7 +85,11 @@ public class RingtonePlayerActivity extends BaseActivity {
             RingtoneBottomSheetDialog ringtoneBottomSheetDialog = new RingtoneBottomSheetDialog(this, ringtoneModel, new RingtoneBottomSheetDialog.Callback() {
                 @Override
                 public void onSetAsRingtone(RingtoneModel ringtoneModel) {
-                    downloadRingtone(RingtonePlayerActivity.this, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), true);
+                    if (checkPermissions()) {
+                        downloadRingtone(RingtonePlayerActivity.this, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), true);
+                    } else {
+                        askPermissions();
+                    }
                 }
 
                 @Override
@@ -207,4 +214,15 @@ public class RingtonePlayerActivity extends BaseActivity {
         return String.format(Locale.getDefault(), "%02d:%02d", m, s);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQ_PERMISSION) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                downloadRingtone(RingtonePlayerActivity.this, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), true);
+            } else {
+                Toast.makeText(this, "Approve permissions to set ringtone", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 }

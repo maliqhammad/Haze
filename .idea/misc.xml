@@ -3,67 +3,42 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/drawable-v24/circle_progress_bg.xml" value="0.35625" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/drawable-v24/style_bottom_dialog.xml" value="0.19895833333333332" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/drawable/circle_progress_bg.xml" value="0.35625" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/drawable/download_button_bg.xml" value="0.35625" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/drawable/download_change_state_icon.xml" value="0.25416666666666665" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/drawable/gradient_trans.xml" value="0.35625" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/drawable/ic_close_14.xml" value="0.35625" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/drawable/ic_download.xml" value="0.35625" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/drawable/ic_download_pressed.xml" value="0.25416666666666665" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/drawable/ic_download_round_icon.xml" value="0.35625" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/drawable/ic_play_icon.xml" value="0.35625" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/drawable/ic_share.xml" value="0.35625" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/drawable/imageview_shadow_rounded.xml" value="0.35625" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/drawable/play_icon_drawable.xml" value="0.35625" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/drawable/progress_shape.xml" value="0.25416666666666665" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/drawable/progress_shape_filled.xml" value="0.35625" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/drawable/red_circle.xml" value="0.35625" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/drawable/seekbar_thumb.xml" value="0.35625" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/drawable/style_bottom_dialog.xml" value="0.35625" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/drawable/style_button.xml" value="0.35625" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/drawable/toolbar_bg.xml" value="0.35625" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/layout/activity_auplayer.xml" value="0.3359375" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/layout/activity_display_full_wallpaper.xml" value="0.3359375" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/layout/activity_main.xml" value="0.3359375" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/layout/activity_ringtone_player.xml" value="0.3359375" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/layout/app_bar_main.xml" value="0.3359375" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/layout/content_main.xml" value="0.3359375" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/layout/fragment_wallpapers.xml" value="0.27552328064929515" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/layout/nav_header_main.xml" value="0.3359375" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/layout/popular_wallpaper_adapter_item.xml" value="0.23385416666666667" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/layout/progress_bar.xml" value="0.3359375" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/layout/progress_bar_layout.xml" value="0.23385416666666667" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/layout/ringtone_bottom_sheet_dialog.xml" value="0.3359375" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/layout/ringtone_item.xml" value="0.33" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/layout/wallpaper_bottom_sheet_dialog.xml" value="0.3359375" />
-        <entry key="..\:/Sofnix/material/IPhoneRingtones/app/src/main/res/menu/activity_main_drawer.xml" value="0.3359375" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable-v24/bottom_sheet_bg.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable-v24/download_change_state_icon.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable-v24/navigate_line_bg.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/app_icon_simple.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/bg_button_primary_color.xml" value="0.109375" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/bg_dialog.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/bg_gradient1.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/bg_setting_gradient1.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/bottom_sheet_bg.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/circle_white_bg.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/creative_header_bg.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/download_change_state_icon.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/gradient_trans.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/header_home_bg.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/home_bg.xml" value="0.2175925925925926" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/ic_download.xml" value="0.22205128205128205" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/ic_download_pressed.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/ic_downloading1.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/ic_lock_screen_icon.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/ic_menu_camera.xml" value="0.1037037037037037" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/ic_menu_gallery.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/ic_pause_icon.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/ic_play.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/ic_play_icon.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/ic_ringtone_setting_icon.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/ic_share.xml" value="0.22205128205128205" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/ic_skip_next.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/ic_skip_previous.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/ic_white_dot.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/ic_white_dot_pressed.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/imageview_shadow_rounded.xml" value="0.22205128205128205" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/imageview_white_shadow_rounded.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/progress_shape.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/progress_shape_bg.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/progress_shape_filled.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/ringtone_home_bg.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/seekbar_progress.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/seekbar_thumb_white.xml" value="0.22552083333333334" />
@@ -71,24 +46,34 @@
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/text_button.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/top_tab_bg.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/drawable/wallpapers_home_bg.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/activity_display_full_wallpaper.xml" value="0.2" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/activity_main.xml" value="0.20615384615384616" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/activity_main2.xml" value="0.209375" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/activity_ringtone_player.xml" value="0.209375" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/activity_splash.xml" value="0.1" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/activity_video_player.xml" value="0.209375" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/app_bar_main.xml" value="0.2" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/content_main.xml" value="0.2" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/creative_view_content_item.xml" value="0.209375" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/creative_view_header_item.xml" value="0.22" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/dialog_bottom_sheet.xml" value="0.20615384615384616" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/dialog_error.xml" value="0.209375" />
-        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/dialog_success.xml" value="0.209375" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/dialog_success.xml" value="0.22" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/features_adapter_item.xml" value="0.20555555555555555" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/fragment_display_full_wallpaper.xml" value="0.1" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/fragment_gallery.xml" value="0.209375" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/fragment_home.xml" value="0.209375" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/fragment_ringtones.xml" value="0.2" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/fragment_slideshow.xml" value="0.25" />
-        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/fragment_wallpapers.xml" value="0.209375" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/fragment_wallpapers.xml" value="0.1875" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/nav_header_main.xml" value="0.20615384615384616" />
-        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/popular_wallpaper_adapter_item.xml" value="0.209375" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/popular_wallpaper_adapter_item.xml" value="0.5" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/progress_bar.xml" value="0.20615384615384616" />
-        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/progress_bar_layout.xml" value="0.20615384615384616" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/progress_bar_layout.xml" value="0.25" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/ringtone_bottom_sheet_dialog.xml" value="0.209375" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/ringtone_item.xml" value="0.25" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/song_item.xml" value="0.209375" />
+        <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/layout/wallpaper_bottom_sheet_dialog.xml" value="0.25" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/menu/activity_main_drawer.xml" value="0.20615384615384616" />
         <entry key="..\:/Users/malik/AndroidStudioProjects/IPhoneRingtones/app/src/main/res/xml/network_security_config.xml" value="0.1" />
       </map>
