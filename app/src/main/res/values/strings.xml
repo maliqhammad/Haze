@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">IPhone Ringtones</string>
+    <string name="app_name">WallTone</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -52,7 +52,7 @@
     <string name="get_started">Get Started</string>
     <string name="open">Open</string>
     <string name="success_message">RingTone successfully downloaded</string>
-    <string name="ok">OK</string>
+    <string name="ok">Ok</string>
     <string name="error_message">Oops! Something went wrong while downloading. Please try later</string>
     <string name="downloading_ringtone">Downloading Ringtone…</string>
     <string name="please_wait">Please Wait</string>

@@ -1,8 +1,6 @@
 package com.hammad.iphoneringtones.ui.ringtones;
 
 import static com.hammad.iphoneringtones.classes.RingtoneHelperUtils.downloadRingtone;
-import static com.hammad.iphoneringtones.classes.RingtoneHelperUtils.getDirectoryPath;
-import static com.hammad.iphoneringtones.classes.RingtoneHelperUtils.setRingtone;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
@@ -25,7 +23,6 @@ import com.hammad.iphoneringtones.classes.DownloadBroadcastReceiver;
 import com.hammad.iphoneringtones.databinding.ActivityRingtonePlayerBinding;
 import com.hammad.iphoneringtones.dialogs.RingtoneBottomSheetDialog;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Locale;
@@ -59,13 +56,7 @@ public class RingtonePlayerActivity extends BaseActivity {
     private void initialize() {
         setToolbarTitle(capitalize(ringtoneModel.getRingtoneTitle()));
         startMediaPlayer();
-        receiver = new DownloadBroadcastReceiver(getResources().getString(R.string.ringtone), ref -> {
-            Log.d(TAG, "onDownloadCompleted: " + ref);
-            setRingtone(RingtonePlayerActivity.this,
-                    RingtoneManager.TYPE_RINGTONE,
-                    new File(getDirectoryPath(RingtonePlayerActivity.this) + "/WallTone/" + ringtoneModel.getRingtoneTitle().split("\\.")[0] + ".mp3"),
-                    ringtoneModel.getRingtoneTitle().split("\\.")[0]);
-        });
+        receiver = new DownloadBroadcastReceiver(getResources().getString(R.string.ringtone));
         registerReceiver(receiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
@@ -101,16 +92,12 @@ public class RingtonePlayerActivity extends BaseActivity {
             RingtoneBottomSheetDialog ringtoneBottomSheetDialog = new RingtoneBottomSheetDialog(this, ringtoneModel, new RingtoneBottomSheetDialog.Callback() {
                 @Override
                 public void onSetAsRingtone(RingtoneModel ringtoneModel) {
-                    if (checkPermissions()) {
-                        downloadRingtone(RingtonePlayerActivity.this, RingtoneManager.TYPE_RINGTONE, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), true);
-                    } else {
-                        askPermissions();
-                    }
+                    downloadRingtone(RingtonePlayerActivity.this, RingtonePlayerActivity.this, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), RingtoneManager.TYPE_RINGTONE, true);
                 }
 
                 @Override
                 public void onDownloadRingtone(RingtoneModel ringtoneModel) {
-                    downloadRingtone(RingtonePlayerActivity.this, RingtoneManager.TYPE_RINGTONE, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), false);
+                    downloadRingtone(RingtonePlayerActivity.this, RingtonePlayerActivity.this, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), RingtoneManager.TYPE_RINGTONE, false);
                 }
             });
             ringtoneBottomSheetDialog.show(getSupportFragmentManager(), "Download");
@@ -236,7 +223,7 @@ public class RingtonePlayerActivity extends BaseActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQ_PERMISSION) {// If request is cancelled, the result arrays are empty.
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                downloadRingtone(RingtonePlayerActivity.this, RingtoneManager.TYPE_RINGTONE, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), true);
+                downloadRingtone(RingtonePlayerActivity.this, RingtonePlayerActivity.this, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), RingtoneManager.TYPE_RINGTONE, true);
             } else {
                 Toast.makeText(this, "Approve permissions to set ringtone", Toast.LENGTH_LONG).show();
             }

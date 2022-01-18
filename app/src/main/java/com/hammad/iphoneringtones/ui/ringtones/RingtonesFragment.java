@@ -98,12 +98,12 @@ public class RingtonesFragment extends BaseFragment {
                 RingtoneBottomSheetDialog ringtoneBottomSheetDialog = new RingtoneBottomSheetDialog(context, ringtoneModelArrayList.get(position), new RingtoneBottomSheetDialog.Callback() {
                     @Override
                     public void onSetAsRingtone(RingtoneModel ringtoneModel) {
-                        downloadRingtone(context, RingtoneManager.TYPE_RINGTONE, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), true);
+                        downloadRingtone(getActivity(), context, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), RingtoneManager.TYPE_RINGTONE, true);
                     }
 
                     @Override
                     public void onDownloadRingtone(RingtoneModel ringtoneModel) {
-                        downloadRingtone(context,RingtoneManager.TYPE_RINGTONE, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), false);
+                        downloadRingtone(getActivity(), context, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), RingtoneManager.TYPE_RINGTONE, false);
                     }
                 });
                 ringtoneBottomSheetDialog.show(getChildFragmentManager(), "Download");
