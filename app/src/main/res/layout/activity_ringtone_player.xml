@@ -53,7 +53,7 @@
             android:progress="0"
             android:progressTint="@color/colorAccent"
             android:secondaryProgress="100"
-            android:secondaryProgressTint="@color/gray"
+            android:secondaryProgressTint="@color/gray_color"
             android:secondaryProgressTintMode="screen"
             android:thumb="@drawable/seekbar_thumb" />
 

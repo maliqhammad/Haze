@@ -1,9 +1,11 @@
 package com.hammad.iphoneringtones.classes;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -19,6 +21,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.hammad.iphoneringtones.R;
@@ -36,6 +40,7 @@ import java.util.regex.Pattern;
 public abstract class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
     public ActionBar actionBar;
+    public static int REQ_PERMISSION = 123;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -175,5 +180,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
+    public boolean checkPermissions() {
+        return (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_SETTINGS) == PackageManager.PERMISSION_GRANTED);
+    }
+
+    public void askPermissions() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_SETTINGS}, REQ_PERMISSION);
+    }
 
 }

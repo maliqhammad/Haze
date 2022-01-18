@@ -1,12 +1,14 @@
 package com.hammad.iphoneringtones.classes;
 
 import android.app.DownloadManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,9 +19,6 @@ import androidx.annotation.RequiresApi;
 import com.hammad.iphoneringtones.R;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 public class RingtoneHelperUtils {
 
@@ -47,44 +46,38 @@ public class RingtoneHelperUtils {
         request.setTitle(fileName);
         //Enqueue a new download and same the referenceId
         DownloadBroadcastReceiver.downloadReference = downloadManager.enqueue(request);
-        Log.d(TAG, "downloadRingtone: " + getDirectoryPath(context) + "/" + getRingtoneSubPath(fileName));
         if (isSetAsRingtone) {
-            RingtoneHelperUtils.setRingtone(context, Uri.parse(getDirectoryPath(context) + "/" + getRingtoneSubPath(fileName)));
+            setRingtone(context, new File(getDirectoryPath(context) + "/" + getRingtoneSubPath(fileName)), fileName);
         }
     }
 
     public static String getRingtoneSubPath(String fileName) {
-        return fileName + "_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date()) + ".mp3";
+//        return fileName + "_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date()) + ".mp3";
+        return fileName + ".mp3";
     }
 
     public static String getDirectoryPath(Context context) {
         File directory;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            directory = context.getExternalFilesDir("IPhoneRingtone");
+            directory = context.getExternalFilesDir(Environment.DIRECTORY_RINGTONES);
         } else {
-            directory = Environment.getExternalStoragePublicDirectory("IPhoneRingtone");
+            directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_RINGTONES);
         }
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
-        Log.d(TAG, "saveFileName: " + directory.getPath());
         return directory.getPath();
     }
 
-    public static boolean setRingtone(Context context,Uri ringtoneUri) {
+    public static boolean setRingtone(Context context, Uri ringtoneUri) {
         Log.v(TAG, "Setting Ringtone to: " + ringtoneUri);
 
         if (!hasMarshmallow()) {
             Log.v(TAG, "On a Lollipop or below device, so go ahead and change device ringtone");
             setActualRingtone(context, ringtoneUri);
             return true;
-        }
-        else if(canEditSystemSettings(context)) {
+        } else if (canEditSystemSettings(context)) {
             Log.v(TAG, "On a marshmallow or above device but app has the permission to edit system settings");
             setActualRingtone(context, ringtoneUri);
             return true;
-        }
-        else if(hasMarshmallow() && !canEditSystemSettings(context)) {
+        } else if (hasMarshmallow() && !canEditSystemSettings(context)) {
             Log.d(TAG, "On android Marshmallow and above but app does not have permission to" +
                     " edit system settings. Opening the manage write settings activity...");
             startManageWriteSettingsActivity(context);
@@ -93,6 +86,30 @@ public class RingtoneHelperUtils {
         }
 
         return false;
+    }
+
+    public static void setRingtone(Context context, File file, String fileName) {
+        if (file.exists()) {
+            file.mkdirs();
+        }
+        Log.d(TAG, "setRingtone: " + fileName);
+        Log.d(TAG, "setRingtone: " + file.getAbsolutePath());
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.MediaColumns.DATA, file.getAbsolutePath());
+        values.put(MediaStore.MediaColumns.TITLE, fileName);
+        values.put(MediaStore.MediaColumns.MIME_TYPE, "audio/*");
+        values.put(MediaStore.MediaColumns.SIZE, file.length());
+//        values.put(MediaStore.Audio.Media.ARTIST, "Some Artist");
+
+        values.put(MediaStore.Audio.Media.IS_RINGTONE, true);
+        values.put(MediaStore.Audio.Media.IS_NOTIFICATION, false);
+        values.put(MediaStore.Audio.Media.IS_ALARM, false);
+        values.put(MediaStore.Audio.Media.IS_MUSIC, false);
+
+        //Insert it into the database
+        Uri uri = MediaStore.Audio.Media.getContentUriForPath(file.getAbsolutePath());
+        Uri newUri = context.getContentResolver().insert(uri, values);
+        RingtoneManager.setActualDefaultRingtoneUri(context, RingtoneManager.TYPE_RINGTONE, newUri);
     }
 
     private static void setActualRingtone(@NonNull Context context, @NonNull Uri ringtoneUri) {
