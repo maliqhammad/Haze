@@ -1,11 +1,9 @@
 package com.hammad.iphoneringtones.classes;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -20,8 +18,6 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
@@ -34,7 +30,6 @@ import java.util.regex.Pattern;
 
 public abstract class BaseFragment extends Fragment {
     private static final String TAG = "BaseFragment";
-    public static int REQ_PERMISSION = 123;
 
     @Nullable
     @Override
@@ -111,13 +106,5 @@ public abstract class BaseFragment extends Fragment {
             capMatcher.appendReplacement(capBuffer, Objects.requireNonNull(capMatcher.group(1)).toUpperCase() + Objects.requireNonNull(capMatcher.group(2)).toLowerCase());
         }
         return capMatcher.appendTail(capBuffer).toString();
-    }
-
-    public boolean checkLocationPermission(Context context) {
-        return (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_SETTINGS) == PackageManager.PERMISSION_GRANTED);
-    }
-
-    public void askLocationPermission() {
-        ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.WRITE_SETTINGS}, REQ_PERMISSION);
     }
 }

@@ -1,9 +1,12 @@
 package com.hammad.iphoneringtones.classes;
 
+
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.WallpaperManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -21,11 +24,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
-import com.downloader.PRDownloader;
 import com.hammad.iphoneringtones.R;
 import com.hammad.iphoneringtones.ui.wallpapers.WallpaperModel;
 import com.squareup.picasso.Picasso;
@@ -41,13 +42,11 @@ import java.util.regex.Pattern;
 public abstract class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
     public ActionBar actionBar;
-    public static int REQ_PERMISSION = 123;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
-        PRDownloader.initialize(this);
         actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
@@ -180,18 +179,61 @@ public abstract class BaseActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    } public static void showDialog_with_listener(Context context, final String title, final String message, final String negativeBtnText, final String positiveBtnText, final boolean isCancelAble, final DialogInterface.OnClickListener listener) {
+        try {
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(() -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setIcon(R.drawable.ic_permission_24);
+                builder.setTitle(title);
+                builder.setMessage(message);
+                if (positiveBtnText != null && !positiveBtnText.equals("")) {
+                    builder.setPositiveButton(positiveBtnText, listener);
+                }
+                if (negativeBtnText != null && !negativeBtnText.equals("")) {
+                    builder.setNegativeButton(negativeBtnText, listener);
+                }
+                try {
+                    builder.setCancelable(isCancelAble);
+                    Dialog dialog = builder.create();
+                    dialog.setCanceledOnTouchOutside(isCancelAble);
+                    dialog.setCancelable(isCancelAble);
+                    dialog.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void showDialog(Context context, final String title, final String message, final String buttonText) {
+        try {
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(() -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setIcon(R.drawable.app_icon_simple);
+                builder.setTitle(title);
+                if (message != null)
+                    builder.setMessage(message);
+                builder.setPositiveButton(buttonText, null);
+                try {
+                    Dialog dialog;
+                    dialog = builder.create();
+                    dialog.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean checkPermissions() {
         return (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_SETTINGS) == PackageManager.PERMISSION_GRANTED);
-    }
-
-    public boolean checkReadWritePermissions() {
-        return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    public void askReadWritePermissions() {
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, REQ_PERMISSION);
     }
 
 }

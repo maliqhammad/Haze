@@ -52,6 +52,14 @@ public class RingtoneBottomSheetDialog extends BottomSheetDialogFragment {
             callback.onSetAsRingtone(ringtoneModel);
             dismiss();
         });
+        binding.linearSetNotificationBottomSheetDialog.setOnClickListener(v -> {
+            callback.onSetAsNotification(ringtoneModel);
+            dismiss();
+        });
+        binding.linearSetAlarmBottomSheetDialog.setOnClickListener(v -> {
+            callback.onSetAsAlarm(ringtoneModel);
+            dismiss();
+        });
     }
 
     @Override
@@ -62,6 +70,10 @@ public class RingtoneBottomSheetDialog extends BottomSheetDialogFragment {
 
     public interface Callback {
         void onSetAsRingtone(RingtoneModel ringtoneModel);
+
+        void onSetAsNotification(RingtoneModel ringtoneModel);
+
+        void onSetAsAlarm(RingtoneModel ringtoneModel);
 
         void onDownloadRingtone(RingtoneModel ringtoneModel);
     }

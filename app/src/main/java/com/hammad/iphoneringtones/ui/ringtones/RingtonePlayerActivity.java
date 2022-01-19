@@ -1,11 +1,14 @@
 package com.hammad.iphoneringtones.ui.ringtones;
 
-import static com.hammad.iphoneringtones.classes.RingtoneHelperUtils.downloadRingtone;
+import static com.hammad.iphoneringtones.classes.RingtoneHelperUtils.REQ_PERMISSION;
+import static com.hammad.iphoneringtones.classes.RingtoneHelperUtils.startDownloadRingtone;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.app.DownloadManager;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
@@ -35,11 +38,13 @@ public class RingtonePlayerActivity extends BaseActivity {
     Handler handler;
     Runnable runnable;
     DownloadBroadcastReceiver receiver;
+    RingtoneModel mRingtoneModel;
+    int ringtoneType = 0;
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(TAG, "onStart: ");
+        Log.d(TAG, "onStart: " + ringtoneType);
     }
 
     @Override
@@ -53,6 +58,27 @@ public class RingtonePlayerActivity extends BaseActivity {
         setListener();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+            binding.ivPlayActivityRingtonePlayer.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_play_icon, null));
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
+        clearMediaPlayer();
+    }
+
     private void initialize() {
         setToolbarTitle(capitalize(ringtoneModel.getRingtoneTitle()));
         startMediaPlayer();
@@ -62,7 +88,6 @@ public class RingtonePlayerActivity extends BaseActivity {
 
     private void getIntentData() {
         ringtoneModel = (RingtoneModel) getIntent().getSerializableExtra("list");
-        Log.d(TAG, "getIntentData: " + ringtoneModel.getRingtoneTitle());
     }
 
     private void setListener() {
@@ -92,12 +117,30 @@ public class RingtonePlayerActivity extends BaseActivity {
             RingtoneBottomSheetDialog ringtoneBottomSheetDialog = new RingtoneBottomSheetDialog(this, ringtoneModel, new RingtoneBottomSheetDialog.Callback() {
                 @Override
                 public void onSetAsRingtone(RingtoneModel ringtoneModel) {
-                    downloadRingtone(RingtonePlayerActivity.this, RingtonePlayerActivity.this, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), RingtoneManager.TYPE_RINGTONE, true);
+                    mRingtoneModel = ringtoneModel;
+                    ringtoneType = RingtoneManager.TYPE_RINGTONE;
+                    startDownloadRingtone(RingtonePlayerActivity.this, RingtonePlayerActivity.this, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), RingtoneManager.TYPE_RINGTONE, true);
+                }
+
+                @Override
+                public void onSetAsNotification(RingtoneModel ringtoneModel) {
+                    mRingtoneModel = ringtoneModel;
+                    ringtoneType = RingtoneManager.TYPE_NOTIFICATION;
+                    startDownloadRingtone(RingtonePlayerActivity.this, RingtonePlayerActivity.this, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), RingtoneManager.TYPE_NOTIFICATION, true);
+                }
+
+                @Override
+                public void onSetAsAlarm(RingtoneModel ringtoneModel) {
+                    mRingtoneModel = ringtoneModel;
+                    ringtoneType = RingtoneManager.TYPE_ALARM;
+                    startDownloadRingtone(RingtonePlayerActivity.this, RingtonePlayerActivity.this, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), RingtoneManager.TYPE_ALARM, true);
                 }
 
                 @Override
                 public void onDownloadRingtone(RingtoneModel ringtoneModel) {
-                    downloadRingtone(RingtonePlayerActivity.this, RingtonePlayerActivity.this, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), RingtoneManager.TYPE_RINGTONE, false);
+                    mRingtoneModel = ringtoneModel;
+                    ringtoneType = 0;
+                    startDownloadRingtone(RingtonePlayerActivity.this, RingtonePlayerActivity.this, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), RingtoneManager.TYPE_RINGTONE, false);
                 }
             });
             ringtoneBottomSheetDialog.show(getSupportFragmentManager(), "Download");
@@ -108,22 +151,14 @@ public class RingtonePlayerActivity extends BaseActivity {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
             binding.ivPlayActivityRingtonePlayer.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_play_icon, null));
-        }
-//        else if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
-//            binding.ivPlayActivityRingtonePlayer.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_pause_icon, null));
-//            mediaPlayer.start();
-//        }
-        else {
+        } else {
             binding.ivPlayActivityRingtonePlayer.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_pause_icon, null));
             mediaPlayer.start();
-//            startMediaPlayer();
         }
     }
 
     private void startMediaPlayer() {
         binding.progressBarActivityRingtonePlayer.setVisibility(View.VISIBLE);
-        binding.progressBarDownloadActivityRingtonePlayer.setVisibility(View.VISIBLE);
-        binding.ivDownloadActivityRingtonePlayer.setEnabled(false);
         setToolbarTitle(ringtoneModel.getRingtoneTitle());
         try {
             mediaPlayer = new MediaPlayer();
@@ -134,8 +169,6 @@ public class RingtonePlayerActivity extends BaseActivity {
                 mediaPlayer.start();
                 update();
                 binding.progressBarActivityRingtonePlayer.setVisibility(View.INVISIBLE);
-                binding.progressBarDownloadActivityRingtonePlayer.setVisibility(View.INVISIBLE);
-                binding.ivDownloadActivityRingtonePlayer.setEnabled(true);
                 binding.ivPlayActivityRingtonePlayer.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_pause_icon, null));
                 binding.seekerActivityRingtonePlayer.setMax(mp.getDuration());
                 binding.tvTotalDurationActivityRingtonePlayer.setText(convertSecondsToHMmSs(mediaPlayer.getDuration()));
@@ -177,22 +210,6 @@ public class RingtonePlayerActivity extends BaseActivity {
         });
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-            mediaPlayer.pause();
-            binding.ivPlayActivityRingtonePlayer.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_play_icon, null));
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(receiver);
-        clearMediaPlayer();
-    }
-
     private void clearMediaPlayer() {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
@@ -201,7 +218,6 @@ public class RingtonePlayerActivity extends BaseActivity {
             mediaPlayer = null;
         }
         binding.progressBarActivityRingtonePlayer.setVisibility(View.INVISIBLE);
-        binding.progressBarDownloadActivityRingtonePlayer.setVisibility(View.INVISIBLE);
         binding.ivPlayActivityRingtonePlayer.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_play_icon, null));
         binding.tvCurrentDurationActivityRingtonePlayer.setText(getResources().getString(R.string._00_00));
         binding.tvTotalDurationActivityRingtonePlayer.setText(getResources().getString(R.string._00_00));
@@ -219,13 +235,20 @@ public class RingtonePlayerActivity extends BaseActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQ_PERMISSION) {// If request is cancelled, the result arrays are empty.
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                downloadRingtone(RingtonePlayerActivity.this, RingtonePlayerActivity.this, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), RingtoneManager.TYPE_RINGTONE, true);
+                if (mRingtoneModel != null) {
+                    startDownloadRingtone(RingtonePlayerActivity.this, RingtonePlayerActivity.this, mRingtoneModel.getRingtoneURL(), mRingtoneModel.getRingtoneTitle(), ringtoneType, ringtoneType != 0);
+                }
             } else {
-                Toast.makeText(this, "Approve permissions to set ringtone", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Permissions Denied", Toast.LENGTH_LONG).show();
             }
         }
     }

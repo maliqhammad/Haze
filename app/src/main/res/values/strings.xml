@@ -61,6 +61,7 @@
     <string name="no">NO</string>
     <string name="yes">YES</string>
 
+    <string name="system_settings">System Settings</string>
     <string name="permission_message">This permission is needed to set ringtone to your call ringtone, alarm ringtone or notification ringtone so please first allow this permission</string>
     <string name="allow_modify_system_settings">Allow modify system settings</string>
     <string name="allow_permission">Allow Permission</string>
@@ -116,5 +117,7 @@
     <string name="set_as_lock_screen">Set as lock screen</string>
     <string name="internet_connection">Internet Connection</string>
     <string name="please_check_your_network_connection_and_try_again">Please check your network connection and try again.</string>
+    <string name="set_as_notification">Set as Notification</string>
+    <string name="set_as_alarm">Set as Alarm</string>
 
 </resources>
