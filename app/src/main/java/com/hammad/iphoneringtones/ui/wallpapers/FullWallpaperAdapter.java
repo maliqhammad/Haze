@@ -27,7 +27,7 @@ public final class FullWallpaperAdapter extends Adapter<FullWallpaperAdapter.Ful
 
     @NotNull
     public FullWallpaperAdapter.FullWallpaperAdapter1ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
-        return new FullWallpaperAdapter1ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.creative_view_content_item, parent, false));
+        return new FullWallpaperAdapter1ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.full_wallpaper_adapter_item, parent, false));
     }
 
     public void onBindViewHolder(@NotNull FullWallpaperAdapter.FullWallpaperAdapter1ViewHolder holder, int position) {

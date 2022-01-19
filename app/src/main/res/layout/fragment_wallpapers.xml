@@ -44,7 +44,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_category_label_home_fragment"
-                tools:listitem="@layout/features_adapter_item" />
+                tools:listitem="@layout/categories_adapter_item" />
 
             <TextView
                 android:id="@+id/tv_popular_label_home_fragment"

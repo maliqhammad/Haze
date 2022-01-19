@@ -1,11 +1,10 @@
 package com.hammad.iphoneringtones.classes;
 
+import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,11 +12,10 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
@@ -59,23 +57,6 @@ public abstract class BaseFragment extends Fragment {
 
     }
 
-    public void showSuccessDialog(Context context) {
-        Dialog mDialog = new Dialog(context);
-        mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        mDialog.setCanceledOnTouchOutside(false);
-        mDialog.setContentView(R.layout.dialog_success);
-        Button shareButton = mDialog.findViewById(R.id.shareButton);
-        shareButton.setVisibility(View.GONE);
-        Button closeButton = mDialog.findViewById(R.id.closeButton);
-        shareButton.setOnClickListener(view -> {
-            mDialog.dismiss();
-//            shareMusicFile(context, file);
-        });
-        closeButton.setOnClickListener(view -> mDialog.dismiss());
-        mDialog.show();
-    }
-
     public void shareMusicFile(Context context, File file) {
         Uri contentUri = FileProvider.getUriForFile(context, "com.hammad.iphoneringtones.provider", file);
         if (file.exists()) {
@@ -106,5 +87,9 @@ public abstract class BaseFragment extends Fragment {
             capMatcher.appendReplacement(capBuffer, Objects.requireNonNull(capMatcher.group(1)).toUpperCase() + Objects.requireNonNull(capMatcher.group(2)).toLowerCase());
         }
         return capMatcher.appendTail(capBuffer).toString();
+    }
+
+    public boolean checkReadWritePermissions(Context context) {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
 }

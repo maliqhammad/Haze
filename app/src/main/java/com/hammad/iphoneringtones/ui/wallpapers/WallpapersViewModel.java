@@ -20,7 +20,6 @@ import com.hammad.iphoneringtones.classes.SingleLiveEvent;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -29,28 +28,83 @@ public class WallpapersViewModel extends ViewModel {
     FirebaseStorage firebaseStorage;
     StorageReference pathReference;
     SingleLiveEvent<WallpaperModel> wallpaperModelSingleLiveEvent;
-    SingleLiveEvent<ArrayList<WallpaperModel>> categoryMutableLiveData;
-    boolean isRetrieveCategory = false;
+    SingleLiveEvent<WallpaperModel> categoryMutableLiveData;
+    Callback callback;
     DialogProgressBar progressBar;
 
-    public SingleLiveEvent<ArrayList<WallpaperModel>> setCategoryList(Context context) {
-        if (categoryMutableLiveData == null) {
-            categoryMutableLiveData = new SingleLiveEvent<>();
-            categoryMutableLiveData.setValue(getCategoryList(context));
+//    public SingleLiveEvent<WallpaperModel> setCategoryList(Context context) {
+//        if (categoryMutableLiveData == null) {
+//            categoryMutableLiveData = new SingleLiveEvent<>();
+//            categoryMutableLiveData.setValue(getCategoryList(context));
+//        }
+//        return categoryMutableLiveData;
+//    }
+
+    public SingleLiveEvent<WallpaperModel> getCategoryList(Context context) {
+        progressBar = new DialogProgressBar(context);
+        categoryMutableLiveData = new SingleLiveEvent<>();
+        if (isInternetConnected(context)) {
+            progressBar.showSpinnerDialog();
+            loadCategoryList();
         }
         return categoryMutableLiveData;
     }
 
-    private ArrayList<WallpaperModel> getCategoryList(Context context) {
-        ArrayList<WallpaperModel> categoryArrayList = new ArrayList<>();
-        for (int i = 0; i < Categories.getFeatures(context).size(); i++) {
-            WallpaperModel wallpaperModel = new WallpaperModel();
-            wallpaperModel.setWallpaperTitle(Categories.getFeatures(context).get(i));
-            wallpaperModel.setCategory(Categories.getCategoryNames(context).get(i));
-            wallpaperModel.setImage(Categories.getFeatureImages(context).getResourceId(i, 0));
-            categoryArrayList.add(wallpaperModel);
+    private void loadCategoryList() {
+        DatabaseReference wallpapersRef = FirebaseDatabase.getInstance().getReference().child("categories");
+        wallpapersRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    dataSnapshot.child(Objects.requireNonNull(dataSnapshot.getKey())).getRef().addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            progressBar.cancelSpinnerDialog();
+                            categoryMutableLiveData.setValue(new WallpaperModel(
+                                    Objects.requireNonNull(dataSnapshot.child("categoryTitle").getValue()).toString(),
+                                    Objects.requireNonNull(dataSnapshot.child("categoryTitle").getValue()).toString(),
+                                    Objects.requireNonNull(dataSnapshot.child("categoryUrl").getValue()).toString()
+                            ));
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            progressBar.cancelSpinnerDialog();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                progressBar.cancelSpinnerDialog();
+            }
+        });
+    }
+
+    public void retrieveCategories(Context context) {
+        progressBar = new DialogProgressBar(context);
+        if (isInternetConnected(context)) {
+            progressBar.showSpinnerDialog();
+            DatabaseReference ringtonesRef = FirebaseDatabase.getInstance().getReference();
+            firebaseStorage = FirebaseStorage.getInstance();
+            pathReference = FirebaseStorage.getInstance().getReference().child("categories");
+            pathReference.listAll().addOnSuccessListener(listResult -> {
+                for (StorageReference item : listResult.getItems()) {
+                    item.getDownloadUrl().addOnSuccessListener(uri -> {
+                        String key = ringtonesRef.child("categories").getKey();
+                        if (key != null) {
+                            HashMap<String, String> hashMap = new HashMap<>();
+                            hashMap.put("categoryUrl", uri.toString());
+                            hashMap.put("categoryTitle", FirebaseStorage.getInstance().getReferenceFromUrl(uri.toString()).getName());
+                            ringtonesRef.child(key).push().setValue(hashMap);
+                        }
+                        categoryMutableLiveData.setValue(new WallpaperModel(item.getName(), item.getName(), uri.toString()));
+                        progressBar.cancelSpinnerDialog();
+                    });
+                }
+            }).addOnFailureListener(e -> progressBar.cancelSpinnerDialog());
         }
-        return categoryArrayList;
     }
 
     public SingleLiveEvent<WallpaperModel> getPopularWallpaper(Context context) {
@@ -130,6 +184,7 @@ public class WallpapersViewModel extends ViewModel {
     }
 
     private void loadWallpapersByCategory(WallpaperModel wallpaperModel) {
+        Log.d(TAG, "loadWallpapersByCategory: " + wallpaperModel.getCategory());
         DatabaseReference wallpapersRef = FirebaseDatabase.getInstance().getReference().child("wallpapersByCategory").child(wallpaperModel.getCategory());
         wallpapersRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -161,6 +216,7 @@ public class WallpapersViewModel extends ViewModel {
     }
 
     public void retrieveWallpapersByCategory(Context context, WallpaperModel wallpaperModel) {
+        Log.d(TAG, "retrieveWallpapersByCategory: " + wallpaperModel.getCategory());
         progressBar = new DialogProgressBar(context);
         if (isInternetConnected(context)) {
             progressBar.showSpinnerDialog();
@@ -185,20 +241,24 @@ public class WallpapersViewModel extends ViewModel {
         }
     }
 
-    public boolean isRetrieveCategory() {
+    public void isRetrieveCategory(Callback callback) {
+        this.callback = callback;
         DatabaseReference configRef = FirebaseDatabase.getInstance().getReference().child("appConfiguration");
         configRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String value = Objects.requireNonNull(snapshot.child("isRetrieveCategory").getValue()).toString();
-                isRetrieveCategory = value.equals("true");
+                callback.onDataChange(value.equals("true"));
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                isRetrieveCategory = false;
+                callback.onDataChange(false);
             }
         });
-        return isRetrieveCategory;
+    }
+
+    public interface Callback {
+        void onDataChange(boolean isRetrieveCategory);
     }
 }

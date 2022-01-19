@@ -1,6 +1,5 @@
 package com.hammad.iphoneringtones.classes;
 
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -179,7 +178,9 @@ public abstract class BaseActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-    } public static void showDialog_with_listener(Context context, final String title, final String message, final String negativeBtnText, final String positiveBtnText, final boolean isCancelAble, final DialogInterface.OnClickListener listener) {
+    }
+
+    public static void showDialog_with_listener(Context context, final String title, final String message, final String negativeBtnText, final String positiveBtnText, final boolean isCancelAble, final DialogInterface.OnClickListener listener) {
         try {
             Handler handler = new Handler(Looper.getMainLooper());
             handler.post(() -> {
@@ -235,5 +236,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     public boolean checkPermissions() {
         return (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_SETTINGS) == PackageManager.PERMISSION_GRANTED);
     }
+
+    public boolean checkReadWritePermissions(Context context) {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
+
 
 }

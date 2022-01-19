@@ -12,36 +12,40 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.bumptech.glide.Glide;
 import com.hammad.iphoneringtones.R;
 import com.hammad.iphoneringtones.classes.ColorGenerator;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.HomeAdapterViewHolder> {
     Context context;
     ArrayList<WallpaperModel> arrayList;
     FeaturesAdapterCallback callback;
 
-    public CategoriesAdapter(Context context, ArrayList<WallpaperModel> arrayList, FeaturesAdapterCallback callback) {
+    public CategoriesAdapter(Context context, FeaturesAdapterCallback callback) {
         this.context = context;
-        this.arrayList = arrayList;
         this.callback = callback;
+        arrayList = new ArrayList<>();
     }
 
     @NonNull
     @NotNull
     @Override
     public HomeAdapterViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        return new HomeAdapterViewHolder(LayoutInflater.from(context).inflate(R.layout.features_adapter_item, parent, false));
+        return new HomeAdapterViewHolder(LayoutInflater.from(context).inflate(R.layout.categories_adapter_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull HomeAdapterViewHolder holder, int position) {
-        holder.view_features_adapter_item.setBackgroundColor(holder.colorGenerator.getRandomColor());
-        holder.tv_features_adapter_item.setText(arrayList.get(position).getCategory());
-        holder.iv_features_adapter_item.setImageResource(arrayList.get(position).getImage());
+        holder.view_categories_adapter_item.setBackgroundColor(holder.colorGenerator.getRandomColor());
+        Glide.with(context).load(arrayList.get(position).getWallpaperUri()).into(holder.iv_categories_adapter_item);
+        holder.tv_categories_adapter_item.setText(capitalize(arrayList.get(position).getCategory()));
         holder.itemView.setOnClickListener(view -> callback.onItemClick(arrayList.get(position)));
     }
 
@@ -51,19 +55,33 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ho
     }
 
     public static class HomeAdapterViewHolder extends RecyclerView.ViewHolder {
-        View view_features_adapter_item;
-        CardView card_view_features_adapter_item;
-        ImageView iv_features_adapter_item;
-        TextView tv_features_adapter_item;
+        View view_categories_adapter_item;
+        CardView card_view_categories_adapter_item;
+        ImageView iv_categories_adapter_item;
+        TextView tv_categories_adapter_item;
         ColorGenerator colorGenerator = ColorGenerator.MATERIAL;
 
         public HomeAdapterViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
-            card_view_features_adapter_item = itemView.findViewById(R.id.card_view_features_adapter_item);
-            view_features_adapter_item = itemView.findViewById(R.id.view_features_adapter_item);
-            iv_features_adapter_item = itemView.findViewById(R.id.iv_features_adapter_item);
-            tv_features_adapter_item = itemView.findViewById(R.id.tv_features_adapter_item);
+            card_view_categories_adapter_item = itemView.findViewById(R.id.card_view_categories_adapter_item);
+            view_categories_adapter_item = itemView.findViewById(R.id.view_categories_adapter_item);
+            iv_categories_adapter_item = itemView.findViewById(R.id.iv_categories_adapter_item);
+            tv_categories_adapter_item = itemView.findViewById(R.id.tv_categories_adapter_item);
         }
+    }
+
+    public void updateCategoryList(WallpaperModel wallpaperModel) {
+        arrayList.add(wallpaperModel);
+        notifyDataSetChanged();
+    }
+
+    public String capitalize(String capString) {
+        StringBuffer capBuffer = new StringBuffer();
+        Matcher capMatcher = Pattern.compile("([a-z])([a-z]*)", Pattern.CASE_INSENSITIVE).matcher(capString);
+        while (capMatcher.find()) {
+            capMatcher.appendReplacement(capBuffer, Objects.requireNonNull(capMatcher.group(1)).toUpperCase() + Objects.requireNonNull(capMatcher.group(2)).toLowerCase());
+        }
+        return capMatcher.appendTail(capBuffer).toString();
     }
 
     public interface FeaturesAdapterCallback {

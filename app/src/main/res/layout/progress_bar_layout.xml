@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="@dimen/_120sdp"
     android:layout_height="@dimen/_120sdp"
     android:layout_gravity="center">
@@ -11,16 +12,18 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:layout_gravity="center_horizontal"
-        android:indeterminateDrawable="@drawable/progress_shape_filled"
+        android:indeterminateDrawable="@drawable/progress_shape"
         android:progress="0"
         android:visibility="visible" />
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_80sdp"
         android:layout_centerInParent="true"
+        android:background="@drawable/circle_white_bg"
         android:contentDescription="@string/todo"
-        android:padding="@dimen/_15sdp"
+        android:padding="@dimen/_10sdp"
         android:scaleType="fitXY"
-        android:src="@drawable/app_icon_simple" />
+        android:src="@drawable/app_icon_simple"
+        app:tint="@color/colorPrimary" />
 </RelativeLayout>

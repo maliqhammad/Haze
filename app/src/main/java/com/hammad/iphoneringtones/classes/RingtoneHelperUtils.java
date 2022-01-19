@@ -1,13 +1,11 @@
 package com.hammad.iphoneringtones.classes;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -16,9 +14,6 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
-
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.downloader.Error;
 import com.downloader.OnDownloadListener;
@@ -30,87 +25,58 @@ import java.io.File;
 public class RingtoneHelperUtils {
 
     private static final String TAG = "RingtoneUtils";
-    public static int REQ_PERMISSION = 987;
-    public static int REQ_SYSTEM_PERMISSION = 5;
     static int downloadId = 0;
 
-    public static void startDownloadRingtone(Activity activity, Context context, String fileURL, String ringtoneTitle, int ringtoneType, boolean isSetAsRing) {
-        if (checkReadWritePermissions(context)) {
-            if (!hasMarshmallow()) {
-                String fileName = ringtoneTitle.split("\\.")[0];
-                downloadId = PRDownloader.download(fileURL, Utils.getRootDirPath(context), ringtoneTitle)
-                        .build()
-                        .setOnStartOrResumeListener(() -> Toast.makeText(context, context.getResources().getText(R.string.downloading_start), Toast.LENGTH_SHORT).show())
-                        .setOnPauseListener(() -> {
-
-                        })
-                        .setOnCancelListener(() -> {
-
-                        })
-                        .setOnProgressListener(progress -> Log.d(TAG, "onProgress: " + progress.currentBytes))
-                        .start(new OnDownloadListener() {
-                            @Override
-                            public void onDownloadComplete() {
-                                Log.d(TAG, "onDownloadComplete: ");
-                                if (isSetAsRing) {
-                                    ((Activity) context).runOnUiThread(() -> setActualRingtoneUri(context, Uri.fromFile(new File(Utils.getRingtoneFilePath(context, fileName))), ringtoneType));
-                                } else {
-                                    Toast.makeText(context, "Ringtone saved", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void onError(Error error) {
-                                Log.d(TAG, "onError: ");
-                            }
-                        });
-            } else if (canEditSystemSettings(context)) {
-                String fileName = ringtoneTitle.split("\\.")[0];
-                downloadId = PRDownloader.download(fileURL, Utils.getRootDirPath(context), ringtoneTitle)
-                        .build()
-                        .setOnStartOrResumeListener(() -> Toast.makeText(context, context.getResources().getText(R.string.downloading_start), Toast.LENGTH_SHORT).show())
-                        .setOnPauseListener(() -> {
-
-                        })
-                        .setOnCancelListener(() -> {
-
-                        })
-                        .setOnProgressListener(progress -> Log.d(TAG, "onProgress: " + progress.currentBytes))
-                        .start(new OnDownloadListener() {
-                            @Override
-                            public void onDownloadComplete() {
-                                Log.d(TAG, "onDownloadComplete: ");
-                                if (isSetAsRing) {
-                                    ((Activity) context).runOnUiThread(() -> setActualRingtoneUri(context, Uri.fromFile(new File(Utils.getRingtoneFilePath(context, fileName))), ringtoneType));
-                                } else {
-                                    Toast.makeText(context, "Ringtone saved", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void onError(Error error) {
-                                Log.d(TAG, "onError: ");
-                            }
-                        });
-            } else if (hasMarshmallow() && !canEditSystemSettings(context)) {
-                showDialog_with_listener(
-                        context,
-                        context.getResources().getString(R.string.system_settings),
-                        context.getResources().getString(R.string.permission_message),
-                        context.getResources().getString(R.string.close),
-                        context.getResources().getString(R.string.allow_permission),
-                        true,
-                        (dialogInterface, i) -> {
-                            if (DialogInterface.BUTTON_POSITIVE == i) {
-                                startManageWriteSettingsActivity(context);
-                            }
-                        });
-            } else {
-                Toast.makeText(context, context.getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-            }
+    public static void setRingtone(Context context, String fileURL, String ringtoneTitle, int ringtoneType, boolean isSetAsRing) {
+        if (!hasMarshmallow()) {
+            downloadRingtone(context, fileURL, ringtoneTitle, ringtoneType, isSetAsRing);
+        } else if (canEditSystemSettings(context)) {
+            downloadRingtone(context, fileURL, ringtoneTitle, ringtoneType, isSetAsRing);
+        } else if (hasMarshmallow() && !canEditSystemSettings(context)) {
+            showDialog_with_listener(
+                    context,
+                    context.getResources().getString(R.string.system_settings),
+                    context.getResources().getString(R.string.permission_message),
+                    context.getResources().getString(R.string.close),
+                    context.getResources().getString(R.string.allow_permission),
+                    true,
+                    (dialogInterface, i) -> {
+                        if (DialogInterface.BUTTON_POSITIVE == i) {
+                            startManageWriteSettingsActivity(context);
+                        }
+                    });
         } else {
-            askReadWritePermissions(activity);
+            Toast.makeText(context, context.getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private static void downloadRingtone(Context context, String fileURL, String ringtoneTitle, int ringtoneType, boolean isSetAsRing) {
+        DialogProgressBar progressBar = new DialogProgressBar(context);
+        progressBar.showSpinnerDialog();
+        String fileName = ringtoneTitle.split("\\.")[0];
+        downloadId = PRDownloader.download(fileURL, Utils.getRootDirPath(context), ringtoneTitle)
+                .build()
+                .setOnStartOrResumeListener(() -> {
+                })
+                .setOnPauseListener(progressBar::cancelSpinnerDialog)
+                .setOnCancelListener(progressBar::cancelSpinnerDialog)
+                .setOnProgressListener(progress -> Log.d(TAG, "onProgress: " + progress.currentBytes))
+                .start(new OnDownloadListener() {
+                    @Override
+                    public void onDownloadComplete() {
+                        progressBar.cancelSpinnerDialog();
+                        if (isSetAsRing) {
+                            ((Activity) context).runOnUiThread(() -> setActualRingtoneUri(context, Uri.fromFile(new File(Utils.getRingtoneFilePath(context, fileName))), ringtoneType));
+                        } else {
+                            Toast.makeText(context, "Ringtone saved", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Error error) {
+                        progressBar.cancelSpinnerDialog();
+                    }
+                });
     }
 
     public static void setActualRingtoneUri(Context context, Uri ringtoneUri, int ringtoneType) {
@@ -211,14 +177,6 @@ public class RingtoneHelperUtils {
             return Settings.System.canWrite(context.getApplicationContext());
         }
         return false;
-    }
-
-    public static boolean checkReadWritePermissions(Context context) {
-        return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    public static void askReadWritePermissions(Activity activity) {
-        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, REQ_PERMISSION);
     }
 
 }

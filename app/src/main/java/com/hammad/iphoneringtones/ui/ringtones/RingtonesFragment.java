@@ -1,14 +1,12 @@
 package com.hammad.iphoneringtones.ui.ringtones;
 
+import static com.hammad.iphoneringtones.classes.RingtoneHelperUtils.setRingtone;
 
-import static com.hammad.iphoneringtones.classes.RingtoneHelperUtils.REQ_PERMISSION;
-import static com.hammad.iphoneringtones.classes.RingtoneHelperUtils.startDownloadRingtone;
-
+import android.Manifest;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -29,6 +30,7 @@ import com.hammad.iphoneringtones.databinding.FragmentRingtonesBinding;
 import com.hammad.iphoneringtones.dialogs.RingtoneBottomSheetDialog;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class RingtonesFragment extends BaseFragment {
     private static final String TAG = "RingtonesFragment";
@@ -106,28 +108,28 @@ public class RingtonesFragment extends BaseFragment {
                     public void onSetAsRingtone(RingtoneModel ringtoneModel) {
                         mRingtoneModel = ringtoneModel;
                         ringtoneType = RingtoneManager.TYPE_RINGTONE;
-                        startDownloadRingtone(getActivity(), context, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), RingtoneManager.TYPE_RINGTONE, true);
+                        startSettingRingtone(mRingtoneModel, ringtoneType, true);
                     }
 
                     @Override
                     public void onSetAsNotification(RingtoneModel ringtoneModel) {
                         mRingtoneModel = ringtoneModel;
                         ringtoneType = RingtoneManager.TYPE_NOTIFICATION;
-                        startDownloadRingtone(getActivity(), context, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), RingtoneManager.TYPE_NOTIFICATION, true);
+                        startSettingRingtone(mRingtoneModel, ringtoneType, true);
                     }
 
                     @Override
                     public void onSetAsAlarm(RingtoneModel ringtoneModel) {
                         mRingtoneModel = ringtoneModel;
                         ringtoneType = RingtoneManager.TYPE_ALARM;
-                        startDownloadRingtone(getActivity(), context, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), RingtoneManager.TYPE_ALARM, true);
+                        startSettingRingtone(mRingtoneModel, ringtoneType, true);
                     }
 
                     @Override
                     public void onDownloadRingtone(RingtoneModel ringtoneModel) {
                         mRingtoneModel = ringtoneModel;
                         ringtoneType = 0;
-                        startDownloadRingtone(getActivity(), context, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), RingtoneManager.TYPE_RINGTONE, false);
+                        startSettingRingtone(mRingtoneModel, ringtoneType, false);
                     }
                 });
                 ringtoneBottomSheetDialog.show(getChildFragmentManager(), "Download");
@@ -141,17 +143,31 @@ public class RingtonesFragment extends BaseFragment {
         ringtonesViewModel.getRingtones(context).observe(getViewLifecycleOwner(), ringtoneModelObserver);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQ_PERMISSION) {// If request is cancelled, the result arrays are empty.
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+    private void startSettingRingtone(RingtoneModel ringtoneModel, int ringtoneType, boolean isSetAsRing) {
+        if (checkReadWritePermissions(context)) {
+            setRingtone(context, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), ringtoneType, isSetAsRing);
+        } else {
+            activityResultLauncher.launch(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE});
+        }
+    }
+
+    ActivityResultLauncher<String[]> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
+        @Override
+        public void onActivityResult(Map<String, Boolean> result) {
+            Log.d(TAG, "onActivityResult: ");
+            boolean granted = true;
+            for (Map.Entry<String, Boolean> permission : result.entrySet()) {
+                if (!permission.getValue()) {
+                    granted = false;
+                }
+            }
+            if (granted) {
                 if (mRingtoneModel != null) {
-                    startDownloadRingtone(getActivity(), context, mRingtoneModel.getRingtoneURL(), mRingtoneModel.getRingtoneTitle(), ringtoneType, ringtoneType != 0);
+                    setRingtone(context, mRingtoneModel.getRingtoneURL(), mRingtoneModel.getRingtoneTitle(), ringtoneType, ringtoneType != 0);
                 }
             } else {
                 Toast.makeText(context, "Permissions Denied", Toast.LENGTH_LONG).show();
             }
         }
-    }
+    });
 }

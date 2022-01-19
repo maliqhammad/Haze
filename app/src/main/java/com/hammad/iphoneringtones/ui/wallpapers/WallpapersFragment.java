@@ -23,14 +23,13 @@ import com.hammad.iphoneringtones.classes.BaseFragment;
 import com.hammad.iphoneringtones.classes.DownloadBroadcastReceiver;
 import com.hammad.iphoneringtones.databinding.FragmentWallpapersBinding;
 
-import java.util.ArrayList;
-
 public class WallpapersFragment extends BaseFragment {
     private static final String TAG = "WallpapersFragment";
     private WallpapersViewModel wallpapersViewModel;
     private FragmentWallpapersBinding binding;
     PopularWallpaperAdapter popularWallpaperAdapter;
-    Observer<ArrayList<WallpaperModel>> categoryObserver;
+    CategoriesAdapter categoriesAdapter;
+    Observer<WallpaperModel> categoryObserver;
     Observer<WallpaperModel> wallpaperModelObserver;
     Observer<WallpaperModel> wallpaperByCategoryObserver;
     Context context;
@@ -51,7 +50,8 @@ public class WallpapersFragment extends BaseFragment {
         setListeners();
         setPopularWallpaperRecyclerView();
         setCategoryRecyclerView();
-//        wallpapersViewModel.retrieveWallpapers();
+//        wallpapersViewModel.retrievePopularWallpapers(context);
+//        wallpapersViewModel.retrieveCategories(context);
         return root;
     }
 
@@ -69,17 +69,19 @@ public class WallpapersFragment extends BaseFragment {
     }
 
     private void setCategoryRecyclerView() {
-        categoryObserver = wallpaperModels -> {
-            binding.recyclerViewCategoryHomeFragment.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-            binding.recyclerViewCategoryHomeFragment.setAdapter(new CategoriesAdapter(getActivity(), wallpaperModels, wallpaperModel -> {
-                if (wallpapersViewModel.isRetrieveCategory()) {
+        binding.recyclerViewCategoryHomeFragment.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        categoriesAdapter = new CategoriesAdapter(context, wallpaperModel -> {
+            wallpapersViewModel.isRetrieveCategory(isRetrieveCategory -> {
+                if (isRetrieveCategory) {
                     wallpapersViewModel.retrieveWallpapersByCategory(context, wallpaperModel);
                 } else {
                     setWallpaperByCategory(wallpaperModel);
                 }
-            }));
-        };
-        wallpapersViewModel.setCategoryList(getContext()).observe(getViewLifecycleOwner(), categoryObserver);
+            });
+        });
+        binding.recyclerViewCategoryHomeFragment.setAdapter(categoriesAdapter);
+        categoryObserver = wallpaperModels -> categoriesAdapter.updateCategoryList(wallpaperModels);
+        wallpapersViewModel.getCategoryList(getContext()).observe(getViewLifecycleOwner(), categoryObserver);
     }
 
     private void setPopularWallpaperRecyclerView() {
@@ -119,7 +121,7 @@ public class WallpapersFragment extends BaseFragment {
         super.onDestroyView();
         binding = null;
         wallpapersViewModel.getPopularWallpaper(context).removeObserver(wallpaperModelObserver);
-        wallpapersViewModel.setCategoryList(getContext()).removeObserver(categoryObserver);
+        wallpapersViewModel.getCategoryList(getContext()).removeObserver(categoryObserver);
         context.unregisterReceiver(receiver);
     }
 

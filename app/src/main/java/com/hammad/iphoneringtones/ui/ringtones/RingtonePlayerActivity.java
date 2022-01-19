@@ -1,16 +1,17 @@
 package com.hammad.iphoneringtones.ui.ringtones;
 
-import static com.hammad.iphoneringtones.classes.RingtoneHelperUtils.REQ_PERMISSION;
-import static com.hammad.iphoneringtones.classes.RingtoneHelperUtils.startDownloadRingtone;
+import static com.hammad.iphoneringtones.classes.RingtoneHelperUtils.setRingtone;
 
-import androidx.annotation.NonNull;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 
+import android.Manifest;
 import android.app.DownloadManager;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import com.hammad.iphoneringtones.dialogs.RingtoneBottomSheetDialog;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Locale;
+import java.util.Map;
 
 public class RingtonePlayerActivity extends BaseActivity {
     private static final String TAG = "RingtonePlayerActivity";
@@ -76,7 +78,7 @@ public class RingtonePlayerActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(receiver);
-        clearMediaPlayer();
+        clearMediaPlayer(true);
     }
 
     private void initialize() {
@@ -109,6 +111,7 @@ public class RingtonePlayerActivity extends BaseActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 if (mediaPlayer != null) {
+                    binding.ivPlayActivityRingtonePlayer.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_pause_icon, null));
                     mediaPlayer.start();
                 }
             }
@@ -119,32 +122,40 @@ public class RingtonePlayerActivity extends BaseActivity {
                 public void onSetAsRingtone(RingtoneModel ringtoneModel) {
                     mRingtoneModel = ringtoneModel;
                     ringtoneType = RingtoneManager.TYPE_RINGTONE;
-                    startDownloadRingtone(RingtonePlayerActivity.this, RingtonePlayerActivity.this, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), RingtoneManager.TYPE_RINGTONE, true);
+                    startSettingRingtone(mRingtoneModel, ringtoneType, true);
                 }
 
                 @Override
                 public void onSetAsNotification(RingtoneModel ringtoneModel) {
                     mRingtoneModel = ringtoneModel;
                     ringtoneType = RingtoneManager.TYPE_NOTIFICATION;
-                    startDownloadRingtone(RingtonePlayerActivity.this, RingtonePlayerActivity.this, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), RingtoneManager.TYPE_NOTIFICATION, true);
+                    startSettingRingtone(mRingtoneModel, ringtoneType, true);
                 }
 
                 @Override
                 public void onSetAsAlarm(RingtoneModel ringtoneModel) {
                     mRingtoneModel = ringtoneModel;
                     ringtoneType = RingtoneManager.TYPE_ALARM;
-                    startDownloadRingtone(RingtonePlayerActivity.this, RingtonePlayerActivity.this, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), RingtoneManager.TYPE_ALARM, true);
+                    startSettingRingtone(mRingtoneModel, ringtoneType, true);
                 }
 
                 @Override
                 public void onDownloadRingtone(RingtoneModel ringtoneModel) {
                     mRingtoneModel = ringtoneModel;
                     ringtoneType = 0;
-                    startDownloadRingtone(RingtonePlayerActivity.this, RingtonePlayerActivity.this, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), RingtoneManager.TYPE_RINGTONE, false);
+                    startSettingRingtone(mRingtoneModel, ringtoneType, false);
                 }
             });
             ringtoneBottomSheetDialog.show(getSupportFragmentManager(), "Download");
         });
+    }
+
+    private void startSettingRingtone(RingtoneModel ringtoneModel, int ringtoneType, boolean isSetAsRing) {
+        if (checkReadWritePermissions(this)) {
+            setRingtone(RingtonePlayerActivity.this, ringtoneModel.getRingtoneURL(), ringtoneModel.getRingtoneTitle(), ringtoneType, isSetAsRing);
+        } else {
+            activityResultLauncher.launch(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE});
+        }
     }
 
     private void playMediaPlayer() {
@@ -154,11 +165,13 @@ public class RingtonePlayerActivity extends BaseActivity {
         } else {
             binding.ivPlayActivityRingtonePlayer.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_pause_icon, null));
             mediaPlayer.start();
+            update();
         }
     }
 
     private void startMediaPlayer() {
         binding.progressBarActivityRingtonePlayer.setVisibility(View.VISIBLE);
+        binding.ivPlayActivityRingtonePlayer.setEnabled(false);
         setToolbarTitle(ringtoneModel.getRingtoneTitle());
         try {
             mediaPlayer = new MediaPlayer();
@@ -169,23 +182,26 @@ public class RingtonePlayerActivity extends BaseActivity {
                 mediaPlayer.start();
                 update();
                 binding.progressBarActivityRingtonePlayer.setVisibility(View.INVISIBLE);
+                binding.ivPlayActivityRingtonePlayer.setEnabled(true);
                 binding.ivPlayActivityRingtonePlayer.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_pause_icon, null));
-                binding.seekerActivityRingtonePlayer.setMax(mp.getDuration());
-                binding.tvTotalDurationActivityRingtonePlayer.setText(convertSecondsToHMmSs(mediaPlayer.getDuration()));
             });
-            mediaPlayer.setOnCompletionListener(mp -> clearMediaPlayer());
+            mediaPlayer.setOnCompletionListener(mp -> clearMediaPlayer(false));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private void update() {
+        if (mediaPlayer != null) {
+            binding.seekerActivityRingtonePlayer.setMax(mediaPlayer.getDuration());
+            binding.tvTotalDurationActivityRingtonePlayer.setText(convertSecondsToHMmSs(mediaPlayer.getDuration()));
+        }
         runOnUiThread(() -> {
             binding.seekerActivityRingtonePlayer.setProgress(mediaPlayer.getCurrentPosition());
             if (mediaPlayer.getDuration() - mediaPlayer.getCurrentPosition() > 100) {
                 binding.tvCurrentDurationActivityRingtonePlayer.setText(MessageFormat.format("{0}", convertSecondsToHMmSs(mediaPlayer.getCurrentPosition())));
             } else {
-                clearMediaPlayer();
+                clearMediaPlayer(false);
             }
             handler = new Handler();
             try {
@@ -210,12 +226,14 @@ public class RingtonePlayerActivity extends BaseActivity {
         });
     }
 
-    private void clearMediaPlayer() {
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.reset();
-            mediaPlayer.release();
-            mediaPlayer = null;
+    private void clearMediaPlayer(boolean clearMedia) {
+        if (clearMedia) {
+            if (mediaPlayer != null) {
+                mediaPlayer.stop();
+                mediaPlayer.reset();
+                mediaPlayer.release();
+                mediaPlayer = null;
+            }
         }
         binding.progressBarActivityRingtonePlayer.setVisibility(View.INVISIBLE);
         binding.ivPlayActivityRingtonePlayer.setImageDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_play_icon, null));
@@ -239,17 +257,24 @@ public class RingtonePlayerActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQ_PERMISSION) {// If request is cancelled, the result arrays are empty.
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+    ActivityResultLauncher<String[]> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
+        @Override
+        public void onActivityResult(Map<String, Boolean> result) {
+            Log.d(TAG, "onActivityResult: ");
+            boolean granted = true;
+            for (Map.Entry<String, Boolean> permission : result.entrySet()) {
+                if (!permission.getValue()) {
+                    granted = false;
+                }
+            }
+            if (granted) {
                 if (mRingtoneModel != null) {
-                    startDownloadRingtone(RingtonePlayerActivity.this, RingtonePlayerActivity.this, mRingtoneModel.getRingtoneURL(), mRingtoneModel.getRingtoneTitle(), ringtoneType, ringtoneType != 0);
+                    setRingtone(RingtonePlayerActivity.this, mRingtoneModel.getRingtoneURL(), mRingtoneModel.getRingtoneTitle(), ringtoneType, ringtoneType != 0);
                 }
             } else {
-                Toast.makeText(this, "Permissions Denied", Toast.LENGTH_LONG).show();
+                Toast.makeText(RingtonePlayerActivity.this, "Permissions Denied", Toast.LENGTH_LONG).show();
             }
         }
-    }
+    });
+
 }
