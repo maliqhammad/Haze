@@ -19,8 +19,18 @@
             android:layout_centerInParent="true"
             android:contentDescription="@string/todo"
             android:scaleType="centerCrop"
-            android:src="@drawable/famous_graffiti" />
+            android:src="@drawable/app_icon_simple" />
 
+
+        <ProgressBar
+            android:id="@+id/progress_bar_categories_adapter_item"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:indeterminateDrawable="@drawable/progress_shape"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/tv_categories_adapter_item"

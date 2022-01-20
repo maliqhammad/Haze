@@ -11,8 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.RequestOptions;
 import com.hammad.iphoneringtones.R;
@@ -42,7 +40,6 @@ public class PopularWallpaperAdapter extends RecyclerView.Adapter<PopularWallpap
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull HomeAdapterViewHolder holder, int position) {
-//        Glide.with(context).load(arrayList.get(position).getWallpaperUri()).into(holder.iv_popular_wallpaper_adapter_item);
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()

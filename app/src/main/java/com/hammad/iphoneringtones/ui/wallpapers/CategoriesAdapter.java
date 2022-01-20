@@ -5,16 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.request.RequestOptions;
 import com.hammad.iphoneringtones.R;
 import com.hammad.iphoneringtones.classes.ColorGenerator;
+import com.hammad.iphoneringtones.classes.GlideImageLoader;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -44,7 +46,14 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ho
     @Override
     public void onBindViewHolder(@NonNull @NotNull HomeAdapterViewHolder holder, int position) {
         holder.view_categories_adapter_item.setBackgroundColor(holder.colorGenerator.getRandomColor());
-        Glide.with(context).load(arrayList.get(position).getWallpaperUri()).into(holder.iv_categories_adapter_item);
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.home_bg)
+                .error(R.drawable.home_bg)
+                .priority(Priority.HIGH);
+
+        new GlideImageLoader(holder.iv_categories_adapter_item, holder.progress_bar_categories_adapter_item).load(arrayList.get(position).getWallpaperUri(), options);
+
         holder.tv_categories_adapter_item.setText(capitalize(arrayList.get(position).getCategory()));
         holder.itemView.setOnClickListener(view -> callback.onItemClick(arrayList.get(position)));
     }
@@ -58,6 +67,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ho
         View view_categories_adapter_item;
         CardView card_view_categories_adapter_item;
         ImageView iv_categories_adapter_item;
+        ProgressBar progress_bar_categories_adapter_item;
         TextView tv_categories_adapter_item;
         ColorGenerator colorGenerator = ColorGenerator.MATERIAL;
 
@@ -66,6 +76,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Ho
             card_view_categories_adapter_item = itemView.findViewById(R.id.card_view_categories_adapter_item);
             view_categories_adapter_item = itemView.findViewById(R.id.view_categories_adapter_item);
             iv_categories_adapter_item = itemView.findViewById(R.id.iv_categories_adapter_item);
+            progress_bar_categories_adapter_item = itemView.findViewById(R.id.progress_bar_categories_adapter_item);
             tv_categories_adapter_item = itemView.findViewById(R.id.tv_categories_adapter_item);
         }
     }

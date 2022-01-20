@@ -5,12 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.request.RequestOptions;
 import com.hammad.iphoneringtones.R;
+import com.hammad.iphoneringtones.classes.GlideImageLoader;
 
 import java.util.List;
 
@@ -31,7 +34,14 @@ public final class FullWallpaperAdapter extends Adapter<FullWallpaperAdapter.Ful
     }
 
     public void onBindViewHolder(@NotNull FullWallpaperAdapter.FullWallpaperAdapter1ViewHolder holder, int position) {
-        Glide.with(context).load(list.get(position).getWallpaperUri()).into(holder.iv_image_creative_view_content_item);
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.home_bg)
+                .error(R.drawable.home_bg)
+                .priority(Priority.HIGH);
+
+        new GlideImageLoader(holder.iv_full_wallpaper_adapter_item, holder.progress_bar_full_wallpaper_adapter_item).load(list.get(position).getWallpaperUri(), options);
+
     }
 
     public int getItemCount() {
@@ -39,11 +49,13 @@ public final class FullWallpaperAdapter extends Adapter<FullWallpaperAdapter.Ful
     }
 
     public static final class FullWallpaperAdapter1ViewHolder extends ViewHolder {
-        ImageView iv_image_creative_view_content_item;
+        ImageView iv_full_wallpaper_adapter_item;
+        ProgressBar progress_bar_full_wallpaper_adapter_item;
 
         public FullWallpaperAdapter1ViewHolder(View itemView) {
             super(itemView);
-            iv_image_creative_view_content_item = itemView.findViewById(R.id.iv_image_creative_view_content_item);
+            iv_full_wallpaper_adapter_item = itemView.findViewById(R.id.iv_full_wallpaper_adapter_item);
+            progress_bar_full_wallpaper_adapter_item = itemView.findViewById(R.id.progress_bar_full_wallpaper_adapter_item);
         }
     }
 

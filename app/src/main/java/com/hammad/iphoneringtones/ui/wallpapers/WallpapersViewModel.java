@@ -5,7 +5,6 @@ import static com.hammad.iphoneringtones.classes.NetworkConnectivity.isInternetC
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
@@ -33,14 +32,6 @@ public class WallpapersViewModel extends ViewModel {
     SingleLiveEvent<WallpaperModel> categoryMutableLiveData;
     Callback callback;
     DialogProgressBar progressBar;
-
-//    public SingleLiveEvent<WallpaperModel> setCategoryList(Context context) {
-//        if (categoryMutableLiveData == null) {
-//            categoryMutableLiveData = new SingleLiveEvent<>();
-//            categoryMutableLiveData.setValue(getCategoryList(context));
-//        }
-//        return categoryMutableLiveData;
-//    }
 
     public SingleLiveEvent<WallpaperModel> getCategoryList(Context context) {
         progressBar = new DialogProgressBar(context);
