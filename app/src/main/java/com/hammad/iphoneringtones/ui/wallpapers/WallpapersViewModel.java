@@ -3,7 +3,9 @@ package com.hammad.iphoneringtones.ui.wallpapers;
 import static com.hammad.iphoneringtones.classes.NetworkConnectivity.isInternetConnected;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
@@ -55,6 +57,12 @@ public class WallpapersViewModel extends ViewModel {
         wallpapersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Log.d(TAG, "onDataChange: loadCategoryList " + snapshot.getChildrenCount());
+                    if (snapshot.getChildrenCount() == 0) {
+                        progressBar.cancelSpinnerDialog();
+                    }
+                }
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     dataSnapshot.child(Objects.requireNonNull(dataSnapshot.getKey())).getRef().addValueEventListener(new ValueEventListener() {
                         @Override
@@ -90,6 +98,12 @@ public class WallpapersViewModel extends ViewModel {
             firebaseStorage = FirebaseStorage.getInstance();
             pathReference = FirebaseStorage.getInstance().getReference().child("categories");
             pathReference.listAll().addOnSuccessListener(listResult -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Log.d(TAG, "onDataChange: retrieveCategories " + listResult.getItems().size());
+                    if (listResult.getItems().size() == 0) {
+                        progressBar.cancelSpinnerDialog();
+                    }
+                }
                 for (StorageReference item : listResult.getItems()) {
                     item.getDownloadUrl().addOnSuccessListener(uri -> {
                         String key = ringtonesRef.child("categories").getKey();
@@ -122,6 +136,12 @@ public class WallpapersViewModel extends ViewModel {
         wallpapersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Log.d(TAG, "onDataChange: loadPopularWallpaper " + snapshot.getChildrenCount());
+                    if (snapshot.getChildrenCount() == 0) {
+                        progressBar.cancelSpinnerDialog();
+                    }
+                }
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     dataSnapshot.child(Objects.requireNonNull(dataSnapshot.getKey())).getRef().addValueEventListener(new ValueEventListener() {
                         @Override
@@ -157,6 +177,12 @@ public class WallpapersViewModel extends ViewModel {
             pathReference = FirebaseStorage.getInstance().getReference().child("wallpapers");
             pathReference.listAll().addOnSuccessListener(listResult -> {
                 for (StorageReference item : listResult.getItems()) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        Log.d(TAG, "onDataChange: retrievePopularWallpapers " + listResult.getItems().size());
+                        if (listResult.getItems().size() == 0) {
+                            progressBar.cancelSpinnerDialog();
+                        }
+                    }
                     item.getDownloadUrl().addOnSuccessListener(uri -> {
                         String key = ringtonesRef.child("wallpapers").getKey();
                         if (key != null) {
@@ -189,6 +215,12 @@ public class WallpapersViewModel extends ViewModel {
         wallpapersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Log.d(TAG, "onDataChange: loadWallpapersByCategory " + snapshot.getChildrenCount());
+                    if (snapshot.getChildrenCount() == 0) {
+                        progressBar.cancelSpinnerDialog();
+                    }
+                }
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     dataSnapshot.child(Objects.requireNonNull(dataSnapshot.getKey())).getRef().addValueEventListener(new ValueEventListener() {
                         @Override
@@ -203,6 +235,7 @@ public class WallpapersViewModel extends ViewModel {
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
                             progressBar.cancelSpinnerDialog();
+                            Log.d(TAG, "onCancelled: ");
                         }
                     });
                 }
@@ -224,6 +257,12 @@ public class WallpapersViewModel extends ViewModel {
             firebaseStorage = FirebaseStorage.getInstance();
             pathReference = FirebaseStorage.getInstance().getReference().child("wallpapersByCategory").child(wallpaperModel.getCategory());
             pathReference.listAll().addOnSuccessListener(listResult -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Log.d(TAG, "onDataChange: retrieveWallpapersByCategory " + listResult.getItems().size());
+                    if (listResult.getItems().size() == 0) {
+                        progressBar.cancelSpinnerDialog();
+                    }
+                }
                 for (StorageReference item : listResult.getItems()) {
                     item.getDownloadUrl().addOnSuccessListener(uri -> {
                         String key = wallpapersByCategoryRef.child(wallpaperModel.getCategory()).getKey();
