@@ -9,25 +9,26 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryVariant"
+        android:orientation="vertical"
         android:theme="@style/Theme.IPhoneRingtones.AppBarOverlay">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimaryVariant"
             app:popupTheme="@style/Theme.IPhoneRingtones.PopupOverlay" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation_main_activity"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
             android:layout_gravity="bottom"
             app:itemBackground="@color/colorPrimaryVariant"
             app:itemIconSize="@dimen/_16sdp"
             app:itemIconTint="@color/white"
-            app:itemTextColor="@color/white"
             app:itemTextAppearanceActive="@style/BottomNavigation.ActiveItemTextAppearance"
+            app:itemTextColor="@color/white"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/activity_main_drawer" />
     </com.google.android.material.appbar.AppBarLayout>
