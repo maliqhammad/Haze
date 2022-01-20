@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ui.home.HomeFragment">
+    tools:context="com.hammad.haze.ui.home.HomeFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view_wallpapers_fragment_home"

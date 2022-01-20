@@ -7,5 +7,5 @@
     android:layout_centerInParent="true"
     android:layout_marginBottom="@dimen/_10sdp"
     android:fadingEdge="vertical"
-    tools:context=".ui.ringtones.RingtonesFragment"
+    tools:context="com.hammad.haze.ui.ringtones.RingtonesFragment"
     tools:listitem="@layout/ringtone_item" />

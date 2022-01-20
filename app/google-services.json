@@ -53,17 +53,17 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:238559234692:android:f7a023762ea30b625f90d1",
+        "mobilesdk_app_id": "1:238559234692:android:09991d98c271b4555f90d1",
         "android_client_info": {
-          "package_name": "com.hammad.iphoneringtones"
+          "package_name": "com.hammad.haze"
         }
       },
       "oauth_client": [
         {
-          "client_id": "238559234692-s1gr8afctpuhua1813lmagiqaat652kf.apps.googleusercontent.com",
+          "client_id": "238559234692-adegba58a3l9iifh22tkr4s8v9bt36lm.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.hammad.iphoneringtones",
+            "package_name": "com.hammad.haze",
             "certificate_hash": "bbff9888ce296a81d5de939cc6dae5d87e008c28"
           }
         },

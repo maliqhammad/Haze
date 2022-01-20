@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.hammad.iphoneringtones.ui.home.HomeFragment"
+        android:name="com.hammad.haze.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home">
         <action
@@ -20,13 +20,13 @@
 
     <fragment
         android:id="@+id/nav_wallpapers"
-        android:name="com.hammad.iphoneringtones.ui.wallpapers.WallpapersFragment"
+        android:name="com.hammad.haze.ui.wallpapers.WallpapersFragment"
         android:label="@string/menu_wallpapers"
         tools:layout="@layout/fragment_wallpapers" />
 
     <fragment
         android:id="@+id/nav_ringtones"
-        android:name="com.hammad.iphoneringtones.ui.ringtones.RingtonesFragment"
+        android:name="com.hammad.haze.ui.ringtones.RingtonesFragment"
         android:label="@string/menu_ringtones"
         tools:layout="@layout/fragment_ringtones" />
 </navigation>

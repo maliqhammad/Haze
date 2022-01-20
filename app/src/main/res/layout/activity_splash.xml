@@ -11,5 +11,5 @@
         android:layout_centerInParent="true"
         android:contentDescription="@string/todo"
         android:src="@drawable/app_icon_simple"
-        tools:context=".SplashActivity" />
+        tools:context="com.hammad.haze.SplashActivity" />
 </RelativeLayout>
