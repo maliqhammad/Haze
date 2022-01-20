@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,7 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.request.RequestOptions;
 import com.hammad.iphoneringtones.R;
+import com.hammad.iphoneringtones.classes.GlideImageLoader;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -38,10 +42,19 @@ public class PopularWallpaperAdapter extends RecyclerView.Adapter<PopularWallpap
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull HomeAdapterViewHolder holder, int position) {
-        Glide.with(context).load(arrayList.get(position).getWallpaperUri()).into(holder.iv_popular_wallpaper_adapter_item);
+//        Glide.with(context).load(arrayList.get(position).getWallpaperUri()).into(holder.iv_popular_wallpaper_adapter_item);
+
+        RequestOptions options = new RequestOptions()
+                .centerCrop()
+                .placeholder(R.drawable.home_bg)
+                .error(R.drawable.home_bg)
+                .priority(Priority.HIGH);
+
+        new GlideImageLoader(holder.iv_popular_wallpaper_adapter_item, holder.progress_bar_popular_wallpaper_adapter_item).load(arrayList.get(position).getWallpaperUri(), options);
+
         holder.tv_name_popular_wallpaper_adapter_item.setText(arrayList.get(position).getWallpaperTitle());
         holder.iv_download_popular_wallpaper_adapter_item.setOnClickListener(view -> callback.onDownloadWallpaper(arrayList.get(position)));
-        holder.itemView.setOnClickListener(view -> callback.onItemClick(view, arrayList,position));
+        holder.itemView.setOnClickListener(view -> callback.onItemClick(view, arrayList, position));
     }
 
     @Override
@@ -52,9 +65,11 @@ public class PopularWallpaperAdapter extends RecyclerView.Adapter<PopularWallpap
     public static class HomeAdapterViewHolder extends RecyclerView.ViewHolder {
         ImageView iv_popular_wallpaper_adapter_item, iv_download_popular_wallpaper_adapter_item;
         TextView tv_name_popular_wallpaper_adapter_item;
+        ProgressBar progress_bar_popular_wallpaper_adapter_item;
 
         public HomeAdapterViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
+            progress_bar_popular_wallpaper_adapter_item = itemView.findViewById(R.id.progress_bar_popular_wallpaper_adapter_item);
             iv_popular_wallpaper_adapter_item = itemView.findViewById(R.id.iv_popular_wallpaper_adapter_item);
             iv_download_popular_wallpaper_adapter_item = itemView.findViewById(R.id.iv_download_popular_wallpaper_adapter_item);
             tv_name_popular_wallpaper_adapter_item = itemView.findViewById(R.id.tv_name_popular_wallpaper_adapter_item);
@@ -67,7 +82,10 @@ public class PopularWallpaperAdapter extends RecyclerView.Adapter<PopularWallpap
     }
 
     public interface PopularWallpaperAdapterCallback {
-        default void onDownloadWallpaper(WallpaperModel wallpaperModel){};
+        default void onDownloadWallpaper(WallpaperModel wallpaperModel) {
+        }
+
+        ;
 
         void onItemClick(View view, ArrayList<WallpaperModel> wallpaperModel, int position);
     }

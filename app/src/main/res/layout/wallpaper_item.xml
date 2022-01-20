@@ -25,6 +25,16 @@
                 android:contentDescription="@string/todo"
                 android:scaleType="centerCrop" />
 
+            <ProgressBar
+                android:id="@+id/progress_bar_popular_wallpaper_adapter_item"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:indeterminateDrawable="@drawable/progress_shape"
+                android:visibility="invisible" />
+
             <LinearLayout
                 android:id="@+id/linear_action_popular_wallpaper_adapter_item"
                 android:layout_width="wrap_content"
