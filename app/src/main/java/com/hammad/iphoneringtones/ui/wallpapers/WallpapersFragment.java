@@ -25,8 +25,8 @@ import com.hammad.iphoneringtones.databinding.FragmentWallpapersBinding;
 
 public class WallpapersFragment extends BaseFragment {
     private static final String TAG = "WallpapersFragment";
-    private WallpapersViewModel wallpapersViewModel;
-    private FragmentWallpapersBinding binding;
+    WallpapersViewModel wallpapersViewModel;
+    FragmentWallpapersBinding binding;
     PopularWallpaperAdapter popularWallpaperAdapter;
     CategoriesAdapter categoriesAdapter;
     Observer<WallpaperModel> categoryObserver;
@@ -58,6 +58,8 @@ public class WallpapersFragment extends BaseFragment {
     private void initialize() {
         receiver = new DownloadBroadcastReceiver(context.getResources().getString(R.string.wallpaper));
         context.registerReceiver(receiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        binding.tvPopularLabelHomeFragment.setVisibility(View.INVISIBLE);
+        binding.tvCategoryLabelHomeFragment.setVisibility(View.INVISIBLE);
     }
 
     private void setListeners() {
@@ -70,17 +72,18 @@ public class WallpapersFragment extends BaseFragment {
 
     private void setCategoryRecyclerView() {
         binding.recyclerViewCategoryHomeFragment.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        categoriesAdapter = new CategoriesAdapter(context, wallpaperModel -> {
-            wallpapersViewModel.isRetrieveCategory(isRetrieveCategory -> {
-                if (isRetrieveCategory) {
-                    wallpapersViewModel.retrieveWallpapersByCategory(context, wallpaperModel);
-                } else {
-                    setWallpaperByCategory(wallpaperModel);
-                }
-            });
-        });
+        categoriesAdapter = new CategoriesAdapter(context, wallpaperModel -> wallpapersViewModel.isRetrieveCategory(isRetrieveCategory -> {
+            if (isRetrieveCategory) {
+                wallpapersViewModel.retrieveWallpapersByCategory(context, wallpaperModel);
+            } else {
+                setWallpaperByCategory(wallpaperModel);
+            }
+        }));
         binding.recyclerViewCategoryHomeFragment.setAdapter(categoriesAdapter);
-        categoryObserver = wallpaperModels -> categoriesAdapter.updateCategoryList(wallpaperModels);
+        categoryObserver = wallpaperModels -> {
+            categoriesAdapter.updateCategoryList(wallpaperModels);
+            binding.tvCategoryLabelHomeFragment.setVisibility(View.VISIBLE);
+        };
         wallpapersViewModel.getCategoryList(getContext()).observe(getViewLifecycleOwner(), categoryObserver);
     }
 
@@ -94,7 +97,10 @@ public class WallpapersFragment extends BaseFragment {
             context.startActivity(intent);
         });
         binding.recyclerViewPopularHomeFragment.setAdapter(popularWallpaperAdapter);
-        wallpaperModelObserver = wallpaperModel -> popularWallpaperAdapter.updateWallpapersList(wallpaperModel);
+        wallpaperModelObserver = wallpaperModel -> {
+            popularWallpaperAdapter.updateWallpapersList(wallpaperModel);
+            binding.tvPopularLabelHomeFragment.setVisibility(View.VISIBLE);
+        };
         wallpapersViewModel.getPopularWallpaper(context).observe(getViewLifecycleOwner(), wallpaperModelObserver);
     }
 
