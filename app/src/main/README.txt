@@ -4,3 +4,10 @@ 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
 
 Sites for downloading ringtones
 https://freetone.org/ringtones/edm/diablo
+
+.....................................................
+keystore: key0
+password: Haze@2022
+OpalTech
+1
+............................
