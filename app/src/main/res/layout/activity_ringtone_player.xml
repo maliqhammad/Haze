@@ -27,7 +27,7 @@
                 android:id="@+id/gif_activity_ringtone_player"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:contentDescription="@string/todo"
+                android:contentDescription="@string/nav_header_title"
                 android:src="@drawable/ringtone_player"
                 android:tint="@color/colorPrimary"
                 android:tintMode="multiply" />
@@ -89,12 +89,12 @@
 
             <ImageView
                 android:id="@+id/iv_previous_activity_ringtone_player"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
+                android:layout_width="@dimen/_48sdp"
+                android:layout_height="@dimen/_48sdp"
                 android:layout_gravity="start|center_vertical"
                 android:background="@drawable/ic_previous_icon"
                 android:clickable="false"
-                android:contentDescription="@string/todo"
+                android:contentDescription="@string/play"
                 android:visibility="invisible" />
 
             <ProgressBar
@@ -118,8 +118,8 @@
 
             <ImageView
                 android:id="@+id/iv_download_activity_ringtone_player"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
+                android:layout_width="@dimen/_48sdp"
+                android:layout_height="@dimen/_48sdp"
                 android:layout_gravity="end|center_vertical"
                 android:background="@drawable/imageview_shadow_rounded"
                 android:contentDescription="@string/todo"
