@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.hammad.haze"
@@ -48,7 +48,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics:18.2.6'
     implementation 'com.google.firebase:firebase-analytics:20.0.2'
     implementation 'com.firebaseui:firebase-ui-storage:7.2.0'
-    testImplementation 'junit:junit:4.+'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 //    testInstrumentationRunnerArgument "firebaseAppCheckDebugSecret", System.getenv("DF199672-498A-4241-95DB-9B5FAFB9DA9A") ?: ''
